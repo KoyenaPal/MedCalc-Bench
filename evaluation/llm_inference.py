@@ -25,7 +25,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 class LLMInference:
 
-    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hub"):
+    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hf"):
         self.llm_name = llm_name
         self.cache_dir = cache_dir
         if self.llm_name.split('/')[0].lower() == "openai":
