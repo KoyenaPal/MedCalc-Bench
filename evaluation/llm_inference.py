@@ -19,13 +19,13 @@ import openai
 import sys
 from huggingface_hub import login
 
-login(token=os.getenv("HUGGINGFACE_TOKEN"))
+login(token=os.getenv("RUNPOD_HF_TOKEN"))
 
 openai.api_key = os.getenv("OPENAI_API_KEY") 
 
 class LLMInference:
 
-    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="../../huggingface/hub"):
+    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hub"):
         self.llm_name = llm_name
         self.cache_dir = cache_dir
         if self.llm_name.split('/')[0].lower() == "openai":
@@ -52,6 +52,8 @@ class LLMInference:
             elif "pmc_llama" in llm_name.lower():
                 self.tokenizer.chat_template = open('../templates/pmc_llama.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 2048
+            elif "qwq" in llm_name.lower():
+                self.max_length = 32768
             self.model = transformers.pipeline(
                 "text-generation",
                 model=self.llm_name,
