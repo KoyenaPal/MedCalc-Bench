@@ -52,7 +52,7 @@ class LLMInference:
             elif "pmc_llama" in llm_name.lower():
                 self.tokenizer.chat_template = open('../templates/pmc_llama.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 2048
-            elif "qwq" in llm_name.lower():
+            elif "qwen" in llm_name.lower():
                 self.max_length = 32768
             self.model = transformers.pipeline(
                 "text-generation",
@@ -110,6 +110,7 @@ class LLMInference:
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.eos_token_id,
                     max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=0.0
