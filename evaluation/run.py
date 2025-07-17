@@ -180,6 +180,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
+    df = df.sample(n=100, random_state=42)
 
     for index in tqdm.tqdm(range(len(df))):
 
