@@ -17,6 +17,11 @@ def zero_shot(note, question):
     system_msg = 'You are a helpful assistant for calculating a score for a given patient note. Please think step-by-step to solve the question and then generate the required score. Your output should only contain a JSON dict formatted as {"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}.'
     user_temp = f'Here is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:'
     return system_msg, user_temp
+    
+def zero_shot_persona(note, question):
+    system_msg = 'You are a board-certified physician with deep expertise in clinical scoring system. You always follow through on your own thoughts meticulously and avoid speculation without context. Stay medically accurate and responsible in tone. Please think step-by-step to solve the question and then generate the required score. Your output should only contain a JSON dict formatted as {"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}.'
+    user_temp = f'Here is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:'
+    return system_msg, user_temp
    
 def direct_answer(note, question):
     system_msg = 'You are a helpful assistant for calculating a score for a given patient note. Please output answer only without any other text. Your output should only contain a JSON dict formatted as {"answer": str(value which is the answer to the question)}.'
@@ -210,6 +215,8 @@ if __name__ == "__main__":
             system, user = one_shot(patient_note, question, example["Patient Note"], {"step_by_step_thinking": example["Response"]["step_by_step_thinking"], "answer": example["Response"]["answer"]})
         elif prompt_style == "direct_answer":
             system, user = direct_answer(patient_note, question)
+        elif prompt_style == "zero_shot_persona":
+            system, user = zero_shot_persona(patient_note, question)
 
         print("System:\n", system)
         print("User:\n", user)
