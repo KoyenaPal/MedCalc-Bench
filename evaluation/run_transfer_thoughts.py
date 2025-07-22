@@ -229,8 +229,8 @@ if __name__ == "__main__":
         elif prompt_style == "zero_shot_persona":
             system, user = zero_shot_persona(patient_note, question)
 
-        print("System:\n", system)
-        print("User:\n", user)
+        print("System:\n", system, flush=True)
+        print("User:\n", user, flush=True)
 
         messages = [
             {"role": "system", "content": system},
@@ -238,12 +238,12 @@ if __name__ == "__main__":
         ]
 
         answer = llm.answer(messages)
-        print(answer)
+        print("THIS IS THE ANSWER", answer, flush=True)
         thinking = extract_thinking(answer)
-        print(thinking, flush=True)
+        print("THIS IS THE THINKING PART", thinking, flush=True)
 
         target_answer = target_llm.answer(messages, thinking_message=thinking)
-        print(target_answer, flush=True)
+        print("THIS IS THE TARGET ANSWER", target_answer, flush=True)
 
         try:
             # extract answer from answer
