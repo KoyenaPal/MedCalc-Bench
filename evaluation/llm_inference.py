@@ -54,6 +54,8 @@ class LLMInference:
                 self.max_length = 2048
             elif "qwen" in llm_name.lower():
                 self.max_length = 32768
+            elif "openthinker" in llm_name.lower():
+                self.max_length = 32768
             self.model = transformers.pipeline(
                 "text-generation",
                 model=self.llm_name,
@@ -62,10 +64,13 @@ class LLMInference:
                 model_kwargs={"cache_dir":self.cache_dir},
             )
 
-    def answer(self, messages):
+    def answer(self, messages, thinking_message=""):
         # generate answers
-
-        ans = self.generate(messages)
+        ans = ""
+        if thinking_message != "":
+            ans = self.generate_with_thinking(messages, thinking_message)
+        else:
+            ans = self.generate(messages)
         ans = re.sub("\s+", " ", ans)
         
         return ans
@@ -73,6 +78,43 @@ class LLMInference:
     def custom_stop(self, stop_str, input_len=0):
         stopping_criteria = StoppingCriteriaList([CustomStoppingCriteria(stop_str, self.tokenizer, input_len)])
         return stopping_criteria
+    
+    def generate_with_thinking(self, messages, thinking_message="", prompt=None):
+        '''
+        generate response given messages and thinking message
+        '''
+        stopping_criteria = None
+        if prompt is None:
+            prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        if thinking_message != "":
+            prompt = f"{prompt}<think>{thinking_message}</think>"
+        if "meditron" in self.llm_name.lower():
+            stopping_criteria = self.custom_stop(["###", "User:", "\n\n\n"], input_len=len(self.tokenizer.encode(prompt, add_special_tokens=True)))
+        if "llama-3" in self.llm_name.lower():
+            response = self.model(
+                prompt,
+                do_sample=False,
+                eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
+                pad_token_id=self.tokenizer.eos_token_id,
+                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                truncation=True,
+                stopping_criteria=stopping_criteria,
+                temperature=0.0
+            )
+        else:
+            response = self.model(
+                prompt,
+                do_sample=False,
+                eos_token_id=self.tokenizer.eos_token_id,
+                pad_token_id=self.tokenizer.eos_token_id,
+                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                truncation=True,
+                stopping_criteria=stopping_criteria,
+                temperature=0.0
+            )
+        ans = response[0]["generated_text"]
+        return ans
 
     def generate(self, messages, prompt=None):
         '''

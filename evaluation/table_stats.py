@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 
-def compute_overall_accuracy(output_path, model_name, prompt_style): 
+def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False): 
     category_accuracy = {}
 
     with open(f"outputs/{output_path}") as file:
@@ -15,10 +15,17 @@ def compute_overall_accuracy(output_path, model_name, prompt_style):
             if category not in category_accuracy:
                 category_accuracy[category] = []
 
-            if data["Result"] == "Correct":
-                category_accuracy[category].append(1)
-            else:
-                category_accuracy[category].append(0)
+            if not is_target_model:
+                if data["Result"] == "Correct":
+                    category_accuracy[category].append(1)
+                else:
+                    category_accuracy[category].append(0)
+
+            if is_target_model:
+                if data["Target Result"] == "Correct":
+                    category_accuracy[category].append(1)
+                else:
+                    category_accuracy[category].append(0)
 
     # Compute average and standard deviation for each category
     category_stats = {}
