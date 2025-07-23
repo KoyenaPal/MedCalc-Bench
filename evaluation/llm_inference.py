@@ -148,6 +148,7 @@ class LLMInference:
                     temperature=0.0
                 )
             else:
+                # SETUP SEED
                 response = self.model(
                     prompt,
                     do_sample=False,
