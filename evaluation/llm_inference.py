@@ -23,6 +23,14 @@ login(token=os.getenv("RUNPOD_HF_TOKEN"))
 
 openai.api_key = os.getenv("OPENAI_API_KEY") 
 
+import torch
+import random
+import numpy as np
+
+torch.manual_seed(42)
+random.seed(42)
+np.random.seed(42)
+
 class LLMInference:
 
     def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hf"):
@@ -134,6 +142,10 @@ class LLMInference:
             stopping_criteria = None
             if prompt is None:
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                if "qwen" in self.llm_name.lower():
+                    prompt += "<think>"
+                elif "openthinker" in self.llm_name.lower():
+                    prompt += "<|begin_of_thought|>"
             if "meditron" in self.llm_name.lower():
                 stopping_criteria = self.custom_stop(["###", "User:", "\n\n\n"], input_len=len(self.tokenizer.encode(prompt, add_special_tokens=True)))
             if "llama-3" in self.llm_name.lower():

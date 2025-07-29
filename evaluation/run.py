@@ -12,6 +12,13 @@ import numpy as np
 import ast
 from table_stats import compute_overall_accuracy
 
+import torch
+import random
+import numpy as np
+
+torch.manual_seed(42)
+random.seed(42)
+np.random.seed(42)
 
 def zero_shot(note, question):
     system_msg = 'You are a helpful assistant for calculating a score for a given patient note. Please think step-by-step to solve the question and then generate the required score. Your output should only contain a JSON dict formatted as {"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}.'
@@ -53,6 +60,18 @@ def one_shot_meditron(note, question, example_note, example_output):
     system_msg += f'\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(value which is the answer to the question)}}:\n\n### Assistant:\n{json.dumps(example_output)}'
     user_temp = f'###User:\nHere is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:\n\n### Assistant:\n'
     return system_msg, user_temp
+
+def extract_thinking(answer, model_name):
+    # get text in between <think> and </think>
+    if "openthinker" in model_name.lower():
+        match = re.search(r'<\|begin_of_thought\|>(.*?)<\|end_of_thought\|>', answer, re.DOTALL)
+    else:
+        match = re.search(r'<think>(.*?)</think>', answer, re.DOTALL)
+        
+    if match:
+        return match.group(1)
+    else:
+        return "No Thoughts"
 
 def extract_answer(answer, calid):
 
@@ -185,7 +204,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    df = df.sample(n=25, random_state=42)
 
     for index in tqdm.tqdm(range(len(df))):
 
@@ -230,10 +249,11 @@ if __name__ == "__main__":
         print(answer)
        
         try:
+            raw_thinking = extract_thinking(answer, model_name)
             answer_value, explanation = extract_answer(answer, int(calculator_id))
-
             print(answer_value)
             print(explanation)
+            print(raw_thinking)
             
             correctness = check_correctness(answer_value, row["Ground Truth Answer"], calculator_id, row["Upper Limit"], row["Lower Limit"])
 
@@ -249,6 +269,7 @@ if __name__ == "__main__":
                 "Question": question,
                 "LLM Answer": answer_value, 
                 "LLM Explanation": explanation,
+                "LLM Thinking": raw_thinking,
                 "Ground Truth Answer": row["Ground Truth Answer"],
                 "Ground Truth Explanation": row["Ground Truth Explanation"],
                 "Result": status
@@ -269,6 +290,7 @@ if __name__ == "__main__":
                 "Question": question,
                 "LLM Answer": str(e), 
                 "LLM Explanation": str(e),
+                "LLM Thinking": raw_thinking,
                 "Ground Truth Answer": row["Ground Truth Answer"],
                 "Ground Truth Explanation": row["Ground Truth Explanation"],
                 "Result": "Incorrect"
