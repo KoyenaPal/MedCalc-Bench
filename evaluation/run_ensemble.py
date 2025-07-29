@@ -205,7 +205,7 @@ if __name__ == "__main__":
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
 
-    batch_size = 10
+    batch_size = 5
 
 for i in tqdm.tqdm(range(0, len(df), batch_size)):
     batch_df = df.iloc[i:i + batch_size]
@@ -244,6 +244,7 @@ for i in tqdm.tqdm(range(0, len(df), batch_size)):
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         chat_messages = primary_tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         chat_messages = chat_messages + "<think>"
+        print(chat_messages, flush=True)
         batch_messages.append(chat_messages)
         valid_rows.append(row)  # Keep only valid rows (skipping duplicates)
 
@@ -251,6 +252,7 @@ for i in tqdm.tqdm(range(0, len(df), batch_size)):
         continue  # skip if no valid rows in this batch
 
     batch_outputs = llm.ensemble_run(batch_messages)
+    print(batch_outputs, flush=True)
 
     for idx, row in enumerate(valid_rows):
         calculator_id = str(row["Calculator ID"])
