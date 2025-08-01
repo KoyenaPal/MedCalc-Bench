@@ -5,7 +5,12 @@ import re
 import torch
 import random
 import numpy as np
-
+import os
+import csv
+import tqdm
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+import pandas as pd
+from run import zero_shot
 # === CONFIGURATION ===
 SEED = 42  # Or any integer
 
@@ -18,10 +23,21 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
+set_seed(SEED)
+
+# def load_to_gpu(model):
+#     model.to("cuda")
+#     torch.cuda.empty_cache()
+
+# def unload_to_cpu(model):
+#     model.to("cpu")
+#     torch.cuda.empty_cache()
+
+
 # === LOAD MODELS ===
 def load_model_and_tokenizer(name, cache_dir="/workspace/hf"):
     tokenizer = AutoTokenizer.from_pretrained(name, cache_dir=cache_dir)
-    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir).to("cpu")
+    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir, device_map="auto")
     model.eval()
     return tokenizer, model
 
@@ -38,9 +54,14 @@ def truncate_to_first_sentence(text):
 
 def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=20):
     set_seed(SEED)
-    model = model.to(device)
-    input_ids = tokenizer.encode(context, return_tensors="pt").to(device)
+    #model = model.to(device)
+    #input_ids = tokenizer.encode(context, return_tensors="pt").to(device)
+    input_ids = tokenizer.encode(context, return_tensors="pt")
+    model_device = next(model.parameters()).device
+    input_ids = input_ids.to(model_device)
+
     with torch.no_grad():
+        # with torch.cuda.amp.autocast(enabled=False):
         output = model.generate(
             input_ids,
             max_new_tokens=max_gen_tokens,
@@ -62,12 +83,20 @@ def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen
 def compute_perplexity(context, sentence, tokenizer, model, device="cuda"):
     try:
         full_text = context + sentence
-        enc = tokenizer(full_text, return_tensors="pt", padding=True).to(device)
-        input_ids = enc["input_ids"].to(device)
-        attention_mask = enc["attention_mask"].to(device)
+        # enc = tokenizer(full_text, return_tensors="pt", padding=True).to(device)
+        # input_ids = enc["input_ids"].to(device)
+        # attention_mask = enc["attention_mask"].to(device)
+        enc = tokenizer(full_text, return_tensors="pt", padding=True)
+        input_ids = enc["input_ids"]
+        model_device = next(model.parameters()).device
+        input_ids = input_ids.to(model_device)
+        attention_mask = enc["attention_mask"].to(model_device)
+        if attention_mask is not None:
+            attention_mask = attention_mask.to(model_device)
 
         with torch.no_grad():
-            model = model.to(device)
+            # with torch.cuda.amp.autocast(enabled=False):
+            # model = model.to(device)
             outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
             loss = outputs.loss
         return torch.exp(loss).item()
@@ -77,21 +106,31 @@ def compute_perplexity(context, sentence, tokenizer, model, device="cuda"):
 
 
 # === MAIN LOOP ===
+# assuming that gen and eval models are the same for now -- need to change context tokenizer otherwise
 def iterative_generate(context, generation_models, gen_tokenizers_models, eval_tokenizers_models, max_total_tokens=100, num_candidates=5):
+    iteration_count = 0
+    contexts = {}
+    total_tokens = 0
     while True:
-        total_tokens = len(context.split())
-        if total_tokens >= max_total_tokens:
-            print("\n✅ Reached max length.")
-            break
-
+        if iteration_count > 0:
+            if total_tokens >= max_total_tokens:
+                print("\n✅ Reached max length.")
+                break
         all_candidates = []
         # Generate from both models
         for model_index, (tokenizer, model) in enumerate(gen_tokenizers_models):
-            candidates = generate_candidates(context, tokenizer, model, num_candidates)
+            if tokenizer.pad_token is None:
+                tokenizer.pad_token = tokenizer.eos_token
+            if iteration_count == 0:
+                context_in_chat_temp = tokenizer.apply_chat_template(context,tokenize=False, add_generation_prompt=True)
+                max_total_tokens = len(tokenizer.encode(context_in_chat_temp, add_special_tokens=True)) + 4096
+                contexts[model_index] = context_in_chat_temp
+                total_tokens = len(contexts[model_index].split())
+            candidates = generate_candidates(contexts[model_index], tokenizer, model, num_candidates)
             print("MODEL", generation_models[model_index])
             print("CANDIDATES", candidates, flush=True)
             all_candidates.extend(candidates)
-            model = model.to("cpu")
+            # model = model.to("cpu")
             torch.cuda.empty_cache()
             
 
@@ -99,16 +138,17 @@ def iterative_generate(context, generation_models, gen_tokenizers_models, eval_t
         scored_candidates = []
         for cand in all_candidates:
             perplexities = []
-            for tokenizer, model in eval_tokenizers_models:
+            for model_index, (tokenizer, model) in enumerate(eval_tokenizers_models):
                 try:
-                    ppl = compute_perplexity(context, cand, tokenizer, model)
+                    # load_to_gpu(model)
+                    ppl = compute_perplexity(contexts[model_index], cand, tokenizer, model)
+                    # unload_to_cpu(model)
                     if ppl is not None and not torch.isnan(torch.tensor(ppl)):
                         perplexities.append(ppl)
                 except Exception as e:
                     print(f"⚠️ Error scoring with model: {e}")
                     continue
-            model = model.to("cpu")
-            torch.cuda.empty_cache()
+            # unload_to_cpu(model)
         
             if perplexities:
                 avg_ppl = sum(perplexities) / len(perplexities)
@@ -118,7 +158,9 @@ def iterative_generate(context, generation_models, gen_tokenizers_models, eval_t
         # Select candidate with lowest avg perplexity
         best_candidate = min(scored_candidates, key=lambda x: x[1])[0]
         print(f"\n🔹 Selected: {best_candidate.strip()}")
-        context += " " + best_candidate.strip()
+        for key, curr_cont in contexts.items():
+            contexts[key] = curr_cont + " " + best_candidate.strip()
+        iteration_count += 1
 
     return context
 
@@ -128,77 +170,89 @@ def main():
 
     parser = argparse.ArgumentParser(description="Context-aware sentence merging using perplexity.")
     # parser.add_argument("jsonl_files", nargs='+', help="Paths to input JSONL files.")
-    parser.add_argument("--output", type=str, default="merged_output.csv", help="Path to save merged output.")
+    parser.add_argument("--output", type=str, default="ensemble_outputs/merged_output.csv", help="Path to save merged output.")
     parser.add_argument("--models", nargs='+', default=[
         "BytedTsinghua-SIA/DAPO-Qwen-32B",
         "Qwen/QwQ-32B"
     ], help="Hugging Face model names.")
+    set_seed(SEED)
     args = parser.parse_args()
-
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f"Using device: {device}")
-
-    print("Loading models...")
-    models = [
-        (
-            AutoModelForCausalLM.from_pretrained(name, cache_dir="/workspace/hf").to(device).eval(),
-            AutoTokenizer.from_pretrained(name, cache_dir="/workspace/hf")
-        )
-        for name in args.models
-    ]
-    jsonl_files = ["MedCalc-Bench/evaluation/outputs/BytedTsinghua-SIA_DAPO-Qwen-32B_zero_shot.jsonl", "MedCalc-Bench/evaluation/outputs/Qwen_QwQ-32B_zero_shot.jsonl"]
-    print("Loading input JSONL files...")
-    paragraphs_per_file = load_paragraphs_from_jsonl_files(jsonl_files)
-
-    print("Merging paragraphs (rows)...")
-    merged_paragraphs = []
-    
+    device = 'auto'
+    generation_models = evaluation_models = args.models
+    gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
+    os.makedirs(os.path.dirname(args.output), exist_ok=True)
+    write_header = not os.path.isfile(args.output)
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=25, random_state=42)
 
-    for index in tqdm.tqdm(range(len(df))):
+    with open(args.output, 'a', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ["Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+    
+        if write_header:
+            writer.writeheader()
+        for index in tqdm.tqdm(range(len(df))):
+            row = df.iloc[index]
+    
+            patient_note = row["Patient Note"]
+            question = row["Question"]
+            calculator_id = str(row["Calculator ID"])
+            note_id = str(row["Note ID"])
+    
+            # Create messages
+            system, user = zero_shot(patient_note, question)
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user}
+            ]
+    
+            # Generate output
+            final_output = iterative_generate(
+                messages,
+                generation_models,
+                gen_tokenizers_models,
+                eval_tokenizers_models
+            )
+    
+            # Write a single row to the CSV
+            writer.writerow({
+                "Note ID": note_id,
+                "Calculator ID": calculator_id,
+                "Question": question,
+                "Patient Note": patient_note,
+                "Ensembled Thought": final_output.strip()
+            })
+    
+    # print(f"✅ Done. Row-wise output saved to: {args.output}")
 
-        row = df.iloc[index]
+    #     for index in tqdm.tqdm(range(len(df))):
+    
+    #         row = df.iloc[index]
+    
+    #         patient_note = row["Patient Note"]
+    #         question = row["Question"] 
+    #         calculator_id = str(row["Calculator ID"])
+    #         note_id = str(row["Note ID"])
+    #         system, user = zero_shot(patient_note, question)
+    #         messages = [
+    #             {"role": "system", "content": system},
+    #             {"role": "user", "content": user}
+    #         ]
+    #         final_output = iterative_generate(messages, generation_models, gen_tokenizers_models, eval_tokenizers_models)
+    
+    #         with open(args.output, 'a+', encoding='utf-8') as f:
+    #             f.write(final_output.strip() + "\n")
 
-        patient_note = row["Patient Note"]
-        question = row["Question"] 
-        calculator_id = str(row["Calculator ID"])
-        note_id = str(row["Note ID"])
-        system, user = zero_shot(patient_note, question)
-        messages = [
-            {"role": "system", "content": system},
-            {"role": "user", "content": user}
-        ]
-
-    # for row_idx in range(26):
-        
-        row_paragraphs = [
-            file_paragraphs[row_idx]
-            for file_paragraphs in paragraphs_per_file
-            if len(file_paragraphs) > row_idx
-        ]
-        if not row_paragraphs:
-            merged_paragraphs.append("")
-            continue
-
-        merged = get_best_sentence_per_position_with_context(messages, row_paragraphs, models, device)
-        merged_paragraphs.append(merged)
-
-    print(f"Writing merged paragraphs to: {args.output}")
-    with open(args.output, 'w', encoding='utf-8') as f:
-        for paragraph in merged_paragraphs:
-            f.write(paragraph.strip() + "\n")
-
-    print("✅ Done.")
+    # print("✅ Done.")
 
 if __name__ == "__main__":
     set_seed(SEED)
-    generation_models = evaluation_models = ["Qwen/QwQ-32B", "BytedTsinghua-SIA/DAPO-Qwen-32B"]
-    gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
+    # generation_models = evaluation_models = ["Qwen/QwQ-32B", "BytedTsinghua-SIA/DAPO-Qwen-32B"]
+    # gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
     # evaluation_models = ["Qwen/QwQ-32B", "BytedTsinghua-SIA/DAPO-Qwen-32B"]
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "auto"
     # === RUN ===
-    initial_context = "Once upon a time"
-    final_output = iterative_generate(initial_context, generation_models, gen_tokenizers_models, eval_tokenizers_models)
-    print("\nFinal output:\n", final_output)
-    # main()
+    # initial_context = "Once upon a time"
+    # final_output = iterative_generate(initial_context, generation_models, gen_tokenizers_models, eval_tokenizers_models)
+    # print("\nFinal output:\n", final_output)
+    main()
