@@ -11,6 +11,7 @@ import tqdm
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import pandas as pd
 from run import zero_shot
+import gc
 # === CONFIGURATION ===
 SEED = 42  # Or any integer
 
@@ -37,7 +38,7 @@ set_seed(SEED)
 # === LOAD MODELS ===
 def load_model_and_tokenizer(name, cache_dir="/workspace/hf"):
     tokenizer = AutoTokenizer.from_pretrained(name, cache_dir=cache_dir)
-    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir, device_map="auto", torch_dtype=torch.bfloat16)
     model.eval()
     return tokenizer, model
 
@@ -52,7 +53,7 @@ def truncate_to_first_sentence(text):
     match = re.search(r'(.+?[.!?])(\s|$)', text.strip())
     return match.group(1).strip() if match else text.strip()
 
-def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=20):
+def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=40):
     set_seed(SEED)
     #model = model.to(device)
     #input_ids = tokenizer.encode(context, return_tensors="pt").to(device)
@@ -80,29 +81,42 @@ def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen
 
 
 # === COMPUTE PERPLEXITY ===
-def compute_perplexity(context, sentence, tokenizer, model, device="cuda"):
+# def compute_perplexity(context, sentence, tokenizer, model, device="cuda"):
+#     try:
+#         full_text = context + sentence
+#         # enc = tokenizer(full_text, return_tensors="pt", padding=True).to(device)
+#         # input_ids = enc["input_ids"].to(device)
+#         # attention_mask = enc["attention_mask"].to(device)
+#         enc = tokenizer(full_text, return_tensors="pt", padding=True)
+#         input_ids = enc["input_ids"]
+#         model_device = next(model.parameters()).device
+#         input_ids = input_ids.to(model_device)
+#         attention_mask = enc["attention_mask"].to(model_device)
+#         if attention_mask is not None:
+#             attention_mask = attention_mask.to(model_device)
+
+#         with torch.no_grad():
+#             # with torch.cuda.amp.autocast(enabled=False):
+#             # model = model.to(device)
+#             outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
+#             loss = outputs.loss
+#         return torch.exp(loss).item()
+#     except Exception as e:
+#         print(f"⚠️ Perplexity calculation failed: {e}")
+#         return None
+
+def compute_perplexity(context, sentence, tokenizer, model):
     try:
         full_text = context + sentence
-        # enc = tokenizer(full_text, return_tensors="pt", padding=True).to(device)
-        # input_ids = enc["input_ids"].to(device)
-        # attention_mask = enc["attention_mask"].to(device)
-        enc = tokenizer(full_text, return_tensors="pt", padding=True)
-        input_ids = enc["input_ids"]
-        model_device = next(model.parameters()).device
-        input_ids = input_ids.to(model_device)
-        attention_mask = enc["attention_mask"].to(model_device)
-        if attention_mask is not None:
-            attention_mask = attention_mask.to(model_device)
-
-        with torch.no_grad():
-            # with torch.cuda.amp.autocast(enabled=False):
-            # model = model.to(device)
-            outputs = model(input_ids, attention_mask=attention_mask, labels=input_ids)
+        enc = tokenizer(full_text, return_tensors="pt", padding=True).to(model.device)
+        with torch.no_grad(), torch.cuda.amp.autocast():
+            outputs = model(**enc, labels=enc["input_ids"])
             loss = outputs.loss
         return torch.exp(loss).item()
     except Exception as e:
-        print(f"⚠️ Perplexity calculation failed: {e}")
+        print(f"⚠️ Perplexity calc failed: {e}")
         return None
+
 
 
 # === MAIN LOOP ===
@@ -116,6 +130,9 @@ def iterative_generate(context, generation_models, gen_tokenizers_models, eval_t
             if total_tokens >= max_total_tokens:
                 print("\n✅ Reached max length.")
                 break
+            if "</think>" in contexts[0]:
+                print("\n✅ Reached end of thought.")
+                break
         all_candidates = []
         # Generate from both models
         for model_index, (tokenizer, model) in enumerate(gen_tokenizers_models):
@@ -125,12 +142,13 @@ def iterative_generate(context, generation_models, gen_tokenizers_models, eval_t
                 context_in_chat_temp = tokenizer.apply_chat_template(context,tokenize=False, add_generation_prompt=True)
                 max_total_tokens = len(tokenizer.encode(context_in_chat_temp, add_special_tokens=True)) + 4096
                 contexts[model_index] = context_in_chat_temp
-                total_tokens = len(contexts[model_index].split())
+                total_tokens = len(tokenizer.encode(contexts[model_index]))
             candidates = generate_candidates(contexts[model_index], tokenizer, model, num_candidates)
             print("MODEL", generation_models[model_index])
             print("CANDIDATES", candidates, flush=True)
             all_candidates.extend(candidates)
             # model = model.to("cpu")
+            gc.collect()
             torch.cuda.empty_cache()
             
 
@@ -162,7 +180,7 @@ def iterative_generate(context, generation_models, gen_tokenizers_models, eval_t
             contexts[key] = curr_cont + " " + best_candidate.strip()
         iteration_count += 1
 
-    return context
+    return contexts
 
 
 def main():
@@ -186,7 +204,7 @@ def main():
     df = df.sample(n=25, random_state=42)
 
     with open(args.output, 'a', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ["Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
+        fieldnames = ["Row Number", "Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
     
         if write_header:
@@ -216,43 +234,22 @@ def main():
     
             # Write a single row to the CSV
             writer.writerow({
+                "Row Number": int(row["Row Number"]),
                 "Note ID": note_id,
                 "Calculator ID": calculator_id,
                 "Question": question,
                 "Patient Note": patient_note,
-                "Ensembled Thought": final_output.strip()
+                "Ensembled Thought": final_output[0].strip()
             })
+            csvfile.flush()
+            # after writing the row:
+            gc.collect()
+            torch.cuda.empty_cache()
     
-    # print(f"✅ Done. Row-wise output saved to: {args.output}")
-
-    #     for index in tqdm.tqdm(range(len(df))):
-    
-    #         row = df.iloc[index]
-    
-    #         patient_note = row["Patient Note"]
-    #         question = row["Question"] 
-    #         calculator_id = str(row["Calculator ID"])
-    #         note_id = str(row["Note ID"])
-    #         system, user = zero_shot(patient_note, question)
-    #         messages = [
-    #             {"role": "system", "content": system},
-    #             {"role": "user", "content": user}
-    #         ]
-    #         final_output = iterative_generate(messages, generation_models, gen_tokenizers_models, eval_tokenizers_models)
-    
-    #         with open(args.output, 'a+', encoding='utf-8') as f:
-    #             f.write(final_output.strip() + "\n")
-
-    # print("✅ Done.")
+            print(f"✅ Done. Row-wise output saved to: {args.output}")
 
 if __name__ == "__main__":
     set_seed(SEED)
-    # generation_models = evaluation_models = ["Qwen/QwQ-32B", "BytedTsinghua-SIA/DAPO-Qwen-32B"]
-    # gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
-    # evaluation_models = ["Qwen/QwQ-32B", "BytedTsinghua-SIA/DAPO-Qwen-32B"]
     device = "auto"
     # === RUN ===
-    # initial_context = "Once upon a time"
-    # final_output = iterative_generate(initial_context, generation_models, gen_tokenizers_models, eval_tokenizers_models)
-    # print("\nFinal output:\n", final_output)
     main()
