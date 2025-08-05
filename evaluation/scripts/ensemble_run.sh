@@ -6,7 +6,7 @@ echo "Running: python run_ensemble.py --prompt zero_shot"
 echo "Logging to: $logfile"
     
 # Run the command
-python run_ensemble.py --prompt zero_shot > "$logfile" 2>&1
+python run_custom_thought.py --prompt zero_shot > "$logfile" 2>&1
 
 # Check exit code
 if [ $? -ne 0 ]; then
