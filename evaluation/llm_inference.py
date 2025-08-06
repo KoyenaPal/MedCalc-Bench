@@ -77,6 +77,8 @@ class LLMInference:
         ans = ""
         if thinking_message != "":
             print("CAME TO GENERATE WITH THINKING", flush=True)
+            if thinking_message == "<empty>":
+                thinking_message = ""
             ans = self.generate_with_thinking(messages, thinking_message)
         else:
             ans = self.generate(messages)
@@ -95,13 +97,14 @@ class LLMInference:
         stopping_criteria = None
         if prompt is None:
             prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        if thinking_message != "":
-            if "qwen" in self.llm_name.lower():
-                prompt = f"{prompt}<think>{thinking_message}</think>"
-            elif "openthinker" in self.llm_name.lower():
-                prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|>"
-            # prompt = f"{prompt}<think>{thinking_message}</think>"
+        if "qwen" in self.llm_name.lower():
+            prompt = f"{prompt}<think>{thinking_message}</think>"
+        elif "openthinker" in self.llm_name.lower():
+            prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|>"
+        # prompt = f"{prompt}<think>{thinking_message}</think>"
         print("FINAL PROMPT", prompt, flush=True)
+
+        
         if "meditron" in self.llm_name.lower():
             stopping_criteria = self.custom_stop(["###", "User:", "\n\n\n"], input_len=len(self.tokenizer.encode(prompt, add_special_tokens=True)))
         if "llama-3" in self.llm_name.lower():

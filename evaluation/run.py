@@ -61,7 +61,7 @@ def one_shot_meditron(note, question, example_note, example_output):
     user_temp = f'###User:\nHere is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:\n\n### Assistant:\n'
     return system_msg, user_temp
 
-def extract_thinking(answer, model_name):
+def extract_thinking(answer, model_name="qwen"):
     # get text in between <think> and </think>
     if "openthinker" in model_name.lower():
         match = re.search(r'<\|begin_of_thought\|>(.*?)<\|end_of_thought\|>', answer, re.DOTALL)
@@ -76,7 +76,8 @@ def extract_thinking(answer, model_name):
 def extract_answer(answer, calid):
 
     calid = int(calid)
-    extracted_answer = re.findall(r'[Aa]nswer":\s*(.*?)\}', answer)
+    #extracted_answer = re.findall(r'[Aa]nswer":\s*(.*?)\}', answer)
+    extracted_answer = re.findall(r'[Aa]nswer.*?:\s*["“”]?(.*?)(?:["“”]?\s*[\}\n]|$)', answer)
     matches = re.findall(r'"step_by_step_thinking":\s*"([^"]+)"\s*,\s*"[Aa]nswer"', answer)
 
 
@@ -204,7 +205,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=25, random_state=42)
+    df = df.sample(n=100, random_state=42)
 
     for index in tqdm.tqdm(range(len(df))):
 

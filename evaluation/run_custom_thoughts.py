@@ -217,7 +217,7 @@ if __name__ == "__main__":
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
     merged_thought_data = None
-    if args.thought_type == "ensembled_thought" and args.ensembled_file is not None:
+    if (args.thought_type == "ensembled_thought" or args.thought_type == "ensembled_thought_minus_last") and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)
         print("Laoded ensembled thought file", flush=True)
         print(merged_thought_data.head())
@@ -262,11 +262,13 @@ if __name__ == "__main__":
         ]
         thinking_message = ""
         if args.thought_type == "empty":
-            thinking_message = ""
-        elif args.thought_type == "ensembled_thought":
+            thinking_message = "<empty>"
+        elif args.thought_type == "ensembled_thought" or args.thought_type == "ensembled_thought_minus_last":
             curr_merged_thought_row = merged_thought_data[merged_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
             thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
-
+            if args.thought_type == "ensembled_thought_minus_last":
+                thinking_message = "".join(thinking_message.split(".")[:-1])
+                print("THINKING MESSAGE IN MINUS STAGE", thinking_message, flush=True)
 
         answer = llm.answer(messages, thinking_message=thinking_message)
         print(answer)
