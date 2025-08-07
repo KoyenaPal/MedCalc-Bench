@@ -182,7 +182,7 @@ if __name__ == "__main__":
     model_name = args.model
     prompt_style = args.prompt
 
-    output_path = f"{model_name.replace('/', '_')}_{prompt_style}.jsonl"
+    output_path = f"{model_name.replace('/', '_')}_{prompt_style}_original.jsonl"
 
     if not os.path.exists("outputs"):
         os.makedirs("outputs")
@@ -268,6 +268,7 @@ if __name__ == "__main__":
                 "Note ID": note_id,
                 "Patient Note": patient_note,
                 "Question": question,
+                "LLM Name": model_name,
                 "LLM Answer": answer_value, 
                 "LLM Explanation": explanation,
                 "LLM Thinking": raw_thinking,
@@ -289,6 +290,7 @@ if __name__ == "__main__":
                 "Note ID": note_id,
                 "Patient Note": patient_note,
                 "Question": question,
+                "LLM Name": model_name,
                 "LLM Answer": str(e), 
                 "LLM Explanation": str(e),
                 "LLM Thinking": raw_thinking,
@@ -306,7 +308,7 @@ if __name__ == "__main__":
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
 
-    compute_overall_accuracy(output_path, model_name, prompt_style)
+    compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info="_original")
 
 
 

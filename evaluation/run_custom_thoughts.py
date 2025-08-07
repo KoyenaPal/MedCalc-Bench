@@ -335,7 +335,7 @@ if __name__ == "__main__":
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
 
-    compute_overall_accuracy(output_path, model_name, prompt_style)
+    compute_overall_accuracy(output_path, model_name, prompt_style, )
 
 
 

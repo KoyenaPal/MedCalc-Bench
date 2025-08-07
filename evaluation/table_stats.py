@@ -4,7 +4,7 @@ import os
 
 from collections import defaultdict
 
-def combined_compute_overall_accuracy(output_path, prompt_style):
+def combined_compute_overall_accuracy(output_path, prompt_style, additional_output_file_info=""):
     # Structure: model_name -> category -> list of 0/1
     model_category_accuracy = defaultdict(lambda: defaultdict(list))
     combined_category_accuracy = defaultdict(list)
@@ -108,7 +108,7 @@ def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_mo
     if "/" in model_name:
         model_name = model_name.split('/')[1]
 
-    with open(f"results/results_{model_name}_{prompt_style}.json", "w") as file:
+    with open(f"results/results_{model_name}_{prompt_style}_{additional_output_file_info}.json", "w") as file:
         json.dump(category_stats, file, indent=4)
 
     return category_stats
