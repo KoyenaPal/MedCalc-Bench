@@ -65,6 +65,8 @@ def extract_thinking(answer, model_name="qwen"):
     # get text in between <think> and </think>
     if "openthinker" in model_name.lower():
         match = re.search(r'<\|begin_of_thought\|>(.*?)<\|end_of_thought\|>', answer, re.DOTALL)
+    elif "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantanalysis(.*?)assistantfinal', answer, re.DOTALL)
     else:
         match = re.search(r'<think>(.*?)</think>', answer, re.DOTALL)
         
@@ -73,8 +75,11 @@ def extract_thinking(answer, model_name="qwen"):
     else:
         return "No Thoughts"
 
-def extract_answer(answer, calid):
-
+def extract_answer(answer, calid, model_name="qwen"):
+    if "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantfinal(.*)', answer, re.DOTALL)
+        if match:
+            answer = match.group(1)
     calid = int(calid)
     #extracted_answer = re.findall(r'[Aa]nswer":\s*(.*?)\}', answer)
     extracted_answer = re.findall(r'[Aa]nswer.*?:\s*["“”]?(.*?)(?:["“”]?\s*[\}\n]|$)', answer)
@@ -176,6 +181,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse arguments')
     parser.add_argument('--model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
+    parser.add_argument('--reasoning_effort', type=str, default="medium", help='if using openai oss models, you can specify reasoning effort')
 
     args = parser.parse_args()
 
@@ -245,13 +251,17 @@ if __name__ == "__main__":
             {"role": "system", "content": system},
             {"role": "user", "content": user}
         ]
+        if "gpt-oss" in model_name.lower():
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user, "reasoning_effort": f'{args.reasoning_effort}'}]
 
         answer = llm.answer(messages)
         print(answer)
        
         try:
             raw_thinking = extract_thinking(answer, model_name)
-            answer_value, explanation = extract_answer(answer, int(calculator_id))
+            answer_value, explanation = extract_answer(answer, int(calculator_id), model_name)
             print(answer_value)
             print(explanation)
             print(raw_thinking)
@@ -308,7 +318,10 @@ if __name__ == "__main__":
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
 
-    compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info="_original")
+    if "gpt-oss" in model_name.lower():
+        additional_output_file_info = f"original_{args.reasoning_effort}"
+
+    compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
 
 
 

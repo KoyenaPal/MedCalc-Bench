@@ -15,13 +15,14 @@ for model in "${models[@]}"; do
     # Sanitize names for filenames
     safe_model="${model//\//_}"
     safe_targetmodel="${targetmodel//\//_}"
+    outputpath="outputs/${safe_model}_zero_shot_original.jsonl"
     timestamp=$(date +"%Y%m%d_%H%M%S")
     logfile="logs/${safe_model}_to_${safe_targetmodel}_$timestamp.log"
-    echo "Running: python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot"
+    echo "Running: python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot --source_model_output_file $outputpath"
     echo "Logging to: $logfile"
     
     # Run the command
-    python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot > "$logfile" 2>&1
+    python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot --source_model_output_file $outputpath > "$logfile" 2>&1
 
     # Check exit code
     if [ $? -ne 0 ]; then

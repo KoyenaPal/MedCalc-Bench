@@ -36,7 +36,7 @@ class LLMInference:
     def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hf"):
         self.llm_name = llm_name
         self.cache_dir = cache_dir
-        if self.llm_name.split('/')[0].lower() == "openai":
+        if self.llm_name.split('/')[0].lower() == "openai" and "oss" not in self.llm_name.lower():
             self.model = self.llm_name.split('/')[-1]
             if "gpt-3.5" in self.model or "gpt-35" in self.model:
                 self.max_length = 4096
@@ -64,6 +64,8 @@ class LLMInference:
                 self.max_length = 32768
             elif "openthinker" in llm_name.lower():
                 self.max_length = 32768
+            elif "gpt-oss-20b" in llm_name.lower():
+                self.max_length = 32768
             self.model = transformers.pipeline(
                 "text-generation",
                 model=self.llm_name,
@@ -79,7 +81,7 @@ class LLMInference:
             print("CAME TO GENERATE WITH THINKING", flush=True)
             if thinking_message == "<empty>":
                 thinking_message = ""
-            ans = self.generate_with_thinking(messages, thinking_message)
+            ans = self.generate_with_thinking(messages, thinking_message=thinking_message)
         else:
             ans = self.generate(messages)
         ans = re.sub("\s+", " ", ans)
@@ -97,10 +99,18 @@ class LLMInference:
         stopping_criteria = None
         if prompt is None:
             prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            if "gpt-oss" in self.llm_name.lower():
+                user_message = [{"role": "user", "content": messages[-1]["content"]}]
+                prompt = self.tokenizer.apply_chat_template(user_message,
+                                                            model_identity=messages[0]["content"],
+                                                            reasoning_effort = messages[-1]["reasoning_effort"],
+                                                            tokenize=False, add_generation_prompt=True)
         if "qwen" in self.llm_name.lower():
             prompt = f"{prompt}<think>{thinking_message}</think>"
         elif "openthinker" in self.llm_name.lower():
             prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|>"
+        elif "gpt-oss" in self.llm_name.lower():
+            prompt = f"{prompt}assistantanalysis{thinking_message}assistantfinal"
         # prompt = f"{prompt}<think>{thinking_message}</think>"
         print("FINAL PROMPT", prompt, flush=True)
 
@@ -119,6 +129,7 @@ class LLMInference:
                 temperature=0.0
             )
         else:
+            print("RESPONSE SECTION NOW", flush=True)
             response = self.model(
                 prompt,
                 do_sample=False,
@@ -137,7 +148,7 @@ class LLMInference:
         '''
         generate response given messages
         '''
-        if "openai" in self.llm_name.lower():
+        if "openai" in self.llm_name.lower() and "oss" not in self.llm_name.lower():
             response = openai.ChatCompletion.create(
                     model=self.model,
                     messages=messages
@@ -149,6 +160,12 @@ class LLMInference:
             stopping_criteria = None
             if prompt is None:
                 prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                if "gpt-oss" in self.llm_name.lower():
+                    user_message = [{"role": "user", "content": messages[-1]["content"]}]
+                    prompt = self.tokenizer.apply_chat_template(user_message,
+                                                                model_identity=messages[0]["content"],
+                                                                reasoning_effort = messages[-1]["reasoning_effort"],
+                                                                tokenize=False, add_generation_prompt=True)
                 if "qwen" in self.llm_name.lower():
                     prompt += "<think>"
                 elif "openthinker" in self.llm_name.lower():
@@ -168,6 +185,7 @@ class LLMInference:
                 )
             else:
                 # SETUP SEED
+                print("RESPONSE SECTION NOW", flush=True)
                 response = self.model(
                     prompt,
                     do_sample=False,

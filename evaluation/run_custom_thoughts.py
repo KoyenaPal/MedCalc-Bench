@@ -65,6 +65,8 @@ def extract_thinking(answer, model_name="qwen"):
     # get text in between <think> and </think>
     if "openthinker" in model_name.lower():
         match = re.search(r'<\|begin_of_thought\|>(.*?)<\|end_of_thought\|>', answer, re.DOTALL)
+    elif "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantanalysis(.*?)assistantfinal', answer, re.DOTALL)
     else:
         match = re.search(r'<think>(.*?)</think>', answer, re.DOTALL)
         
@@ -74,7 +76,10 @@ def extract_thinking(answer, model_name="qwen"):
         return "No Thoughts"
 
 def extract_answer(answer, calid):
-
+    if "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantfinal(.*)', answer, re.DOTALL)
+        if match:
+            answer = match.group(1)
     calid = int(calid)
     #extracted_answer = re.findall(r'[Aa]nswer":\s*(.*?)\}', answer)
     extracted_answer = re.findall(r'[Aa]nswer.*?:\s*["“”]?(.*?)(?:["“”]?\s*[\}\n]|$)', answer)

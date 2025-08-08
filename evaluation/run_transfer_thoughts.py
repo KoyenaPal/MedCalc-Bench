@@ -65,6 +65,8 @@ def extract_thinking(answer, model_name="qwen"):
     # get text in between <think> and </think>
     if "openthinker" in model_name.lower():
         match = re.search(r'<\|begin_of_thought\|>(.*?)<\|end_of_thought\|>', answer, re.DOTALL)
+    elif "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantanalysis(.*?)assistantfinal', answer, re.DOTALL)
     else:
         match = re.search(r'<think>(.*?)</think>', answer, re.DOTALL)
         
@@ -73,9 +75,18 @@ def extract_thinking(answer, model_name="qwen"):
     else:
         return "No Thoughts"
 
+def clean_thinking(thought, model_name="qwen"):
+    if "openthinker" in model_name.lower():
+        thought = thought.replace("<|begin_of_thought|>", "").replace("<|end_of_thought|>", "")
+    else:
+        thought = thought.replace("<think>", "").replace("</think>", "")
+    return thought
 
 def extract_answer(answer, calid):
-
+    if "gpt-oss" in model_name.lower():
+        match = re.search(r'assistantfinal(.*)', answer, re.DOTALL)
+        if match:
+            answer = match.group(1)
     calid = int(calid)
     #extracted_answer = re.findall(r'[Aa]nswer":\s*(.*?)\}', answer)
     extracted_answer = re.findall(r'[Aa]nswer.*?:\s*["“”]?(.*?)(?:["“”]?\s*[\}\n]|$)', answer)
@@ -178,6 +189,7 @@ if __name__ == "__main__":
     parser.add_argument('--model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
     parser.add_argument('--target_model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
+    parser.add_argument('--source_model_output_file', type=str, help='If you already have the output of the original llm, you can share the file instead', default=None)
 
     args = parser.parse_args()
 
@@ -185,7 +197,7 @@ if __name__ == "__main__":
     prompt_style = args.prompt
     target_model = args.target_model
     output_path = f"{model_name.replace('/', '_')}_thoughts_to_{target_model.replace('/', '_')}_{prompt_style}.jsonl"
-
+    
     if not os.path.exists("outputs"):
         os.makedirs("outputs")
 
@@ -209,6 +221,16 @@ if __name__ == "__main__":
 
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
+
+    source_thought_data = None
+
+    if (args.source_model_output_file is not None):
+        if os.path.exists(args.source_model_output_file):
+            source_thought_data = pd.read_json(args.source_model_output_file, lines=True)
+            print("Laoded original thought file", flush=True)
+            print(source_thought_data.head())
+        else:
+            raise FileNotFoundError(f"File does not exist: {args.source_model_output_file}")
 
     for index in tqdm.tqdm(range(len(df))):
 
@@ -248,20 +270,38 @@ if __name__ == "__main__":
             {"role": "system", "content": system},
             {"role": "user", "content": user}
         ]
-
-        answer = llm.answer(messages)
-        print("THIS IS THE ANSWER", answer, flush=True)
-        thinking = extract_thinking(answer, model_name)
-        print("THIS IS THE THINKING PART", thinking, flush=True)
-
+        answer = ""
+        thinking = ""
+        if source_thought_data is not None:
+            source_thought_row = source_thought_data[source_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
+            answer_value = source_thought_row["LLM Answer"]
+            print("THOUGHTS IN GENERAL", source_thought_row["LLM Thinking"])
+            thinking = clean_thinking(str(source_thought_row["LLM Thinking"]), model_name)
+            
+        if thinking == "" or thinking == "No Thoughts":
+                print("AT NO THOUGHTS SECTION", flush=True)
+                answer = llm.answer(messages)
+                #print("THIS IS THE ANSWER", answer, flush=True)
+                thinking = extract_thinking(answer, model_name)
+                #print("THIS IS THE THINKING PART", thinking, flush=True)
+        print("THINKING USED", thinking, flush=True)
         target_answer = target_llm.answer(messages, thinking_message=thinking)
         print("THIS IS THE TARGET ANSWER", target_answer, flush=True)
 
         try:
+            answer_value = ""
+            explanation = ""
+            status = ""
             # extract answer from answer
-            answer_value, explanation = extract_answer(answer, int(calculator_id))
-            correctness = check_correctness(answer_value, row["Ground Truth Answer"], calculator_id, row["Upper Limit"], row["Lower Limit"])
-            status = "Correct" if correctness else "Incorrect"
+            if source_thought_data is not None:
+                source_thought_row = source_thought_data[source_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
+                answer_value = source_thought_row["LLM Answer"]
+                explanation = source_thought_row["LLM Explanation"]
+                status = source_thought_row["Result"]
+            else:
+                answer_value, explanation = extract_answer(answer, int(calculator_id))
+                correctness = check_correctness(answer_value, row["Ground Truth Answer"], calculator_id, row["Upper Limit"], row["Lower Limit"])
+                status = "Correct" if correctness else "Incorrect"
             # same for target_answer
             target_answer_value, target_explanation = extract_answer(target_answer, int(calculator_id))
             target_correctness = check_correctness(target_answer_value, row["Ground Truth Answer"], calculator_id, row["Upper Limit"], row["Lower Limit"])

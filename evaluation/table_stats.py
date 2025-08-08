@@ -54,7 +54,7 @@ def combined_compute_overall_accuracy(output_path, prompt_style, additional_outp
     overall = (total_correct / total_count * 100) if total_count else 0.0
     print(f"Overall Accuracy: {overall:.2f}% ({total_correct}/{total_count})\n")
 
-def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False): 
+def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False, additional_output_file_info=""): 
     category_accuracy = {}
 
     with open(f"outputs/{output_path}") as file:
