@@ -190,6 +190,7 @@ if __name__ == "__main__":
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
     parser.add_argument('--thought_type', type=str, help='Specify thought_type if any. For instance, empty, ensembled_thought')
     parser.add_argument('--ensembled_file', type=str, help='If using ensembled thoughts, specify from where it should get the thoughts from')
+    parser.add_argument('--reasoning_effort', type=str, default="medium", help='if using openai oss models, you can specify reasoning effort')
 
     args = parser.parse_args()
     
@@ -265,6 +266,10 @@ if __name__ == "__main__":
             {"role": "system", "content": system},
             {"role": "user", "content": user}
         ]
+        if "gpt-oss" in model_name.lower():
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user, "reasoning_effort": f'{args.reasoning_effort}'}]
         thinking_message = ""
         if args.thought_type == "empty":
             thinking_message = "<empty>"
@@ -339,8 +344,10 @@ if __name__ == "__main__":
         
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
+    if "gpt-oss" in model_name.lower():
+        additional_output_file_info = f"_{args.reasoning_effort}"
 
-    compute_overall_accuracy(output_path, model_name, prompt_style, )
+    compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
 
 
 
