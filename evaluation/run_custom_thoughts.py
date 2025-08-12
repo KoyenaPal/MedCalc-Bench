@@ -186,7 +186,7 @@ def extract_answer(answer, calid):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Parse arguments')
-    parser.add_argument('--model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
+    parser.add_argument('--model', type=str, help='Specify which model you are using.')
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
     parser.add_argument('--thought_type', type=str, help='Specify thought_type if any. For instance, empty, ensembled_thought')
     parser.add_argument('--ensembled_file', type=str, help='If using ensembled thoughts, specify from where it should get the thoughts from')
@@ -344,8 +344,9 @@ if __name__ == "__main__":
         
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
+    additional_output_file_info = f"{args.thought_type}"
     if "gpt-oss" in model_name.lower():
-        additional_output_file_info = f"_{args.reasoning_effort}"
+        additional_output_file_info = additional_output_file_info + f"_{args.reasoning_effort}"
 
     compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
 

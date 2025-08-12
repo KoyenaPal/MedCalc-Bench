@@ -73,10 +73,13 @@ def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_mo
                     category_accuracy[category].append(0)
 
             if is_target_model:
-                if data["Target Result"] == "Correct":
-                    category_accuracy[category].append(1)
-                else:
+                if "Target Result" not in data:
                     category_accuracy[category].append(0)
+                else:
+                    if data["Target Result"] == "Correct":
+                        category_accuracy[category].append(1)
+                    else:
+                        category_accuracy[category].append(0)
 
     # Compute average and standard deviation for each category
     category_stats = {}

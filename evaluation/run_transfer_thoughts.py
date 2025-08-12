@@ -190,6 +190,7 @@ if __name__ == "__main__":
     parser.add_argument('--target_model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
     parser.add_argument('--source_model_output_file', type=str, help='If you already have the output of the original llm, you can share the file instead', default=None)
+    parser.add_argument('--reasoning_effort', type=str, default="medium", help='if using openai oss models, you can specify reasoning effort')
 
     args = parser.parse_args()
 
@@ -270,6 +271,10 @@ if __name__ == "__main__":
             {"role": "system", "content": system},
             {"role": "user", "content": user}
         ]
+        if "gpt-oss" in model_name.lower():
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user, "reasoning_effort": f'{args.reasoning_effort}'}]
         answer = ""
         thinking = ""
         if source_thought_data is not None:
@@ -285,6 +290,10 @@ if __name__ == "__main__":
                 thinking = extract_thinking(answer, model_name)
                 #print("THIS IS THE THINKING PART", thinking, flush=True)
         print("THINKING USED", thinking, flush=True)
+        if "gpt-oss" in target_model.lower():
+            messages = [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user, "reasoning_effort":f'{args.reasoning_effort}'}]
         target_answer = target_llm.answer(messages, thinking_message=thinking)
         print("THIS IS THE TARGET ANSWER", target_answer, flush=True)
 
@@ -357,8 +366,11 @@ if __name__ == "__main__":
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
 
-    compute_overall_accuracy(output_path, model_name, prompt_style)
-    compute_overall_accuracy(output_path, target_model, prompt_style, is_target_model=True)
+    if "gpt-oss" in model_name.lower():
+        additional_output_file_info = f"{args.reasoning_effort}"
+
+    compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
+    compute_overall_accuracy(output_path, target_model, prompt_style, is_target_model=True, additional_output_file_info=additional_output_file_info)
 
 
 
