@@ -61,29 +61,6 @@ def one_shot_meditron(note, question, example_note, example_output):
     user_temp = f'###User:\nHere is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:\n\n### Assistant:\n'
     return system_msg, user_temp
 
-
-def remove_explicit_answers(text):
-    # Simple sentence splitter (handles '.', '!', '?')
-    sentences = re.split(r'(?<=[.!?])\s+', text)
-
-    filtered_sentences = []
-    for s in sentences:
-        # Remove sentences that:
-        # 1. Contain numbers (common in explicit answers)
-        # 2. Contain words like 'answer', 'equals', 'result', or direct assertions using 'is' or 'are'
-        if (re.search(r'\banswer\b', s, re.I) or
-            re.search(r'\bcorrect?\b', s, re.I) or
-            re.search(r'\bequals?\b', s, re.I) or
-            re.search(r'\bresult\b', s, re.I) or
-            re.search(r'\bis\b \S+', s, re.I) or
-            re.search(r'\bare\b \S+', s, re.I) or
-            re.search(r'\d', s)):  # contains any digit
-            continue
-        filtered_sentences.append(s)
-
-    return ' '.join(filtered_sentences)
-
-
 def extract_thinking(answer, model_name="qwen"):
     # get text in between <think> and </think>
     if "openthinker" in model_name.lower():
@@ -246,7 +223,7 @@ if __name__ == "__main__":
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
     merged_thought_data = None
-    if (args.thought_type == "ensembled_thought" or args.thought_type == "ensembled_thought_minus_last"  or args.thought_type == "ensembled_thought_without_answer") and args.ensembled_file is not None:
+    if ("ensembled_thought" in args.thought_type) or ("transferred_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)
         print("Laoded ensembled thought file", flush=True)
         print(merged_thought_data.head())
@@ -296,15 +273,19 @@ if __name__ == "__main__":
         thinking_message = ""
         if args.thought_type == "empty":
             thinking_message = "<empty>"
-        elif args.thought_type == "ensembled_thought" or args.thought_type == "ensembled_thought_minus_last" or args.thought_type == "ensembled_thought_without_answer":
+        elif "ensembled_thought" in args.thought_type or ("transferred_thought_without_answer" in args.thought_type):
             curr_merged_thought_row = merged_thought_data[merged_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
-            thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
-            if args.thought_type == "ensembled_thought_minus_last":
-                thinking_message = "".join(thinking_message.split(".")[:-1])
-                print("THINKING MESSAGE IN MINUS STAGE", thinking_message, flush=True)
+            thinking_message = ""
             if args.thought_type == "ensembled_thought_without_answer":
-                thinking_message = remove_explicit_answers(thinking_message)
-                print("THINKING MESSAGE IN HINT STAGE", thinking_message, flush=True)
+                thinking_message = curr_merged_thought_row["Ensembled Thought Without Answer"]
+            elif "transferred_thought_without_answer" in args.thought_type:
+                thinking_message = curr_merged_thought_row["LLM Thinking Without Answer"]
+            else:
+                thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
+                if args.thought_type == "ensembled_thought_minus_last":
+                    thinking_message = "".join(thinking_message.split(".")[:-1])
+                    print("THINKING MESSAGE IN MINUS STAGE", thinking_message, flush=True)
+
 
         answer = llm.answer(messages, thinking_message=thinking_message)
         print(answer)

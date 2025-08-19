@@ -29,27 +29,65 @@ def load_items(filepath):
 row_data = defaultdict(lambda: {"ground_truth": None, "models": {}, "results": {}})
 all_models = set()
 
-for filepath in glob.glob(os.path.join(data_dir, "*ensembled_thought.jsonl")):
-    try:
-        items = load_items(filepath)
-        for item in items:
-            row = item.get("Row Number")
-            model = item.get("LLM Name")
-            answer = item.get("LLM Answer")
-            ground_truth = item.get("Ground Truth Answer")
-            result = item.get("Result")
+def extract_model_name_from_filename(filename):
+    base = os.path.basename(filename).replace('.jsonl', '')
+    parts = base.split('_')
+    if "dapo" in base.lower():
+        return "BytedTsinghua-SIA/DAPO-Qwen-32B"
+    elif "qwq" in base.lower():
+        return "Qwen/QwQ-32B"
+    elif "openthinker" in base.lower():
+        return "open-thoughts/OpenThinker-7B"
+    elif "gpt-oss" in base.lower():
+        if "medium" in base.lower():
+            return "openai/gpt-oss-20b-medium"
+        elif "low" in base.lower():
+            return "openai/gpt-oss-20b-low"
+        elif "high" in base.lower():
+            return "openai/gpt-oss-20b-high"
+    else:
+        return "unknown_model"
 
-            if row is not None and model and answer is not None:
-                row_data[row]["models"][model] = answer
-                row_data[row]["results"][model] = result
-                all_models.add(model)
-
-                if ground_truth is not None:
-                    if row_data[row]["ground_truth"] is not None and row_data[row]["ground_truth"] != ground_truth:
-                        print(f"⚠️ Inconsistent ground truth for Row {row}")
-                    row_data[row]["ground_truth"] = ground_truth
-    except Exception as e:
-        print(f"⚠️ Failed to parse {filepath}: {e}")
+# for filepath in glob.glob(os.path.join(data_dir, "*ensembled_thought.jsonl")):
+for filepath in glob.glob(os.path.join(data_dir, "openai_gpt-oss*")):
+    if "thoughts_to" in filepath and "low" in filepath:
+        try:
+            items = load_items(filepath)
+            if items is None:
+                print("NO ITEM FOUND", flush=True)
+            for item in items:
+                row = item.get("Row Number")
+                print(row, flush=True)
+                if row is None:
+                    print("CAME TO A NONE ROW", flush=True)
+                    continue
+                #model = item.get("LLM Name")
+                model = item.get("Target Model")
+                if model is None:
+                    print("CAME TO A NONE MODEL", flush=True)
+                    model = extract_model_name_from_filename(filepath.split("thoughts_to")[-1])
+                if "gpt-oss" in model:
+                    if "low" in filepath:
+                        model = model + "_low"
+                    elif "medium" in filepath:
+                        model = model + "_medium"
+                    elif "high" in filepath:
+                        model = model + "_high"
+                answer = item.get("Target Answer", "Empty")
+                ground_truth = item.get("Ground Truth Answer", "Empty")
+                #result = item.get("Result")
+                result = item.get("Target Result", "Empty")
+                if row is not None and model and answer is not None:
+                    row_data[row]["models"][model] = answer
+                    row_data[row]["results"][model] = result
+                    all_models.add(model)
+    
+                    if ground_truth is not None:
+                        if row_data[row]["ground_truth"] is not None and row_data[row]["ground_truth"] != ground_truth:
+                            print(f"⚠️ Inconsistent ground truth for Row {row}")
+                        row_data[row]["ground_truth"] = ground_truth
+        except Exception as e:
+            print(f"⚠️ Failed to parse {filepath}: {e}")
 
 all_models = sorted(all_models)
 
@@ -129,6 +167,7 @@ with open(individual_csv, "w", newline="") as f:
 combo_results = []
 pairwise_matrix = pd.DataFrame(index=all_models, columns=all_models, dtype=float)
 
+print(all_models, flush=True)
 for r in range(2, len(all_models) + 1):
     for combo in combinations(all_models, r):
         rows_considered = 0
@@ -138,6 +177,7 @@ for r in range(2, len(all_models) + 1):
 
         for row, data in row_data.items():
             models = data["models"]
+            # Only consider rows where *at least two* models in the combo exist
             if all(m in models for m in combo):
                 answers = [models[m] for m in combo]
                 most_common_answer, count = Counter(answers).most_common(1)[0]
@@ -154,17 +194,26 @@ for r in range(2, len(all_models) + 1):
         if rows_considered > 0:
             avg_consistency = consistency_sum / rows_considered
             accuracy = correct_majority / with_ground_truth if with_ground_truth > 0 else None
-            combo_results.append({
-                "Model Combination": ", ".join(combo),
-                "Num Rows Compared": rows_considered,
-                "Average Consistency Score": round(avg_consistency, 3),
-                "Accuracy (Match to Ground Truth)": round(accuracy, 3) if accuracy is not None else "N/A"
-            })
+            avg_consistency_out = round(avg_consistency, 3)
+            accuracy_out = round(accuracy, 3) if accuracy is not None else "N/A"
+        else:
+            avg_consistency_out = "N/A"
+            accuracy_out = "N/A"
 
-            if len(combo) == 2:
-                m1, m2 = combo
-                pairwise_matrix.loc[m1, m2] = round(avg_consistency, 3)
-                pairwise_matrix.loc[m2, m1] = round(avg_consistency, 3)
+        combo_results.append({
+            "Model Combination": ", ".join(combo),
+            "Num Rows Compared": rows_considered,
+            "Average Consistency Score": avg_consistency_out,
+            "Accuracy (Match to Ground Truth)": accuracy_out
+        })
+
+        if len(combo) == 2:
+            m1, m2 = combo
+            pairwise_matrix.loc[m1, m2] = avg_consistency_out
+            pairwise_matrix.loc[m2, m1] = avg_consistency_out
+        else:
+            pairwise_matrix.loc[m1, m2] = None  # or np.nan, or a special value
+            pairwise_matrix.loc[m2, m1] = None
 
 with open(combo_csv, "w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=[
@@ -189,15 +238,17 @@ plt.title("Individual Model Accuracy (Reported Result)")
 plt.ylim(0, 1)
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "individual_model_accuracy_reported.png"))
+plt.savefig(os.path.join(output_dir, "gpt_oss_thoughts_low_individual_model_accuracy_reported.png"))
 plt.close()
 
 # Heatmap for pairwise consistency (based on LLM Answer agreement)
 plt.figure(figsize=(8, 6))
-sns.heatmap(pairwise_matrix.astype(float), annot=True, cmap="YlGnBu", vmin=0, vmax=1)
+#sns.heatmap(pairwise_matrix.astype(float), annot=True, cmap="YlGnBu", vmin=0, vmax=1)
+sns.heatmap(pairwise_matrix.astype(float), annot=True, cmap="YlGnBu", vmin=0, vmax=1, mask=pairwise_matrix.isnull(), cbar=False)
+
 plt.title("Pairwise Model Consistency (LLM Answer Agreement)")
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, "pairwise_consistency_heatmap.png"))
+plt.savefig(os.path.join(output_dir, "gpt_oss_thoughts_low_pairwise_consistency_heatmap.png"))
 plt.close()
 
 print(f"CSV and visualizations saved in:\n- {row_csv}\n- {individual_csv}\n- {combo_csv}\n- {output_dir}")

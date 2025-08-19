@@ -6,30 +6,66 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 
-def extract_answer_type(filename):
-    filename = os.path.basename(filename).lower()
-    if "ensembled_thought_without_last" in filename:
-        return "ensembled_thought_without_last"
-    elif "ensembled_thought" in filename:
-        return "ensembled_thought"
-    elif "original" in filename:
-        return "original"
-    elif "empty" in filename:
-        return "empty"
-    else:
-        return "unknown"
-
+# def extract_answer_type(filename):
+#     filename = os.path.basename(filename).lower()
+#     if "ensembled_thought_without_last" in filename:
+#         return "ensembled_thought_without_last"
+#     elif "ensembled_thought" in filename:
+#         return "ensembled_thought"
+#     elif "original" in filename:
+#         return "original"
+#     elif "empty" in filename:
+#         return "empty"
+#     else:
+#         return "unknown"
+        
 def extract_model_name_from_filename(filename):
     base = os.path.basename(filename).replace('.jsonl', '')
-    parts = base.split('_')
+    transfer_thoughts = False
+    if "thoughts_to" in base:
+        base = base.split("_thoughts_to_")[-1]
+        transfer_thoughts = True
+        
     if "dapo" in base.lower():
         return "BytedTsinghua-SIA/DAPO-Qwen-32B"
     elif "qwq" in base.lower():
         return "Qwen/QwQ-32B"
     elif "openthinker" in base.lower():
         return "open-thoughts/OpenThinker-7B"
+    elif "gpt-oss" in base.lower():
+        if "medium" in base.lower():
+            return "openai/gpt-oss-20b-medium"
+        elif "low" in base.lower():
+            return "openai/gpt-oss-20b-low"
+        elif "high" in base.lower():
+            return "openai/gpt-oss-20b-high"
+        else:
+            if transfer_thoughts:
+                return "openai/gpt-oss-20b-medium"
+            else:
+                return "openai/gpt-oss-20b"
     else:
         return "unknown_model"
+
+def extract_answer_type(filename):
+    base = os.path.basename(filename).replace('.jsonl', '').lower()
+    if "thoughts_to" in base:
+        base = base.split("_thoughts_to_")[0]
+        setting = base + "Complete Thought Transfer"
+        return setting
+    if "empty" in base:
+        return "Empty Thought"
+    if "ensembled_thought_without_answer_merged" in base:
+        return "Ensembled Thought Without Answer V1"
+    if "ensembled_thought_without_answer_alternate" in base:
+        return "Ensembled Thought Without Answer V2"
+    if "ensembled_thought_merged" in base:
+        return "Ensembled Thought V1"
+    if "ensembled_thought_without_answer_merged" in base:
+        return "Ensembled Thought Without Answer V2"
+    if "original" in base:
+        return "original"
+    return "No Setting"
 
 # Load all JSONL files
 jsonl_files = glob.glob("outputs/*.jsonl")  # Update path
@@ -46,6 +82,15 @@ for filepath in jsonl_files:
                 continue
             item = json.loads(line)
             model_name = item.get("LLM Name")
+            if model_name is None:
+                model_name = model_name_from_file
+            if "gpt-oss" in model_name.lower():
+                if "medium" in filepath.lower():
+                    model_name = "openai/gpt-oss-20b-medium"
+                elif "low" in filepath.lower():
+                    model_name = "openai/gpt-oss-20b-low"
+                elif "high" in filepath.lower():
+                    model_name = "openai/gpt-oss-20b-high"
             if not model_name or model_name.strip() == "":
                 model_name = model_name_from_file
             item['Model'] = model_name
