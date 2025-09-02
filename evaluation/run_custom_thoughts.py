@@ -73,7 +73,16 @@ def extract_thinking(answer, model_name="qwen"):
     if match:
         return match.group(1)
     else:
-        return "No Thoughts"
+        if "openthinker" in model_name.lower():
+            match = re.search(r'<\|begin_of_thought\|>(.*?)', answer, re.DOTALL)
+        elif "gpt-oss" in model_name.lower():
+            match = re.search(r'assistantanalysis(.*?)', answer, re.DOTALL)
+        else:
+            match = re.search(r'<think>(.*?)', answer, re.DOTALL)
+        if match:
+            return match.group(1)
+        else:
+            return "No Thoughts"
 
 def extract_answer(answer, calid):
     if "gpt-oss" in model_name.lower():

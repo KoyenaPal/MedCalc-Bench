@@ -73,7 +73,16 @@ def extract_thinking(answer, model_name="qwen"):
     if match:
         return match.group(1)
     else:
-        return "No Thoughts"
+        if "openthinker" in model_name.lower():
+            match = re.search(r'<\|begin_of_thought\|>(.*?)', answer, re.DOTALL)
+        elif "gpt-oss" in model_name.lower():
+            match = re.search(r'assistantanalysis(.*?)', answer, re.DOTALL)
+        else:
+            match = re.search(r'<think>(.*?)', answer, re.DOTALL)
+        if match:
+            return match.group(1)
+        else:
+            return "No Thoughts"
 
 def extract_answer(answer, calid, model_name="qwen"):
     if "gpt-oss" in model_name.lower():
@@ -181,7 +190,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse arguments')
     parser.add_argument('--model', type=str, help='Specify which model you are using. Options are OpenAI/GPT-4, OpenAI/GPT-3.5-turbo, mistralai/Mistral-7B-Instruct-v0.2, mistralai/Mixtral-8x7B-Instruct-v0.1, meta-llama/Meta-Llama-3-8B-Instruct, meta-llama/Meta-Llama-3-70B-Instruct, epfl-llm/meditron-70b, axiong/PMC_LLaMA_13B')
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
-    parser.add_argument('--reasoning_effort', type=str, default="medium", help='if using openai oss models, you can specify reasoning effort')
+    parser.add_argument('--reasoning_effort', type=str, default="low", help='if using openai oss models, you can specify reasoning effort')
 
     args = parser.parse_args()
 
@@ -211,7 +220,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    #df = df.sample(n=100, random_state=42)
 
     for index in tqdm.tqdm(range(len(df))):
 
