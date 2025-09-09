@@ -1,0 +1,362 @@
+[
+  {
+    "iteration": 0,
+    "selected_candidate": "analysisHEART score components: History (typical angina=2, atypical=1) Likely pleuritic chest pain typical",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Okay, let's tackle this HEART score calculation.",
+        "Okay, let me try to figure out the HEART score for this patient.",
+        "Okay, let me try to figure out the HEART score for this patient."
+      ],
+      "openai/gpt-oss-20b": [
+        "analysisWe need HEART score components: History (typical chest pain) -> 2 points?",
+        "analysisHEART score components: History (typical angina=2, atypical=1) Likely pleuritic chest pain typical",
+        "analysisWe need HEART score. HEART: History, ECG, Age, Risk factors, Troponin."
+      ]
+    },
+    "score": 12.354052543640137
+  },
+  {
+    "iteration": 1,
+    "selected_candidate": "of pericarditis; not angina. So 0. Risk factors: Age>45? No. Smoking?",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "of pericarditis.",
+        "of pericarditis.",
+        "for pericarditis. ECG: ST-elevations suggest pericarditis."
+      ],
+      "openai/gpt-oss-20b": [
+        "of pericarditis; not angina. So 0. Risk factors: Age>45? No. Smoking?",
+        "?",
+        "? Not typical angina. So 1. Age<45 =>0. Sex male?"
+      ]
+    },
+    "score": 12.199102401733398
+  },
+  {
+    "iteration": 2,
+    "selected_candidate": "Yes. But the risk factors points are 1 if any risk factors (smoking, HTN, DM, hyperlipidemia, FHx",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Yes (1 point). Family history? Not mentioned.",
+        "Yes (1 point). Family history? No. Total risk factors: 1. ECG: Normal?",
+        "Yes. But the risk factors points are 1 if any risk factors (smoking, HTN, DM, hyperlipidemia, FHx"
+      ],
+      "openai/gpt-oss-20b": [
+        "Yes 1. ECG changes: dynamic? ST elevation in leads? For pericarditis typical?",
+        "yes +1. So risk 1. Asymptomatic? pain not exertional. So history 0. ECG: ST elevation in leads?",
+        "Yes, 1. ECG: ST elevations. Actually pericarditis shows diffuse ST elevation, PR depression."
+      ]
+    },
+    "score": 12.14442253112793
+  },
+  {
+    "iteration": 3,
+    "selected_candidate": "). So 1. ECG: ST elevations. Actually pericarditis shows diffuse ST elevation, PR depression. That qualifies for major?",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "CAD). The patient is 29, smokes, so 1 point.",
+        "). Patient has smoking (10 cigarettes/day) so 1. ECG changes: ECG shown but not described.",
+        "). So 1. ECG: 1 if any ST-T changes. The ECG is shown but not described."
+      ],
+      "openai/gpt-oss-20b": [
+        "). So 1 point. ECG:?",
+        ").",
+        "). So 1. ECG: ST elevations. Actually pericarditis shows diffuse ST elevation, PR depression. That qualifies for major?"
+      ]
+    },
+    "score": 11.232301712036133
+  },
+  {
+    "iteration": 4,
+    "selected_candidate": "In HEART, ECG: normal=0, nonspecific ST/T changes=1, ST depression or LBBB=2, acute ST elevation or new",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The ECG is not seen, but in the clinical context, the finding suggests pericarditis.",
+        "ECG points: 1 for any ECG changes.",
+        "HEART ECG component: 2 if ACS ECG changes (STEMI, ST depression, etc)."
+      ],
+      "openai/gpt-oss-20b": [
+        "In HEART score ECG: major point if ST depression or dynamic changes, but pericarditis may not be used. Usually pericarditis not",
+        "In HEART, ECG: normal=0, nonspecific ST/T changes=1, ST depression or LBBB=2, acute ST elevation or new",
+        "In HEART, ECG changes typical of MI = 2, non-specific = 1, normal =0. Diffuse ST elevation may be considered"
+      ]
+    },
+    "score": 11.025869369506836
+  },
+  {
+    "iteration": 5,
+    "selected_candidate": "LBBB=3. So pericarditis likely gives acute ST elevation => 3. Max heart rate: max 95? HR 95",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "LBBB=3. The note says ECG is shown, but not described.",
+        "LVL=3. Wait, if the ECG is shown but the X-ray is normal.",
+        "LBBB=3. If the ECG here has ST elevation (as in pericarditis), but the note says ECG is shown"
+      ],
+      "openai/gpt-oss-20b": [
+        "LBBB=2? Wait check. Actually HEART: ECG: 0 normal, 1 abnormal?",
+        "LBBB=3. Here acute diffuse ST elevation >? Probably 3. Hospitalization/ troponin? Not given.",
+        "LBBB=3. So pericarditis likely gives acute ST elevation => 3. Max heart rate: max 95? HR 95"
+      ]
+    },
+    "score": 11.169964790344238
+  },
+  {
+    "iteration": 6,
+    "selected_candidate": ", threshold 100-200 range, so 0. Troponin: normal? The note doesn't mention troponin. Likely normal.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "at rest? Not sure. The patient's current HR is 95, but the max heart rate during pain is not mentioned.",
+        "is elevated. But in HEART, the max HR during pain is compared to baseline.",
+        "at presentation. Not sure. Wait, HEART score uses \"max HR\" during presentation."
+      ],
+      "openai/gpt-oss-20b": [
+        ", threshold 100-200 range, so 0. Troponin: normal? The note doesn't mention troponin. Likely normal.",
+        "is <110 => 0. Troponin >0? Unknown; assume normal.",
+        "; normal <100, so 0. Troponin: unknown; assume normal? No troponin results given."
+      ]
+    },
+    "score": 10.845882415771484
+  },
+  {
+    "iteration": 7,
+    "selected_candidate": "So 0. So total HEART score: H=0, E=3, A=0, R=1, T=0.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "If normal, then 0. So adding up: History 1? Wait, let me recheck each component.",
+        "So 0. So total HEART score: H=0, E=3, A=0, R=1, T=0.",
+        "So 0. So total HEART score: H (0) + E (3) + A (risk factors 1) + R ("
+      ],
+      "openai/gpt-oss-20b": [
+        "So 0. Sum: 0+1+3+0+0=4. So step_by step: need explanation.assistant",
+        "So 0. So total 0+1+3+0+0 =4.assistantfinal{\"step_by_step_th",
+        "So 0. Sum: 0+1+3+0+0=4. So HEART score 4 (Moderate risk)."
+      ]
+    },
+    "score": 10.278582572937012
+  },
+  {
+    "iteration": 8,
+    "selected_candidate": "Total 4. But wait, HEART components:\n\nWait, need to recall HEART score components properly:\n\nHEART score components:\n\nH - History",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Total 4. Wait but let me check again.",
+        "Total 4. But wait, HEART components:\n\nWait, need to recall HEART score components properly:\n\nHEART score components:\n\nH - History",
+        "Total 4. But need to check each component again."
+      ],
+      "openai/gpt-oss-20b": [
+        "Sum=4.assistantfinal{\"step_by_step_thinking\":\"1. History: Chest pain is pleuritic, improves with",
+        "Sum =4. So?",
+        "Sum=4.assistantfinal{\"step_by_step_thinking\":\"HEART score is calculated by adding points for each component."
+      ]
+    },
+    "score": 10.297595024108887
+  },
+  {
+    "iteration": 9,
+    "selected_candidate": ": typical angina: 2, atypical angina:1, non-anginal:0\nE - ECG: normal (0), nons",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(3 categories):\n- Typical angina: 2\n- Atypical (e.g., pleuritic, pressure, burning): 1",
+        "(0-3 points)\nE - ECG (0-3 points)\nA - Age > 65 (0 or 1 point)",
+        "(0-3)\nE - ECG (0-3)\nA - Age (0-1)\nR - Risk factors (0-1"
+      ],
+      "openai/gpt-oss-20b": [
+        ": typical angina: 2, atypical angina:1, non-anginal:0\nE - ECG: normal (0), nons",
+        "(typical angina 2, atypical 1, non-anginal 0).",
+        ": typical angina = 2, atypical angina =1, non-anginal chest pain =0.\n\nE - ECG: normal ="
+      ]
+    },
+    "score": 9.37866497039795
+  },
+  {
+    "iteration": 10,
+    "selected_candidate": "pecific ST/T (1), ST depression or LBBB (2), acute ST elevation or LBBB (3)\nA - Age: <45 (",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "pecific changes (1), ST depression, LBBB (2), ST elevation or new LBBB (3)\nA - Age \u226575",
+        "pecific (1), ST depression/LBBB (2), acute STEMI (3)\nA - Age \u226575 (1) or <7",
+        "pecific ST/T (1), ST depression or LBBB (2), STEMI or new LBBB (3)\nA - Age \u22657"
+      ],
+      "openai/gpt-oss-20b": [
+        "pecific ST/T (1), ST depression or LBBB (2), acute ST elevation or LBBB (3)\nA - Age: <45 (",
+        "pecific ST/T changes (1), ST depression or new left BBB (2), acute ST elevation or new LBBB (3)\nA - Age:",
+        "pecific ST/T changes (1), ST depression or LBBB (2), acute ST elevation or new LBBB (3)\nA - Age:"
+      ]
+    },
+    "score": 8.672784805297852
+  },
+  {
+    "iteration": 11,
+    "selected_candidate": "0), 45-65 (1), >65 (2)\nR - Risk factors: none (0), one (1), two or more",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "0), \u226545 (0?) Wait, actually A is Age? Wait, let me check again.",
+        "0), 45-64 (1), \u226565 (2)\nR - Risk factors: presence of any (1), none (",
+        "0), 45-64 (1), >64 (2)\nR - Risk factors: presence of any (smoking, HT"
+      ],
+      "openai/gpt-oss-20b": [
+        "0), 45-65 (1), >65 (2)\nR - Risk factors: for patients \u226565: none (0).",
+        "0), 45-65 (1), >65 (2)\nR - Risk factors: any risk factor (0), 2-3 risk",
+        "0), 45-65 (1), >65 (2)\nR - Risk factors: none (0), one (1), two or more"
+      ]
+    },
+    "score": 8.102721214294434
+  },
+  {
+    "iteration": 12,
+    "selected_candidate": "(2)\nT - Troponin: normal (0), 0-99th percentile (1), >99th percentile (2)\n\nOur",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(2)\nT - Troponin: normal (0), elevated (2)\n\nWait, the patient is 29, so A=0",
+        "(2)\nT - Troponin: normal (0), elevated (3)\n\nWait, maybe different sources have slightly different scoring.",
+        "(2)\nT - Troponin: normal (0), elevated (2)\n\nWait, but the user's question is to calculate the HEART"
+      ],
+      "openai/gpt-oss-20b": [
+        "(2).",
+        "(2)\nT - Troponin: normal (0), 0-99th percentile (1), >99th percentile (2)\n\nOur",
+        "(2)."
+      ]
+    },
+    "score": 7.80798864364624
+  },
+  {
+    "iteration": 13,
+    "selected_candidate": "patient: Age 29 -> 0 for age. Risk factors: smoker 10 cigarettes daily, that's one risk factor (smoking is risk).",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "patient is 29, so age is 0. History: the pain is sharp, increases on lying down, improves leaning forward, radiates",
+        "patient is 29, so A is 0. Risk factors: smoking (1).",
+        "patient is 29. So A=0. \n\nHistory: The pain is sharp, positional (worse lying, better leaning forward), radi"
+      ],
+      "openai/gpt-oss-20b": [
+        "patient: Age 29 =>0. Risk factors: smoking only, so 1. Troponin unknown but likely normal =>0. History not",
+        "patient: 29 => Age 0. Risk factors: smoking only -> one -> 1. ECG: Likely diffuse ST elevation (peric",
+        "patient: Age 29 -> 0 for age. Risk factors: smoker 10 cigarettes daily, that's one risk factor (smoking is risk)."
+      ]
+    },
+    "score": 7.8208723068237305
+  },
+  {
+    "iteration": 14,
+    "selected_candidate": "So R=1. ECG: Diffuse ST elevations -> acute ST elevation gives 3. History: Chest pain atypical (pericarditis",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "So R=1. ECG: if the ECG shows ST elevation (as per pericarditis), then E=3. History:",
+        "So R=1. \n\nHistory: The pain is sharp, not pressure-like, worse on lying, better leaning forward, radiates to shoulders/",
+        "So R=1. Troponin not mentioned, so assuming normal (0)."
+      ],
+      "openai/gpt-oss-20b": [
+        "So R=1. ECG: Diffuse ST elevations -> acute ST elevation gives 3. History: Chest pain atypical (pericarditis",
+        "No other.",
+        "So R = 1. ECG: likely acute ST elevation due to pericarditis?"
+      ]
+    },
+    "score": 7.614656448364258
+  },
+  {
+    "iteration": 15,
+    "selected_candidate": "type) or non-anginal. The pain is sharp, increases on lying, better on leaning. This is more like pericarditis.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", sharp, positional, worse lying, improves leaning forward, radiates to shoulders and neck). So history is non-anginal (0).",
+        "has radiation, positional, etc. but not typical angina). So History is 0 (non-anginal).",
+        "type) or non-anginal. The pain is sharp, increases on lying, better on leaning. This is more like pericarditis."
+      ],
+      "openai/gpt-oss-20b": [
+        "). So H=0. Troponin: Not provided; assume normal.",
+        "pains). So H=0. Troponin unknown; but assume normal?",
+        "). Not angina, so 0 for history."
+      ]
+    },
+    "score": 7.439650058746338
+  },
+  {
+    "iteration": 16,
+    "selected_candidate": "That's non-anginal: 0. Troponin: not provided; assume normal? The question only mentions ECG picture (provided).",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "So History component would be non-anginal (0). Troponin not mentioned, so assume normal (0).",
+        "So the history is non-anginal (0). Troponin: not mentioned.",
+        "So history is non-anginal (0)."
+      ],
+      "openai/gpt-oss-20b": [
+        "That's non-anginal: 0. Troponin: not provided; assume normal? The question only mentions ECG picture (provided).",
+        "That would be non-anginal => 0. Troponin? Not mentioned.",
+        "That would be \"non-anginal\" = 0. Troponin: not provided; assume normal."
+      ]
+    },
+    "score": 7.567518711090088
+  },
+  {
+    "iteration": 17,
+    "selected_candidate": "Usually they'd give troponin values, but not. So probably 0. Sum = 0+3+0+1+0=4",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "But in the question, since the note doesn't mention elevated troponin, so T=0. \n\nThus total HEART score: 0",
+        "Since the note doesn't mention elevated troponin, we assume it's normal (0).",
+        "Since the note doesn't state troponin, but in the task it's to calculate HEART score."
+      ],
+      "openai/gpt-oss-20b": [
+        "Usually they'd give troponin values, but not. So probably 0. Sum = 0+3+0+1+0=4",
+        "Likely troponin normal.",
+        "We don't see troponin. In absence of troponin, we assume normal? Usually troponin would be measured."
+      ]
+    },
+    "score": 7.637314796447754
+  },
+  {
+    "iteration": 18,
+    "selected_candidate": ". So HEART score of 4. Which is high risk, but the question just asks the score.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ". So HEART score of 4. Which is high risk, but the question just asks the score.",
+        ".",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ".",
+        ".",
+        "."
+      ]
+    },
+    "score": 7.612730503082275
+  },
+  {
+    "iteration": 19,
+    "selected_candidate": "So answer 4.\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score components are assessed as follows:\\n\\nH (History",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The correct answer is 4.\n</think>\n\n{\"step_by_step_thinking\": \"1. HEART score components: History (H), ECG",
+        "So the answer is 4. Wait, but let me verify the components again.",
+        "So answer 4.\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score components are assessed as follows:\\n\\nH (History"
+      ],
+      "openai/gpt-oss-20b": [
+        "So answer 4.assistantfinal{\"step_by_step_thinking\":\"The HEART score has five components:\\n1. History:",
+        "Provide answer.assistantfinal{\"step_by_step_thinking\":\"1. Identify HEART score elements: History, ECG, Age, Risk",
+        "So answer 4.assistantfinal{\"step_by_step_thinking\":\"The HEART score has five components: History (H), ECG"
+      ]
+    },
+    "score": 7.446192264556885
+  }
+]

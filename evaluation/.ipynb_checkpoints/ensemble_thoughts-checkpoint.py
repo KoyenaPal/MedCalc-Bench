@@ -284,7 +284,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Context-aware sentence merging using perplexity.")
     # parser.add_argument("jsonl_files", nargs='+', help="Paths to input JSONL files.")
-    parser.add_argument("--output", type=str, default="medcalc_ensemble_outputs_gen_qwq_gpt_oss_eval_dapo/merged_output.csv", help="Path to save merged output.")
+    parser.add_argument("--output", type=str, default="medcalc_ensemble_outputs_gen_qwq_gpt_oss_eval_dapo", help="Path to save merged output.")
     parser.add_argument("--gen_models", nargs='+', default=[
         "Qwen/QwQ-32B",
         "openai/gpt-oss-20b"
@@ -300,6 +300,7 @@ def main():
     #gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
     # gen_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in generation_models]
     # eval_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in evaluation_models]
+    output_file_path = args.output + "/merged_output.csv"
     gen_tokenizers_models = [
         (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
         for i, m in enumerate(generation_models)]
@@ -341,7 +342,7 @@ def main():
             print(f"🔍 Iteration-wise Selection Summary:")
             for d in selected_distributions:
                 print(f"Iteration {d['iteration']}: Model {d['selected_model_index']} -> {d['selected_candidate']}")
-            with open(f"ensemble_outputs_alternate/selected_distributions_row_{index}.json", "w") as f:
+            with open(f"{args.output}/selected_distributions_row_{index}.json", "w") as f:
                 json.dump(selected_distributions, f, indent=2)
             # Write a single row to the CSV
             writer.writerow({

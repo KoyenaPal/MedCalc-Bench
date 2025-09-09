@@ -1,0 +1,920 @@
+[
+  {
+    "iteration": 0,
+    "selected_candidate": "Okay, let me try to figure out the HEART score for this patient. First, I need to recall what the HEART score entails.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Okay, let's tackle this question.",
+        "Okay, let me try to figure out the HEART score for this patient. First, I need to recall what the HEART score entails.",
+        "Okay, so I need to figure out the patient's HEART score based on the provided note. Let me start by recalling what the HEART"
+      ],
+      "openai/gpt-oss-20b": [
+        "analysisWe need HEART score components: History (typical chest pain 0-2), ECG (abnormal 0-2), Age",
+        "analysisHEART score components: History (typical angina 2 pts, non-typical 1, no chest pain 0",
+        "analysisWe need HEART score: History, ECG, Age, Risk factors, Troponin."
+      ]
+    },
+    "score": 6.279111385345459
+  },
+  {
+    "iteration": 1,
+    "selected_candidate": "The HEART score is used to assess the risk of adverse cardiac events in patients presenting with chest pain. However, the patient here doesn't mention chest",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The HEART score is used to assess the risk of adverse cardiac events in patients presenting with chest pain. However, the patient here doesn't mention chest",
+        "From what I remember, HEART stands for History, ECG, Age, Risk factors, and Troponin.",
+        "HEART stands for History, ECG, Age, Risk factors, and Time to presentation."
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisNeed HEART score components: History, ECG, Age, Risk factors, Troponin.",
+        "...assistantanalysisNeed to calculate HEART score. Components: History, ECG, Age, Risk factors, Troponin.",
+        "...assistantanalysisWe need HEART score components: History (high/low), ECG changes, Age, Risk factors, Troponin"
+      ]
+    },
+    "score": 6.035379886627197
+  },
+  {
+    "iteration": 2,
+    "selected_candidate": "...assistantanalysisNeed to calculate HEART score. Components: History, ECG, Age, Risk factors, Troponin.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "pain; their main symptoms are palpitations, dyspnea on exertion, and fatigue.",
+        "pain; their main symptoms are palpitations, dyspnea on exertion, and fatigue.",
+        "pain; their main symptoms are palpitations, dyspnea on exertion, and fatigue."
+      ],
+      "openai/gpt-oss-20b": [
+        "\u2026...assistantanalysisNeed HEART score: History, ECG, Age, Risk factors, Troponin.",
+        "...assistantanalysisNeed to calculate HEART score. Components: History, ECG, Age, Risk factors, Troponin.",
+        "...assistantanalysisNeed HEART."
+      ]
+    },
+    "score": 6.259926795959473
+  },
+  {
+    "iteration": 3,
+    "selected_candidate": "Wait, but the patient's main symptoms are palpitations, dyspnea, and fatigue, not chest pain. The HEART score is typically for",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Wait, the patient's main symptoms are palpitations, dyspnea, fatigue\u2014not chest pain. HEART score is for chest pain, so maybe",
+        "Wait, but the patient's main symptoms are palpitations, dyspnea, fatigue. HEART score is typically for chest pain patients.",
+        "Wait, but the patient's main symptoms are palpitations, dyspnea, and fatigue, not chest pain. The HEART score is typically for"
+      ],
+      "openai/gpt-oss-20b": [
+        "Need values. History: typical chest pain? He has palpitations, dyspnea, no chest pain. So non-typical.",
+        "Provide points.",
+        "We have history: atypical?"
+      ]
+    },
+    "score": 6.171260356903076
+  },
+  {
+    "iteration": 4,
+    "selected_candidate": "chest pain patients. Hmm, maybe the question still expects applying it here despite the primary symptoms?\n\nLet me check the components again.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "chest pain patients. Hmm, maybe the question still expects applying it here despite the primary symptoms?\n\nLet me check the components again.",
+        "chest pain patients. Hmm, maybe the question assumes applying it despite the symptoms? Let me check the components again.",
+        "chest pain patients. Hmm, maybe the question still expects applying it despite the symptoms?\n\nLet me check the components again."
+      ],
+      "openai/gpt-oss-20b": [
+        "chest pain patients. But given question, likely still compute using available data: History: likely non\u2011anginal?",
+        "chest pain. However, we can still calculate if we treat them?",
+        "chest pain suspicion of ACS. Here, no. So HEART score may not be applicable? Could be zero?"
+      ]
+    },
+    "score": 6.366293430328369
+  },
+  {
+    "iteration": 5,
+    "selected_candidate": "HEART stands for:\n\n- H: History (symptom characteristics)\n- E: ECG findings\n- A: Age\n- R: Risk",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "HEART stands for:\n\n- H: History (symptom characteristics)\n- E: ECG findings\n- A: Age\n- R: Risk",
+        "HEART stands for:\n\n- H: History (symptoms suggestive of cardiac ischemia)\n- E: ECG (presence of ischemic changes)",
+        "HEART stands for:\n\n- H: History (low, moderate, high probability of cardiac cause)\n- E: ECG (normal, non-di"
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisWe need HEART score: H=History (0-2), E=ECG (0-2), A",
+        "The\u2026assistantanalysisWe need compute HEART score. Steps: components each 0-2.\n\nHistory: vague/indeterminate?",
+        "We need to assign points 0,1,2 for each category. Let's list: 1) History: highly suspicious, moderately suspicious..."
+      ]
+    },
+    "score": 6.1475605964660645
+  },
+  {
+    "iteration": 6,
+    "selected_candidate": "factors\nWe need Troponin as well. Actually HEART score components: History, ECG, Age, Risk factors, Troponin.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "factors for coronary artery disease\n- T: Troponin levels\n\nThe score is based on these categories each contributing points.",
+        "factors\n- T: Troponin\n\nEach component has points.",
+        "of coronary artery disease (CAD)\n- T: Troponin levels\n\nWait, but in this case, the patient's symptoms aren't chest pain"
+      ],
+      "openai/gpt-oss-20b": [
+        "factors\n- T: Troponin\n\nWe need to assign points 0,1,2 for each category according to definitions.",
+        "factors\n...\nWe must assign points.",
+        "factors\nWe need Troponin as well. Actually HEART score components: History, ECG, Age, Risk factors, Troponin."
+      ]
+    },
+    "score": 6.150186538696289
+  },
+  {
+    "iteration": 7,
+    "selected_candidate": "Wait, maybe the components are H (History), E (ECG), A (Age), R (Risk factors), T (Troponin).",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The total score is the sum of these components. Each component has a score from 0 to 3. Wait, or is it different?",
+        "Each component is scored as High, Medium, or Low risk. Wait, maybe I'm mixing with another score. Let me confirm.",
+        "Wait, maybe the components are H (History), E (ECG), A (Age), R (Risk factors), T (Troponin)."
+      ],
+      "openai/gpt-oss-20b": [
+        "Each score 0-2 yields total 0-10.\n\nWe must extract from note: History?",
+        "That is 5 components.",
+        "Each score 0,1,2 for each. Need to determine each component for this 53-year-old white male with AF?"
+      ]
+    },
+    "score": 6.063599586486816
+  },
+  {
+    "iteration": 8,
+    "selected_candidate": "So the score is based on these five categories each scored 0-2, totaling 0-10. Higher scores indicate higher risk.\n\nWait",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "But the question is about HEART score for this patient's presentation.",
+        "So the score is based on these five categories each scored 0-2, totaling 0-10. Higher scores indicate higher risk.\n\nWait",
+        "But in some versions, it's T for Time to pain relief or Troponin? I need to confirm."
+      ],
+      "openai/gpt-oss-20b": [
+        "Yes, correct. We need values for each.\n\nWe need to interpret the data..assistantcommentaryNeed HEART score components.",
+        "That would be H-E-A-R-T.",
+        "Yes, T stands for Troponin. So we need troponin levels.\n\nThe info: troponin T is unremarkable."
+      ]
+    },
+    "score": 6.091265678405762
+  },
+  {
+    "iteration": 9,
+    "selected_candidate": ", the patient's presenting symptoms are palpitations and dyspnea, not chest pain. The HEART score is specifically for patients presenting with chest pain",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", but the patient's presentation is atrial fibrillation, not chest pain. The HEART score might not be applicable here, but maybe the question",
+        ", the patient's presenting symptoms are palpitations and dyspnea, not chest pain. The HEART score is specifically for patients presenting with chest pain",
+        ", but the patient here has atrial fibrillation, not chest pain. HEART score is primarily for acute chest pain, so maybe the question is"
+      ],
+      "openai/gpt-oss-20b": [
+        ", let's go step-by-step...",
+        "... Need to calculate each category. ...assistantanalysisWe need to calculate HEART score. Use components: History: typical chest pain?",
+        "... Let's see\u2026assistantcommentaryWe need HEART score for this patient."
+      ]
+    },
+    "score": 5.896561145782471
+  },
+  {
+    "iteration": 10,
+    "selected_candidate": ". Since this patient doesn't have chest pain, maybe the HEART score isn't applicable here? But the question asks for it anyway.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "or equivalent symptoms.",
+        ". Since this patient doesn't have chest pain, maybe the HEART score isn't applicable here? But the question asks for it anyway.",
+        ". So maybe the question is a trick? Or perhaps the user still wants us to proceed even if it's not standard?"
+      ],
+      "openai/gpt-oss-20b": [
+        ", but let's...\nassistantanalysisWe just need to compute HEART score.",
+        "suspicion of ACS. So maybe we cannot calculate a HEART score? Let's...",
+        "."
+      ]
+    },
+    "score": 5.890044212341309
+  },
+  {
+    "iteration": 11,
+    "selected_candidate": "So perhaps we proceed by assuming that the symptoms are considered under the History component even without chest pain.\n\nLooking at the note:\n\nHistory (H): The",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Maybe the question expects us to proceed even if it's not the standard scenario.",
+        "So perhaps we proceed by assuming that the symptoms are considered under the History component even without chest pain.\n\nLooking at the note:\n\nHistory (H): The",
+        "Maybe I should proceed assuming that the symptoms are considered under the History category even without chest pain. Let me proceed step by step.\n\nFirst, let me"
+      ],
+      "openai/gpt-oss-20b": [
+        "Need to compute possible points given the data? I'd need to assign scores: H: History (typical vs atypical vs highly suspicious).",
+        "The given data includes: Age 53, ECG shows atrial fibrillation, troponin normal, risk factors?",
+        "We need ....assistantfinal{\n  \"step_by_step_thinking\": \"The HEART score is designed to predict major adverse cardiac events"
+      ]
+    },
+    "score": 6.021834850311279
+  },
+  {
+    "iteration": 12,
+    "selected_candidate": "patient has palpitations, dyspnea on exertion, fatigue. No chest pain, no other associated symptoms. The symptoms were sudden onset.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "patient has palpitations, dyspnea on exertion, fatigue. No chest pain, no other associated symptoms. The symptoms were sudden onset.",
+        "symptoms are palpitations, dyspnea on exertion, fatigue. Duration is 6 hours. No previous similar episodes.",
+        "symptoms are palpitations, dyspnea on exertion, fatigue. No chest pain, no previous similar episodes."
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisWe need HEART score. Steps: age 53 => age 41-65 gets 1 point.",
+        "...assistantanalysisWe need HEART score. Let's calculate.",
+        "patient..."
+      ]
+    },
+    "score": 5.925442695617676
+  },
+  {
+    "iteration": 13,
+    "selected_candidate": "The history score is based on how typical the symptoms are for ACS. Since it's palpitations and dyspnea, which could be arrhythmia",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The History component in HEART is scored based on the likelihood of ACS (acute coronary syndrome).",
+        "The History score is based on typicality of pain, but since there's no pain, maybe the classification is different.",
+        "The history score is based on how typical the symptoms are for ACS. Since it's palpitations and dyspnea, which could be arrhythmia"
+      ],
+      "openai/gpt-oss-20b": [
+        "The \"History\" part assigns points based?",
+        "The question? Let\u2026assistantfinal{\"step_by_step_thinking\":\"The HEART score is intended for patients with chest\u2011pain complaints.",
+        "That...assistantanalysisWe just need HEART score components."
+      ]
+    },
+    "score": 5.847832202911377
+  },
+  {
+    "iteration": 14,
+    "selected_candidate": "rather than ischemia, the H component might be low. The scoring for History in HEART: 2 points if atypical, 1 if",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", maybe the history score is low. The HEART criteria's History category gives 0 for atypical symptoms, 1 for non-specific,",
+        "related (like AFib which he has), so maybe the history score is low. The H component is scored as 0 (atypical),",
+        "rather than ischemia, the H component might be low. The scoring for History in HEART: 2 points if atypical, 1 if"
+      ],
+      "openai/gpt-oss-20b": [
+        ", it is not typical for ACS, so...",
+        "but not typical chest pain? The ...assistantcommentaryWe need HEART score.",
+        "but not typical chest pain, perhaps that scores 0? We need to decide.\n\n...\"\n\nThe assistant is going to elaborate step-by-step."
+      ]
+    },
+    "score": 5.823643684387207
+  },
+  {
+    "iteration": 15,
+    "selected_candidate": "moderately atypical, 0 if typical for ACS. The patient does not have typical chest pain, so I'd ...assistantcommentary",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "non-specific, 0 if typical.",
+        "non-specific, 0 if typical.",
+        "non-specific, 0 if typical."
+      ],
+      "openai/gpt-oss-20b": [
+        "intermediate, 0 if typical chest pain?",
+        "intermediate, 0 if typical? Wait ...We need to recall how to score.",
+        "moderately atypical, 0 if typical for ACS. The patient does not have typical chest pain, so I'd ...assistantcommentary"
+      ]
+    },
+    "score": 5.912614822387695
+  },
+  {
+    "iteration": 16,
+    "selected_candidate": "The user is asking for the HEART score for a patient who presented with palpitations and dyspnea but no chest pain. The HEART score",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The user is asking for the HEART score for a patient who presented with palpitations and dyspnea but no chest pain. The HEART score",
+        "Okay, so the user is trying to calculate the HEART score for a patient who presented with palpitations and dyspnea rather than chest pain.",
+        "Okay, let me think again."
+      ],
+      "openai/gpt-oss-20b": [
+        "We need to compute HEART score.",
+        "We need HEART score: components: history, ECG, age, risk factors, troponin.",
+        "We need HEART score. HEART components: H history, E ECG, A age, R risk factors, T troponin."
+      ]
+    },
+    "score": 5.785866737365723
+  },
+  {
+    "iteration": 17,
+    "selected_candidate": "is a tool used to assess the risk of major adverse cardiac events within 6 weeks for patients presenting with chest pain. The HEART score is calculated from",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "is typically used for patients with chest pain, so applying it here may be unconventional.",
+        "is typically used for patients with chest pain. However, proceeding with the calculation as instructed.",
+        "is typically used for patients with chest pain. However, the question requires applying it, so I'll proceed by evaluating each component even if some criteria don"
+      ],
+      "openai/gpt-oss-20b": [
+        "is specifically for chest\u2011pain patients, but it can be applied to any presenting symptom that could potentially be ACS. We need to score the five components",
+        "is a tool used to assess the risk of major adverse cardiac events within 6 weeks for patients presenting with chest pain. The HEART score is calculated from",
+        "is specifically used for patients presenting with chest pain. The scenario doesn't meet the criteria for chest\u2011pain patients."
+      ]
+    },
+    "score": 5.775758266448975
+  },
+  {
+    "iteration": 18,
+    "selected_candidate": "five domains: History (symptom characteristics), ECG (abnormal findings), Age (\u226565 years?), Risk factors (diabetes, hyper",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "five domains: History, ECG, Age, Risk factors, and Troponin.",
+        "five domains: History (symptom characteristics), ECG (abnormal findings), Age (\u226565 years?), Risk factors (diabetes, hyper",
+        "five components: History, ECG, Age, Risk factors, and Troponin."
+      ],
+      "openai/gpt-oss-20b": [
+        "5 components: History, ECG, Age, Risk factors, Troponin. The question may be intentionally challenging: is the score calculable?",
+        "five categories: H: History, E: ECG, A: Age, R: Risk factors, T: Troponin.",
+        "five components: History, ECG, Age, Risk factors, troponin."
+      ]
+    },
+    "score": 5.700250625610352
+  },
+  {
+    "iteration": 19,
+    "selected_candidate": "lipidemia, hypertension, smoking, family history, prior CAD, etc.) and Troponin (lab results).",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "lipidemia, hypertension, smoking, family history), and Troponin (elevated?).",
+        "lipidemia, hypertension, smoking, family history), and Troponin (elevated).",
+        "lipidemia, hypertension, smoking), and Troponin (elevated)."
+      ],
+      "openai/gpt-oss-20b": [
+        "lipidemia, smoking etc.), and Troponin (elevated or normal).",
+        "lipidemia, family hx, smoking), and Troponin (abnormal).",
+        "lipidemia, hypertension, smoking, family history, prior CAD, etc.) and Troponin (lab results)."
+      ]
+    },
+    "score": 5.621290683746338
+  },
+  {
+    "iteration": 20,
+    "selected_candidate": "However, since the patient does not have chest pain, the HEART score may not be appropriate here. But assuming the question wants us to apply",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The patient here doesn't have chest pain, which is the primary indication for the HEART score.",
+        "However, since the patient does not have chest pain, the HEART score may not be appropriate here. But assuming the question wants us to apply",
+        "However, since the patient does not have chest pain, the applicability of HEART here is questionable."
+      ],
+      "openai/gpt-oss-20b": [
+        "The score ranges from 0-10. The user asks just for the score. We need to calculate approximate HEART score.",
+        "The given case is more about atrial fibrillation and COVID but we still need to calculate the HEART score.",
+        "The score can 0\u201110 and for this patient we need to calculate each domain."
+      ]
+    },
+    "score": 5.603837490081787
+  },
+  {
+    "iteration": 21,
+    "selected_candidate": "it regardless, let's proceed step by step.\n\nFirst, let's recall the HEART score components and their scoring:\n\n1. **History (H",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "it regardless, let's proceed step by step.\n\nFirst, let's recall the HEART score components and their scoring:\n\n1. **History (H",
+        "it regardless, let's proceed.",
+        "it anyway, let me proceed."
+      ],
+      "openai/gpt-oss-20b": [
+        "it anyway, we can reason through the components. \nWe just use the data from the note for each component. We need to confirm the thresholds.",
+        "the HEART score, we can attempt to calculate it. We'll gather the data for each domain:\n\nWe need:\n\n(1) History\n\nThe user provided",
+        "the score anyway, we need to assign scores."
+      ]
+    },
+    "score": 5.670080184936523
+  },
+  {
+    "iteration": 22,
+    "selected_candidate": ")**: \n   - 2 points if atypical symptoms (e.g., non-chest pain, or atypical pain like burning, sharp,",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "):** Scored 0-2 based on symptom characteristics.",
+        ")**: \n   - 2 points if atypical symptoms (e.g., non-chest pain, or atypical pain like burning, sharp,",
+        ")**: \n   - 0: Typical ACS symptoms (central crushing/pressure, radiation, associated with exertion, relieved by rest, etc.)"
+      ],
+      "openai/gpt-oss-20b": [
+        ")**: Typical chest pain etc. The patient does not have chest pain, so the symptom characteristics for ACS are atypical.",
+        "):**\n...\nWe must ...We ... ...We compute ...",
+        ")**\u2014This includes whether the symptoms are typical. Typically, typical chest pain means... We need to assign points:\n\nWe'll need to decide each..."
+      ]
+    },
+    "score": 5.441401958465576
+  },
+  {
+    "iteration": 23,
+    "selected_candidate": "etc.)\n   - 1 point if moderately atypical (e.g., chest pain but not typical ischemic pattern)\n   - 0 points if",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "or pressure unrelated to exertion)\n   - 1 point if moderately atypical (e.g., substernal chest pain with atypical features)",
+        "or pleuritic pain)\n   - 1 point if moderately atypical (e.g., sub-sternal chest pain but not typical ischemic)",
+        "etc.)\n   - 1 point if moderately atypical (e.g., chest pain but not typical ischemic pattern)\n   - 0 points if"
+      ],
+      "openai/gpt-oss-20b": [
+        "or pain not related to exertion, etc.). \nWe just use the typical definitions for the HEART score.\n\nWe need to carefully step ...",
+        "etc.)\n   - 1 point if moderately atypical (e.g., chest discomfort that doesn't conform to typical aortic or pleuritic pain)",
+        "etc.)\n   ...assistantanalysisNeed to produce final JSON. Need to give step_by_step_thinking and answer."
+      ]
+    },
+    "score": 5.428920269012451
+  },
+  {
+    "iteration": 24,
+    "selected_candidate": "typical ischemic chest pain (crushing, pressure, radiating to arm/neck, etc.)\n   The patient's symptoms are palpitations and dys",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "typical ischemic chest pain (crushing, pressure, radiating to arm/neck, etc.)\n   The patient's symptoms are palpitations and dys",
+        "typical (crushing, pressure, radiating to arm/jaw, etc.)\n\nThe patient's primary symptoms are palpitations, dyspnea, and",
+        "typical ischemic symptoms (crushing, pressure, etc.)\n\nThe patient's symptoms are palpitations, dyspnea, fatigue."
+      ],
+      "openai/gpt-oss-20b": [
+        "typical chest pain (i.e., heaviness, pressure, etc.).",
+        "typical chest pain\n\nThe patient has ... ... The rest ...",
+        "typical chest pain.\n\nWe need to interpret for this patient: The note describes palpitations, dyspnea, and fatigue, not true pain."
+      ]
+    },
+    "score": 5.295619010925293
+  },
+  {
+    "iteration": 25,
+    "selected_candidate": "pnea without chest pain. These are atypical for ACS, so H=2.\n\n2. **ECG (E )**: \n   -",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "pnea, not chest pain. Since there's no chest pain, this would be considered atypical, so H = 2.\n\n2. **",
+        "pnea without chest pain, so this is atypical.",
+        "pnea without chest pain. These are atypical for ACS, so H=2.\n\n2. **ECG (E )**: \n   -"
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisWe need HEART score.",
+        "...assistantanalysisWe need HEART score. Let's compute.",
+        "...assistantanalysisWe need to compute HEART. Let's calculate.\n\nAge 53 (<55) => 0 points?"
+      ]
+    },
+    "score": 5.164247035980225
+  },
+  {
+    "iteration": 26,
+    "selected_candidate": "2 points if new ST changes (elevated/depressed) or new LBBB\n   - 1 point if non-diagnostic changes",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "2 points if normal\n   - 1 point if non-diagnostic (e.g., LVH, nonspecific ST-T changes, etc.)",
+        "2 points if new ST changes (elevated/depressed) or new LBBB\n   - 1 point if non-diagnostic changes",
+        "2 points if significant ST changes (elevated/depressed ST, new LBBB)\n   - 1 point if non-specific changes ("
+      ],
+      "openai/gpt-oss-20b": [
+        "2 points for ST changes (>1? ... \"\n\nWe just output final answer..assistantanalysisNeed HEART score.",
+        "2 points if new ST elevation or ST depression > 1 mm...",
+        "2 points if new ST\u2011\u2026... This last comment. Let's just ....."
+      ]
+    },
+    "score": 5.136862277984619
+  },
+  {
+    "iteration": 27,
+    "selected_candidate": "(e.g., old changes, non-specific ST/T wave changes)\n   - 0 points if normal\n   The ECG shows atrial fibr",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(e.g., old changes, non-specific ST/T wave changes)\n   - 0 points if normal\n   The ECG shows atrial fibr",
+        "(T-wave inversions, etc.)\n   - 0 points if normal or old changes\n   The ECG here shows atrial fibrillation with",
+        "(e.g., T wave inversion, nonspecific ST changes)\n   - 0 if normal or old MI\n   The ECG here shows atr"
+      ],
+      "openai/gpt-oss-20b": [
+        "(i.e., nonspecific ST, T waves..., etc.)\n...assistantanalysisNeed compute HEART: History 2, ECG abnormal",
+        "(some abnormalities but not diagnostic)\n ...assistantanalysisWe need to calculate HEART score.",
+        "or non-specific signs\u2026 Wait **..."
+      ]
+    },
+    "score": 5.037783622741699
+  },
+  {
+    "iteration": 28,
+    "selected_candidate": "illation with irregular tachycardia, no mention of ST changes, just AF. The ECG abnormality is AF \u2013 is that counted as abnormal?",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "illation and abnormal R wave progression. Atrial fibrillation isn't an ST change, but the ECG is abnormal.",
+        "illation (AF) and abnormal R wave progression. AF is an arrhythmia, not an ECG change indicative of ischemia.",
+        "illation and abnormal R wave progression. Atrial fibrillation isn't an ST-T change, so this might be considered non-diagnostic?"
+      ],
+      "openai/gpt-oss-20b": [
+        "illation with irregular tachycardia, no mention of ST changes, just AF. The ECG abnormality is AF \u2013 is that counted as abnormal?",
+        "illation with rate 134; there's abnormal ...We need ... Let's ... The ...",
+        "illation, abnormal R wave progression. A fibr. can be considered abnormal but not typical ST\u2011... There's no new ST elevation/depression. According..."
+      ]
+    },
+    "score": 5.06583833694458
+  },
+  {
+    "iteration": 29,
+    "selected_candidate": "In typical HEArT scoring, AF is considered an abnormality, but not the same as ischemic changes. Usually AF is counted as abnormal.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The scoring here might depend on specifics. Since AF isn't an ST change or LBBB, maybe it's non-diagnostic?",
+        "The HEART score's ECG component typically refers to ST changes.",
+        "The HEART score typically looks for ischemic changes. AF alone may be non-ischemic."
+      ],
+      "openai/gpt-oss-20b": [
+        "In typical HEArT scoring, AF is considered an abnormality, but not the same as ischemic changes. Usually AF is counted as abnormal.",
+        "The literature says AF counts as abnormal? ...assistantanalysisUser wants HEART score.",
+        "According... [analysis truncated]assistantanalysisWe need to output JSON with step_by_step_thinking and answer."
+      ]
+    },
+    "score": 5.141554832458496
+  },
+  {
+    "iteration": 30,
+    "selected_candidate": "According to guidelines, AF is scored as 1 point (non-diagnostic). That yields 1 point. So ECG=1.\n\nBut...",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The scoring here might give 1 point for non-diagnostic changes, or maybe 2 if AF is considered as significant.",
+        "So E=1 (since it's non-diagnostic for ACS but shows arrhythmia).",
+        "However, in some protocols, only ischemic changes count. The description says \"abnormal R wave progression\" but no ST changes."
+      ],
+      "openai/gpt-oss-20b": [
+        "Many calculators treat AF as an ECG abnormality \u2013 but the classification guidelines: AF is considered an abnormal ECG (score 2).",
+        "But some reference: AF is often given 1 point (non-diagnostic).",
+        "According to guidelines, AF is scored as 1 point (non-diagnostic). That yields 1 point. So ECG=1.\n\nBut..."
+      ]
+    },
+    "score": 5.238327503204346
+  },
+  {
+    "iteration": 31,
+    "selected_candidate": "some sources might score ECG differently. For example, if the ECG shows AF but no ST changes, maybe it's 1 point.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "some sources might score ECG differently. For example, if the ECG shows AF but no ST changes, maybe it's 1 point.",
+        "need to verify. Some sources might consider AF as non-diagnostic. Let me think.",
+        "some sources might score ECG for ischemic changes."
+      ],
+      "openai/gpt-oss-20b": [
+        "the user is expecting a final numeric score? They ask: \"What is the patient's HEART score?\" I'd compute numeric value.",
+        "The user? They want the HEART score. I think the expected answer is a numeric value, maybe 5 or similar.",
+        "We need to produce a final score. We have to weigh risk factors (age\u226565? no age 53, risk factors?"
+      ]
+    },
+    "score": 5.235830307006836
+  },
+  {
+    "iteration": 32,
+    "selected_candidate": "So we can set ECG=1.\n\n3. **Age (A)**: \n   - 0 points <45\n   - 1 point",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The question mentions \"abnormal R wave progression\" but no ST changes.",
+        "So E=1.\n\n3. **Age (A )**: \n   - 2 points if age \u226565, 1 point if",
+        "Let's confirm: In HEART scoring, ECG category: 0=normal; 1=abnormal but not diagnostic of ischemia ("
+      ],
+      "openai/gpt-oss-20b": [
+        "We'll proceed with 1 point.",
+        "That would be okay.\n\n3. ...assistantanalysisWe need HEART score.",
+        "So we can set ECG=1.\n\n3. **Age (A)**: \n   - 0 points <45\n   - 1 point"
+      ]
+    },
+    "score": 5.209752559661865
+  },
+  {
+    "iteration": 33,
+    "selected_candidate": "45-65\n   - 2 points >65\n   The patient is 53, so Age=1.\n\n4. **Risk Factors",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "45-65\n   - 2 points >65\n   The patient is 53, so between 45-",
+        "45-65\n   - 2 points >65\n   The patient is 53, so between 45-",
+        "45-65\n   - 2 points >65\n   The patient is 53, so between 45-"
+      ],
+      "openai/gpt-oss-20b": [
+        "45-65\n   - 2 points >65\n\nPatient age 53 => Age=1.\n\n4. **Risk factors (R)**",
+        "45-65\n   - 2 points >65\n   The patient is 53, so Age=1.\n\n4. **Risk Factors",
+        "45-65\n   - 2 points >65\n   Age 53 => 1 point."
+      ]
+    },
+    "score": 5.105396747589111
+  },
+  {
+    "iteration": 34,
+    "selected_candidate": "(R)**: \n   - 0 points if no risk factors\n   - 1 point if 1-2 risk factors\n   -",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(R)**: \n   - 0 points if no risk factors\n   - 1 point if 1-2 risk factors\n   -",
+        "(R)**:\n   - 2 points if \u22653 risk factors (DM, hyperlipidemia, HTN, smoking, family history,",
+        "(R)**: \n   - 0 points if no risk factors\n   - 1 point if 1-2 risk factors\n   -"
+      ],
+      "openai/gpt-oss-20b": [
+        "(R)**: \n   - 0 if none\n   - 1 if 1-2 risk factors\n   - 2 if \u2265",
+        "(R)**: \n   - 0 if none; 1 if one or two; 2 if >2\n   Risk factors considered:",
+        "(R)**: \n   - 0 points if zero risk factors (no hypertension, diabetes, smoking, hyperlipidemia, obesity..."
+      ]
+    },
+    "score": 4.977779388427734
+  },
+  {
+    "iteration": 35,
+    "selected_candidate": "2 points if \u22653 risk factors\n   Risk factors considered: hypertension, hyperlipidemia, diabetes mellitus, current smoking, family history of",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "2 points if \u22653 risk factors\n   The patient's PMH is \"no significant past medical history\".",
+        "2 points if \u22653 risk factors\n   The patient's PMH is \"no significant past medical history\".",
+        "2 points if \u22653 risk factors\n   The patient's past medical history is \"no significant past medical history.\" The note mentions BMI 3"
+      ],
+      "openai/gpt-oss-20b": [
+        "2 points if \u22653 risk factors\n   Risk factors considered: hypertension, hyperlipidemia, diabetes mellitus, current smoking, family history of",
+        "2 points if \u22653 risk factors or diabetes\n   Risk factors: hypertension, diabetes, hyperlipidemia, smoking, family history of CAD",
+        "2 points if \u22653 risk factors or prior CAD\n   Risk factors include hypertension, hyperlipidemia, diabetes, smoking, obesity, family"
+      ]
+    },
+    "score": 4.91303014755249
+  },
+  {
+    "iteration": 36,
+    "selected_candidate": "premature CAD, prior CAD. \n   The note says \"no significant past medical history.\" So likely no risk factors listed here. The patient has a",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "premature CAD, prior CAD. \n   The note says \"no significant past medical history.\" So likely no risk factors listed here. The patient has a",
+        "premature CAD, prior CAD, obesity (BMI \u226530). \n\nThe patient's past medical history is \"no significant past medical history\".",
+        "CAD. The note says \"no significant past medical history.\" BMI 30.7 (obese) is a risk factor, but not sure"
+      ],
+      "openai/gpt-oss-20b": [
+        "CAD, obesity (BMI >30?), prior MI or CAD, etc.\n   The patient has BMI 30.7 (obesity).",
+        "CAD at <55 years for male or <60 for female, prior CAD, obesity, etc. \nWe have BMI 30.7 (~ob",
+        "coronary artery disease, prior MI. The patient: BMI 30 => obesity, but obesity is not specifically counted in HEART (though may count as a"
+      ]
+    },
+    "score": 4.9357452392578125
+  },
+  {
+    "iteration": 37,
+    "selected_candidate": "BMI of 30.7 (obesity), but obesity is not one of the standard risk factors in the HEART score; it's not counted.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "BMI of 30.7, which is obese, but obesity is not a traditional risk factor in HEART (though some may consider it).",
+        "BMI of 30.7 (obese, which is a risk factor?), but not sure if obesity is counted as a risk factor in HE",
+        "BMI of 30.7 (obese), which might be a risk factor but obesity isn't typically in the standard risk factors for HEART"
+      ],
+      "openai/gpt-oss-20b": [
+        "BMI of 30.7, which is obesity but that might not count.",
+        "BMI of 30.7 (obesity), but obesity is not one of the standard risk factors in the HEART score; it's not counted.",
+        "BMI of 30.7 kg/m^2, qualifies as obesity (BMI\u226530). Is obesity considered a risk factor in HEART?"
+      ]
+    },
+    "score": 4.812819957733154
+  },
+  {
+    "iteration": 38,
+    "selected_candidate": "So R=0.\n\n5. **Troponin (T)**: \n   - 2 points if elevated (positive)\n   - 1",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The traditional risk factors are the ones above.",
+        "So R=0.\n\n5. **Troponin (T)**: \n   - 2 points if elevated (positive)\n   - 1",
+        "So R=0.\n\n5. **Troponin (T)**: \n   - 2 points if elevated (positive)\n   - 1"
+      ],
+      "openai/gpt-oss-20b": [
+        "So R=0.\n\nBut might there be risk factor like obesity?",
+        "No diabetes, no hypertension, no hyperlipidemia, no smoking, no family history.",
+        "So risk factor=0.\n\n5. **Troponin (T)**: \n   - 0 points if normal (\u2264 upper limit)"
+      ]
+    },
+    "score": 4.726675987243652
+  },
+  {
+    "iteration": 39,
+    "selected_candidate": "point if equivocal (borderline)\n   - 0 points if normal\n   The lab results show troponin T was unremarkable.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "point if indeterminate (if the test is pending)\n   - 0 points if normal (negative)\n   The lab results say troponin T",
+        "point if equivocal (borderline)\n   - 0 points if normal (negative)\n   The lab results say \"troponin T\" was",
+        "point if equivocal (borderline)\n   - 0 points if normal\n   The lab results show troponin T was unremarkable."
+      ],
+      "openai/gpt-oss-20b": [
+        "point if nonsignificant\n   - 0 if normal negative\n   Troponin T is unremarkable/normal.",
+        "point if nondiagnostic (e.g., borderline)\n   - 0 points if normal\n   Troponin T was normal/unremarkable.",
+        "point if borderline or just above normal? Usually 0 if normal, 2 if raised (>0.04 ng/mL)."
+      ]
+    },
+    "score": 4.652960777282715
+  },
+  {
+    "iteration": 40,
+    "selected_candidate": "So T=0.\n\nAdding them up: H(2) + E(1) + A(1) + R(0) + T",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "So T=0.\n\nNow adding them up:\nH=2, E=1, A=1, R=0, T=0.",
+        "So T=0.\n\nNow, adding them up:\n\nH=2, E=1, A=1, R=0, T=0",
+        "So T=0.\n\nAdding them up: H(2) + E(1) + A(1) + R(0) + T"
+      ],
+      "openai/gpt-oss-20b": [
+        "So T=0.\n\nNow sum up: H=2 + E=1 + Age=1 + R=0 + T=0 =",
+        "So Troponin=0.\n\nNow sum up: H=2 + E=1 + A=1 + R=0 + T=0",
+        "So normal -> 0.\n\nNow sum: H=2, E=1, A=1, R=0, T=0. Total"
+      ]
+    },
+    "score": 4.596116542816162
+  },
+  {
+    "iteration": 41,
+    "selected_candidate": "(0) = 4. ...assistantfinal{\"step_by_step_thinking\":\"1. The HEART score comprises History, ECG",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(0) = Total 4.\n\nWait, but let me check again:\n\nWait, the HEART score's Age component: The cutoff for age",
+        "(0) = 4. \n\nWait, but let me double-check each component.",
+        "(0) = total of 4. \n\nWait, but the HEART score's categories might differ."
+      ],
+      "openai/gpt-oss-20b": [
+        "(NT?",
+        "(0) = 4. ...assistantfinal{\"step_by_step_thinking\":\"1. The HEART score comprises History, ECG",
+        "(0) = 4.\n\nThus...assistantfinal{\"step_by_step_thinking\":\"The HEART score evaluates patients presenting with chest"
+      ]
+    },
+    "score": 4.660695552825928
+  },
+  {
+    "iteration": 42,
+    "selected_candidate": ", Age, Risk factors, and Troponin.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", Age, Risk factors, and Troponin.",
+        ", Age, Risk factors, and Troponin.",
+        ", Age, Risk factors, and Troponin."
+      ],
+      "openai/gpt-oss-20b": [
+        ", Age, Risk factors, and Troponin.",
+        ", Age, Risk factors, Troponin.",
+        ", Age, Risk factors, and Troponin."
+      ]
+    },
+    "score": 4.567935943603516
+  },
+  {
+    "iteration": 43,
+    "selected_candidate": "The patient's symptoms are palpitations and dyspnea without chest pain, so History (H) is atypical (2 points).\\n2.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The patient's symptoms are palpitations and dyspnea without chest pain, making the History score 2 (atypical).",
+        "The patient's symptoms are palpitations and dyspnea without chest pain, which are atypical for ACS (H=2).",
+        "The patient's symptoms are palpitations and dyspnea without chest pain, so History (H) is atypical (2 points).\\n2."
+      ],
+      "openai/gpt-oss-20b": [
+        "2. Identify the patient\u2019s data: \u2013 History: palpitations and dyspnea without chest pain \u2192 atypical \u2192 score 2.",
+        "2. History: Patient has palpitations/dyspnea and no chest pain, which is atypical for ACS \u2192 score\u202f=",
+        "2.  History \u2013 the patient\u2019s symptoms are palpitations/dyspnea, not typical chest pain, so atypical \u2192 2"
+      ]
+    },
+    "score": 4.5503411293029785
+  },
+  {
+    "iteration": 44,
+    "selected_candidate": "ECG shows atrial fibrillation but no ST\u2011segment changes; this is considered non\u2011diagnostic, giving 1 point for ECG (E).\\",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The ECG shows atrial fibrillation, which is an abnormality but not ischemic, so ECG (E) gets 1 point.\\",
+        "ECG shows atrial fibrillation (abnormal but not ischemic), so ECG (E) is non-diagnostic (1 point).\\n",
+        "ECG shows atrial fibrillation (abnormal but not ischemic), so ECG (E) gets 1 point.\\n3. Age"
+      ],
+      "openai/gpt-oss-20b": [
+        "ECG shows atrial fibrillation with no ST\u2011segment changes; AF is considered non\u2011diagnostic ischemic changes \u2013 give 1 point for the",
+        "ECG shows atrial fibrillation but no ST\u2011segment changes; this is considered non\u2011diagnostic, giving 1 point for ECG (E).\\",
+        "ECG shows atrial fibrillation with no ST\u2011segment changes."
+      ]
+    },
+    "score": 4.538064956665039
+  },
+  {
+    "iteration": 45,
+    "selected_candidate": "n3. Age is 53, which falls into the 45\u201365\u202fyear age group, assigning 1 point (A).\\n4",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "n3. Age is 53 years (45\u201365), so Age (A) is 1 point.\\n4. No",
+        "n3. Age 53 falls in the 45\u201365 range, scoring 1 point (A).\\n4. No listed",
+        "n3. Age is 53 years, so 1 point (A).\\n4. No stated risk factors (R = 0).\\"
+      ],
+      "openai/gpt-oss-20b": [
+        "n3. Age is 53, which falls into the 45\u201365\u202fyear age group, assigning 1 point (A).\\n4",
+        "n3. Age of 53 years falls in the 45\u201365\u2011year range, worth 1 point (A).\\n4. No",
+        "n3. Age is 53, falling in the 45\u201365 bracket, so 1 point for Age (A).\\n4. No"
+      ]
+    },
+    "score": 4.482512474060059
+  },
+  {
+    "iteration": 46,
+    "selected_candidate": ".",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".",
+        ".",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ".",
+        ".",
+        "."
+      ]
+    },
+    "score": 4.505042552947998
+  },
+  {
+    "iteration": 47,
+    "selected_candidate": "The patient has no documented risk factors (hypertension, diabetes, hyperlipidemia, smoking, family history of CAD); obesity is not a HEART",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "No listed risk factors (R), so 0 points.\\n5. Troponin T is normal, so 0 points (T).\\n",
+        "No listed risk factors (R), so 0 points.\\n5. Troponin T is normal (T), so 0 points.\\n",
+        "No listed risk factors for CAD (R) gives 0 points.\\n5. Normal troponin (T) results in 0 points.\\"
+      ],
+      "openai/gpt-oss-20b": [
+        "The patient has no documented risk factors (hypertension, diabetes, hyperlipidemia, smoking, family history of CAD); obesity is not a HEART",
+        "No listed risk factors are present on presentation, so Risk (R) =0.\\n5. Troponin T was normal, yielding 0",
+        "No listed risk factors (no hypertension, diabetes, hyperlipidemia, smoking, family CAD history, or prior CAD) so Risk factors (R"
+      ]
+    },
+    "score": 4.505515098571777
+  },
+  {
+    "iteration": 48,
+    "selected_candidate": "risk factor, so Risk factors (R) = 0.\\n5. Troponin T was normal, so Troponin (T)",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "score risk factor, so Risk (R) = 0.\\n5. Troponin T was unremarkable (normal), so Tropon",
+        "risk factor, so Risk factors (R) = 0.\\n5. Troponin T was normal, so Troponin (T)",
+        "risk factor, so Risk factors (R) score 0.\\n5. Troponin T was normal, so Troponin (T)"
+      ],
+      "openai/gpt-oss-20b": [
+        "\u2011score risk factor, so Risk (R) = 0.\\n5 .",
+        "score risk factor, so Risk (R)=0.\\n5. Troponin T was normal, so Troponin (T)=0.\\",
+        "component, so 0 points for Risk factors (R).\\n5 ."
+      ]
+    },
+    "score": 4.452690124511719
+  },
+  {
+    "iteration": 49,
+    "selected_candidate": "= 0.\\nTotal HEART score = 2 (H) + 1 (E) + 1 (A) + 0",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "= 0.\\nTotal HEART score = 2 (H) + 1 (E) + 1 (A) + 0",
+        "= 0.\\nTotal HEART score: 2 + 1 + 1 + 0 + 0 = 4.\",\"answer\":\"",
+        "= 0.\\nTotal HEART score: 2 + 1 + 1 + 0 + 0 = 4.\",\"answer\":\""
+      ],
+      "openai/gpt-oss-20b": [
+        "= 0.\\n6. Summing: 2 + 1 + 1 + 0 + 0 = 4.\\nThe",
+        "= 0.\\nSumming these: 2 (History) + 1 (ECG) + 1 (Age) + 0",
+        "= 0.\\nAdding the points: 2 + 1 + 1 + 0 + 0 = 4.\\nThe total"
+      ]
+    },
+    "score": 4.383591175079346
+  },
+  {
+    "iteration": 50,
+    "selected_candidate": "(R) + 0 (T) = 4.\",\"answer\":\"4\"}\n</think>\n\n{\"step_by_step_thinking\": \"1. The",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "(R) + 0 (T) = 4.\",\"answer\":\"4\"}\n</think>\n\n{\"step_by_step_thinking\": \"1. The",
+        "(R) + 0 (T) = 4.\",\"answer\":\"4\"}\n</think>\n\n{\"step_by_step_thinking\": \"1. The",
+        "(R) + 0 (T) = 4.\",\"answer\":\"4\"}\n</think>\n\n{\"step_by_step_thinking\": \"1. The"
+      ],
+      "openai/gpt-oss-20b": [
+        "(R) + 0 (T) = 4.\\n\\nThe HEART score is therefore 4.\",\"answer\":\"4\"}",
+        "(R) + 0 (T) = 4.\\n6. A HEART score of 4 classifies the patient as intermediate risk for",
+        "(R) + 0 (T) = 4.\\n6. A score of 4 places the patient in the moderate\u2011risk category"
+      ]
+    },
+    "score": 4.333591938018799
+  }
+]

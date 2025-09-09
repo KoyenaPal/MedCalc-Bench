@@ -1,0 +1,920 @@
+[
+  {
+    "iteration": 0,
+    "selected_candidate": "Okay, let me try to figure out the patient's HEART score. First, I need to recall what the HEART score entails.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Okay, let's tackle this question.",
+        "Okay, let me try to figure out the patient's HEART score.",
+        "Okay, let me try to figure out the patient's HEART score. First, I need to recall what the HEART score entails."
+      ],
+      "openai/gpt-oss-20b": [
+        "analysisWe need HEART score components: History (4/1/0), ECG (4/3/2/1?), Age (4",
+        "analysisHEART score components: History (typical angina=2, atypical=1, none=0), ECG (ST changes",
+        "analysisWe need HEART score: History, ECG, Age, Risk factors, Troponin."
+      ]
+    },
+    "score": 6.12738037109375
+  },
+  {
+    "iteration": 1,
+    "selected_candidate": "The HEART score is a tool used to assess the risk of major adverse cardiac events in patients with chest pain. It stands for History, ECG",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The HEART score is a tool used to assess acute chest pain, and it stands for History, ECG, Age, Risk factors, and Tro",
+        "The HEART score is a tool used to assess the risk of major adverse cardiac events in patients with chest pain. It stands for History, ECG",
+        "HEART stands for History, ECG, Age, Risk factors, and Troponin."
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisNeed HEART score components: History, ECG, Age, Risk factors, Troponin. For each assign points.",
+        "The\u2026?assistantanalysisNeed compute HEART score: History, ECG, Age, Risk factors, Troponin.",
+        "...assistantanalysisWe need HEART score components: History (typical chest pain, risk factors, etc), ECG changes, Age,"
+      ]
+    },
+    "score": 5.837733745574951
+  },
+  {
+    "iteration": 2,
+    "selected_candidate": "...assistantanalysisWe need HEART score components: History (2/4 points?), ECG, Age, Risk factors, Troponin",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", Age, Risk factors, and Troponin.",
+        ", Age, Risk factors, and Troponin.",
+        ", Age, Risk factors, and Troponin."
+      ],
+      "openai/gpt-oss-20b": [
+        "\u2026 \u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026..\u2026\u2026..........\u2026 ... ...\u2026\u2026\u2026\u2026.\u2026\u2026\u2026.... ...",
+        "\u2026?\u2026\u2026\u2026. The ... ...",
+        "...assistantanalysisWe need HEART score components: History (2/4 points?), ECG, Age, Risk factors, Troponin"
+      ]
+    },
+    "score": 6.069615364074707
+  },
+  {
+    "iteration": 3,
+    "selected_candidate": ". Need to derive points. Patient: history: unclear; but pain heavy, exertional, but no risk factors?",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".",
+        ". Wait, let me get the exact components right.",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ".",
+        ". Need to derive points. Patient: history: unclear; but pain heavy, exertional, but no risk factors?",
+        "."
+      ]
+    },
+    "score": 6.43499755859375
+  },
+  {
+    "iteration": 4,
+    "selected_candidate": "Let me think step by step.\n\nFirst, the components of HEART score:\n\nH - History (0-3 points)\nE - ECG (",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The History component is about pain characteristics. The HEART criteria's History category has specific points based on features like typicality of symptoms.",
+        "ECG was equivocal, but not STEMI. Troponin elevated. Let me check each component.\n\nFirst, the History component.",
+        "Let me think step by step.\n\nFirst, the components of HEART score:\n\nH - History (0-3 points)\nE - ECG ("
+      ],
+      "openai/gpt-oss-20b": [
+        "He denies tobacco, alcohol, drug, no family history. So history negative?",
+        "No family, no smoking, no diabetes. History is moderately suspicious? Might score 2? ECG: ST elevation?",
+        "He denies tobacco, alcohol, family history. So history likely low => 0 points? ECg: has ST elevations but non-diagnostic..."
+      ]
+    },
+    "score": 6.403178691864014
+  },
+  {
+    "iteration": 5,
+    "selected_candidate": "0-2)\nA - Age (0-3)\nR - Risk factors (0-3)\nT - Troponin (0-3",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "0-2)\nA - Age (0-3)\nR - Risk factors (0-3)\nT - Troponin (0-3",
+        "0-2)\nA - Age (0-3)\nR - Risk factors (0-3)\nT - Troponin (0-3",
+        "0-2)\nA - Age (0-3)\nR - Risk factors (0-3)\nT - Troponin (0-3"
+      ],
+      "openai/gpt-oss-20b": [
+        "0-2)\nA - Age (0-2)\nR - Risk factors (0-2)\nT - Troponin (0-2",
+        "0-2)\nA - Age (0-2)\nR - Risk factors (0-3)\nT - Troponin (0-2",
+        "0-3)\nA - Age (0-2)\nR - Risk factors (0-3)\nT - Troponin (0-3"
+      ]
+    },
+    "score": 6.145806312561035
+  },
+  {
+    "iteration": 6,
+    "selected_candidate": ")\n\nLet's recall scoring:\n\nHistory:\n- 0: non-anginal (unlikely)\n- 1: moderately atypical (some features)\n-",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ")\n\nTotal possible 14, but each component has different scoring.",
+        ")\n\nTotal points from 0-14. Higher scores indicate higher risk.\n\nWait, the HEART score categorizes each component into low, moderate",
+        ")\n\nEach component has specific criteria.\n\nStarting with History (H): The history component is based on the pain characteristics and clinical features."
+      ],
+      "openai/gpt-oss-20b": [
+        ")\n\nWe need to assign points.",
+        ")\n\nPoints: H: 0-3 based on clinician assessment of probability of ACS. Need to decide.",
+        ")\n\nLet's recall scoring:\n\nHistory:\n- 0: non-anginal (unlikely)\n- 1: moderately atypical (some features)\n-"
+      ]
+    },
+    "score": 6.226764678955078
+  },
+  {
+    "iteration": 7,
+    "selected_candidate": "2: moderately typical (some anginal features)\n- 3: classic anginal (typical)\n\nThe patient's pain was described as heav",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "2: typical angina (typical features)\n- 3: intermediate (equivocal)\n\nWait, the exact criteria might vary, but common",
+        "2: moderately typical (some anginal features)\n- 3: classic anginal (typical)\n\nThe patient's pain was described as heav",
+        "2: typical angina (typical ischemic pain)\n- 3: cardiac pain but no ischemia (e.g., pericard"
+      ],
+      "openai/gpt-oss-20b": [
+        "3: typical angina\n\nECG:\n- 0: normal\n- 1: non-specific repolarization disturbance\n- 2",
+        "2: typical angina\n\nBut need specific criteria.",
+        "2: typical angina (classical)\nGiven scenario: heaviness started morning, worsened with exertion, 9/10 pain,"
+      ]
+    },
+    "score": 6.218768119812012
+  },
+  {
+    "iteration": 8,
+    "selected_candidate": "iness, sharp, lasted hours, worsened with exertion, started in morning, 9/10. This is typical chest pain, but not",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "iness, sometimes sharp, lasting hours, worse with exertion, morning onset.",
+        "iness, sometimes sharp, lasting hours, worse with exertion.",
+        "iness, sometimes sharp, lasting hours. It started in the morning and worsened with exertion."
+      ],
+      "openai/gpt-oss-20b": [
+        "iness, sharp, lasted hours, worsened with exertion, started in morning, 9/10. This is typical chest pain, but not",
+        "iness sometimes sharp, lasted hours, started morning worsened with exertion, rated 9/10, no dyspnea pleuritic.",
+        "iness, sometimes sharp, lasting hours, worse with exertion. No other symptoms."
+      ]
+    },
+    "score": 6.065051555633545
+  },
+  {
+    "iteration": 9,
+    "selected_candidate": "typical enough? He had no typical features? He denied SOB, no pleuritic etc. This looks like typical angina.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "sure if classic.",
+        "classic. Wait, classic is typical angina (pressure, chest, relieved by rest).",
+        "classic."
+      ],
+      "openai/gpt-oss-20b": [
+        "typical enough? He had no typical features? He denied SOB, no pleuritic etc. This looks like typical angina.",
+        "classic? It's typical of angina.",
+        "fully classic? Likely typical angina: 2 points?"
+      ]
+    },
+    "score": 6.317625045776367
+  },
+  {
+    "iteration": 10,
+    "selected_candidate": "So score 2 or 3? Usually classically typical chest pain (pressure, chest heaviness, radiation, etc) qualifies 2.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "But maybe the pain duration is longer than usual.",
+        "So maybe 3 points? Or maybe 2? Because it's not entirely classic.",
+        "So maybe 3 points. Wait, but in the case, he had a normal coronary angiogram."
+      ],
+      "openai/gpt-oss-20b": [
+        "So History 2-3? Probably 2 (moderate typical).",
+        "So maybe 2 points?",
+        "So score 2 or 3? Usually classically typical chest pain (pressure, chest heaviness, radiation, etc) qualifies 2."
+      ]
+    },
+    "score": 6.454841136932373
+  },
+  {
+    "iteration": 11,
+    "selected_candidate": "But let's check guidelines: typical chest pain: substernal pressure/discomfort, provoked by exertion or stress, relieved by rest or nitro.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "But maybe classic angina is 3? Wait, different sources may vary. Let me check in my mind. Classic anginal features are: pressure",
+        "But since he had sharpness, maybe it's moderately typical. Hmm, but he had exertional worsening, which is a typical feature.",
+        "But if it's classic, maybe 3? Hmm. The description says \"heaviness sometimes sharp\", but angina is usually pressure."
+      ],
+      "openai/gpt-oss-20b": [
+        "But let's check guidelines: typical chest pain: substernal pressure/discomfort, provoked by exertion or stress, relieved by rest or nitro.",
+        "But some use 2 for moderately typical, 3 for classic?",
+        "According literature: 2 typical angina = 2 points."
+      ]
+    },
+    "score": 6.445892810821533
+  },
+  {
+    "iteration": 12,
+    "selected_candidate": "The patient's pain is heavy, worsened with exertion, but nitro didn't help. Since the pain was not relieved by nitro,",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The patient's pain is worse with exertion, but nitro didn't help. The heaviness and sharpness may be atypical.",
+        "The patient's pain is heavy, worsened with exertion, but nitro didn't help. Since the pain was not relieved by nitro,",
+        "The pain here is heavy, worse with exertion, but nitro didn't help. Classic but maybe not relieved by rest?"
+      ],
+      "openai/gpt-oss-20b": [
+        "Here it is provoked by exertion? He works as truck driver, pain worsened with exertion. Nitro didn't relieve though. Still typical.",
+        "That matches.",
+        "This patient had heaviness, started in morning. Actually fits typical => 2 points?"
+      ]
+    },
+    "score": 6.450438499450684
+  },
+  {
+    "iteration": 13,
+    "selected_candidate": "maybe it's less typical. So maybe 2 points (moderately typical) because it's exertional but no relief.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "maybe that's a point against classic. So maybe moderately typical (2 points).",
+        "maybe that's a point against. The pain was there for hours. Maybe the history is moderately typical (score 2).",
+        "maybe it's less typical. So maybe 2 points (moderately typical) because it's exertional but no relief."
+      ],
+      "openai/gpt-oss-20b": [
+        "but still typical. Maybe 2 points? I'd give 2.\n\nECG: ST elevation mild?",
+        "but still typical features.",
+        "but it's still typical. So I'd say assign 2 points."
+      ]
+    },
+    "score": 6.36735200881958
+  },
+  {
+    "iteration": 14,
+    "selected_candidate": "Hmm.\n\nECG: ECG changes here were ST elevation in I/aVL, ST depression in aVR, J-point elevation, T wave inversion",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Or maybe 1? Hmm. The pain was described as sometimes sharp, which is atypical.",
+        "So H=2.\n\nECG: ECG changes.",
+        "Hmm.\n\nECG: ECG changes here were ST elevation in I/aVL, ST depression in aVR, J-point elevation, T wave inversion"
+      ],
+      "openai/gpt-oss-20b": [
+        "Many calculators would give 2. Ok.\n\nE - ECG:\n1: nonspecific repolarization abnormalities\n2: STEMI / major acute MI",
+        "But some use 2 for moderately typical.",
+        "So put 2.\n\nECG:\n- 0: normal or nonspecific changes\n- 1: non-specific repolarization\n-"
+      ]
+    },
+    "score": 6.397401809692383
+  },
+  {
+    "iteration": 15,
+    "selected_candidate": "in II,III,aVF. Not classic for STEMI but could be non-ST elevation MI or ischemia. The ECG: ST changes abnormal?",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "in II/III/aVF. The ECG was \"not entirely convincing\" for STEMI.",
+        "in II/III/aVF. The ECG was not convincing for STEMI.",
+        "in II/III/aVF. The ECG was equivocal for STEMI."
+      ],
+      "openai/gpt-oss-20b": [
+        "II,III,aVF. That is atypical but could be early STEMI.",
+        "in II,III,aVF. Not classic for STEMI but could be non-ST elevation MI or ischemia. The ECG: ST changes abnormal?",
+        "in II, III, aVF. That is a non-STEMI type?"
+      ]
+    },
+    "score": 6.340404987335205
+  },
+  {
+    "iteration": 16,
+    "selected_candidate": "According to HEART scoring, ECG score:\n- 0: normal or nonspecific changes\n- 1: non-specific repolarization disturbance\n-",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The ECG was not convincing of STEMI.",
+        "So ECG score is 1 if non-diagnostic or non-ischemic, or 2 if ischemic or possible STEMI?",
+        "Since it's not convincing for STEMI, but there are ST changes."
+      ],
+      "openai/gpt-oss-20b": [
+        "In HEART scoring, ECG points: 0 if normal, 1 if nonspecific repolarization abnormalities, 2 if significant ST-T changes.",
+        "The guidelines: 0: normal or nonspecific ST; 1: nonspecific ST/T changes; 2: significant ST changes (\u22651",
+        "According to HEART scoring, ECG score:\n- 0: normal or nonspecific changes\n- 1: non-specific repolarization disturbance\n-"
+      ]
+    },
+    "score": 6.258261203765869
+  },
+  {
+    "iteration": 17,
+    "selected_candidate": "2: definite ischemic changes (new ST/T changes or LBBB)\n- 3: definite STEMI or NSTEMI (ST",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "2: definite ischemic changes (new ST/T changes or LBBB)\n- 3: definite STEMI or NSTEMI (ST",
+        "2: significant ST-T changes (ST elevation, depression, T inversion) or LBBB\n- 3: new LAD lesion or",
+        "2: ischemic changes (new or worsening ST/T changes)\n- 3: new ST elevation or LBBB\n\nWait, HEART"
+      ],
+      "openai/gpt-oss-20b": [
+        "2: ST depression >0.5mm or ST elevation in aVR or >1 for ischemia\n\nBut I think for major ischemia",
+        "2: ST changes (\u22651mm ST elevation or depression, or new LBBB, etc)\n\nWhich category?",
+        "2: significant ST depression or ST elevation. Actually typical: ST depression >1mm or ST elevation >1mm in non-diagnostic leads?"
+      ]
+    },
+    "score": 6.181787967681885
+  },
+  {
+    "iteration": 18,
+    "selected_candidate": "elevation or depression and T changes)\n\nGiven the ST elevations 1-2 mm in I/aVL, plus depression in aVR, this is abnormal",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "depression/elevation etc)\nWait, but in HEART, the ECG component is scored based on ECG findings.",
+        "elevation or LBBB with possible infarction)\n\nWait, the patient's ECG was equivocal for STEMI, so maybe 2 points",
+        "elevation in 2+ leads, etc)\n\nIn this case, the ECG had ST elevations in I and aVL (2 leads?), but"
+      ],
+      "openai/gpt-oss-20b": [
+        "elevation or depression and T changes)\n\nGiven the ST elevations 1-2 mm in I/aVL, plus depression in aVR, this is abnormal",
+        "depression + T inversion etc?) Actually scoring: 2 points for significant ischemia. He has ST changes.",
+        "elevations, new LBBB?). Here there are ST elevations, but not classic for STEMI?"
+      ]
+    },
+    "score": 6.125574588775635
+  },
+  {
+    "iteration": 19,
+    "selected_candidate": "ischemic changes - maybe 2 points? I'd give 2.\n\nAge: 39 years -> 0 points (age <45).",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ". But the ECG was not convincing for STEMI.",
+        ". The ECG wasn't convincing for STEMI, so maybe they considered it as definite ischemic changes (score 2).",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        "ischemic changes - maybe 2 points? I'd give 2.\n\nAge: 39 years -> 0 points (age <45).",
+        "ischemic. Likely 2 points.",
+        "but not classic STEMI? Might be considered 2 points. Let's assign 2.\n\nAge: 39 <40 => 0 points."
+      ]
+    },
+    "score": 6.1539716720581055
+  },
+  {
+    "iteration": 20,
+    "selected_candidate": "Age score: 0 if <45? Actually the scoring: 0 points for <45, 1 for 45-65, 2",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Risk factors: The patient is male, but no other factors (no diabetes, HTN, smoking, etc). So 0 points.",
+        "So 0.\n\nRisk factors: The patient is male (age <65, so male counts as risk factor?), but no other risk factors listed",
+        "Risk factors: none. The patient denied tobacco, alcohol, no family history, no prior medical history. So 0 points."
+      ],
+      "openai/gpt-oss-20b": [
+        "Age score: 0 if <45? Actually the scoring: 0 points for <45, 1 for 45-65, 2",
+        "So 0.\n\nRisk factors: He has no known risk factors? He has no diabetes, hypertension, high LDL, tobacco, family history.",
+        "So 0.\n\nRisk factors: He is 39, male, Kenyan, no tobacco, no alcohol, no diabetes, no hypertension?"
+      ]
+    },
+    "score": 6.132504940032959
+  },
+  {
+    "iteration": 21,
+    "selected_candidate": "for >65. So 0.\n\nRisk factors: He has no past medical history, no tobacco, alcohol, drug use, no family history.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "for >65? Wait, let me confirm.",
+        "for >65. So 0 here.\n\nRisk factors: the patient has no past medical history, no tobacco, alcohol, or illicit use,",
+        "for >65? Wait, I need to confirm."
+      ],
+      "openai/gpt-oss-20b": [
+        "for >65. So 0.\n\nRisk factors: He has no past medical history, no tobacco, alcohol, drug use, no family history.",
+        "for >65. So 0.\n\nRisk factors: He has none except being a truck driver but no smoking, no diabetes, no hypertension, no",
+        "for >65. So 0.\n\nRisk factors: The patient denies tobacco, alcohol, illegal drugs. No family history."
+      ]
+    },
+    "score": 6.02008581161499
+  },
+  {
+    "iteration": 22,
+    "selected_candidate": "But risk factors include hypertension, hyperlipidemia, diabetes, smoking, family history, female sex, age >45. He has none. So",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "So 0 risk factors.",
+        "So zero risk factors.",
+        "So 0 risk factors. Risk factors score: 0 points.\n\nTroponin: Elevated."
+      ],
+      "openai/gpt-oss-20b": [
+        "But he is a long-distance truck driver? That might be considered a risk factor for cardiovascular disease?",
+        "But risk factors include hypertension, hyperlipidemia, diabetes, smoking, family history, female sex, age >45. He has none. So",
+        "So no risk factors: 0.\n\nTroponin: troponin >10x ULN?"
+      ]
+    },
+    "score": 5.971385478973389
+  },
+  {
+    "iteration": 23,
+    "selected_candidate": "0 points.\n\nTroponins: Troponin 5.97 ng/mL, peaked 6.24 ng/mL.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "0.\n\nTroponin: elevated. HEART's T score is based on troponin elevation.",
+        "0 points.\n\nTroponin: Elevated. The HEART score uses the initial troponin.",
+        "0 points.\n\nTroponin: Elevated. The first troponin was 5.97 ng/mL, which is elevated."
+      ],
+      "openai/gpt-oss-20b": [
+        "0 points.\n\nTroponins: Troponin 5.97 ng/mL, peaked 6.24 ng/mL.",
+        "0.\n\nTroponin: Elevated troponin >5 ng/mL.",
+        "0.\n\nTroponin: Peak troponin 5.97-6.24 ng/mL."
+      ]
+    },
+    "score": 5.893571853637695
+  },
+  {
+    "iteration": 24,
+    "selected_candidate": "The HEART score's T component is based on troponin elevation:\n\n- 0: normal\n- 1: slightly elevated (elev",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The HEART score's T component is based on troponin elevation:\n\n- 0: normal\n- 1: slightly elevated (elev",
+        "The lab's upper limit of normal (ULN) is needed. The problem states \"troponins were found to be elevated\".",
+        "Normal is <0.04 (depends on the assay)."
+      ],
+      "openai/gpt-oss-20b": [
+        "That's high. Troponin scoring: 0 if normal; 1 if just above upper limit; 2 if >2x upper limit.",
+        "That is clearly elevated.",
+        "Elevated, >normal."
+      ]
+    },
+    "score": 5.8673319816589355
+  },
+  {
+    "iteration": 25,
+    "selected_candidate": "ated but < 2x ULN)\n- 2: moderately (2-10x ULN)\n- 3: high (>10x",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "ated but less than 3x upper limit)\n- 2: moderately elevated (3-10x)\n- 3: markedly elevated (>",
+        "ated but <2x upper limit)\n- 2: moderately elevated (2-10x)\n- 3: markedly elevated (>10",
+        "ated but <99th percentile)\n- 2: moderately elevated (above 99th percentile but <5x)\n- 3:"
+      ],
+      "openai/gpt-oss-20b": [
+        "ated but not >3x ULN?",
+        "ated but <3 \u00b5g/L?",
+        "ated but < 2x ULN)\n- 2: moderately (2-10x ULN)\n- 3: high (>10x"
+      ]
+    },
+    "score": 5.6880621910095215
+  },
+  {
+    "iteration": 26,
+    "selected_candidate": "ULN)\n\nWe don't have ULN normal for troponin; normative might be 0.04. 5.97 is ~150x",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "ULN)\n\nWait, but what is the upper limit of normal (ULN) for the troponin?",
+        "ULN)\n\nWhat's the ULN (upper limit of normal) for troponin?",
+        "ULN)\n\nThe normal upper limit (ULN) varies by assay."
+      ],
+      "openai/gpt-oss-20b": [
+        "ULN).\n\nAssuming ULN for troponin I maybe 0.04? The values 6 ng/mL is >10x.",
+        "ULN)\n\nWe don't have ULN normal for troponin; normative might be 0.04. 5.97 is ~150x",
+        "ULN)\n\nWe don't know ULN for this assay; normal may be around 0.04 ng/mL?"
+      ]
+    },
+    "score": 5.758976936340332
+  },
+  {
+    "iteration": 27,
+    "selected_candidate": "? Wait, standard troponin I (high sensitivity) ULN is 0.04, but regular assays might have different.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "ULN? Wait, but the troponin values vary by assay.",
+        "? Wait, standard troponin I (high sensitivity) ULN is 0.04, but regular assays might have different.",
+        "ULN? Wait, wait, the units here. Wait, the note says \"5.97 ng/mL\"."
+      ],
+      "openai/gpt-oss-20b": [
+        "ULN. That would be >10x. So 3 points.",
+        "ULN. So it's >10x normal. So 3 points.",
+        "ULN -> 3 points."
+      ]
+    },
+    "score": 5.784335136413574
+  },
+  {
+    "iteration": 28,
+    "selected_candidate": "Wait, the note says \"troponins were found to be elevated at 5.97 ng/mL and eventually peaked to 6.2",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The problem here is that the units here might be ng/mL, but in some systems, a troponin over 0.04 is elevated",
+        "Wait the note says \"troponins were found to be elevated at 5.97 ng/mL\".",
+        "Wait, the note says \"troponins were found to be elevated at 5.97 ng/mL and eventually peaked to 6.2"
+      ],
+      "openai/gpt-oss-20b": [
+        "But typical value: 0-0.04 normal.",
+        "But given 5.97 ng/mL is high; but how to score?",
+        "But it's high. So 3 points for high troponin."
+      ]
+    },
+    "score": 5.75749397277832
+  },
+  {
+    "iteration": 29,
+    "selected_candidate": ".\" That's clearly >10x ULN. So T = 3.\n\nAdd points: History 2 + ECG 2 + Age 0 +",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "4 ng/mL.\" Assuming that the troponin measured is a standard assay where the upper limit is 0.04, then 5.",
+        "4 ng/mL\".",
+        "4 ng/mL.\" Assuming the normal is <0.04, so 5.97 is way over 10x (since"
+      ],
+      "openai/gpt-oss-20b": [
+        "\". That is high. Usually high-sensitivity troponin I ULN 0.04 mg?",
+        ".\" That's clearly >10x ULN. So T = 3.\n\nAdd points: History 2 + ECG 2 + Age 0 +",
+        "ng/mL.\" That is high. So 3 points."
+      ]
+    },
+    "score": 5.723294734954834
+  },
+  {
+    "iteration": 30,
+    "selected_candidate": "Risk 0 + Troponin 3 = total 7?\n\nWait, HEART score total ranges from 0-13, with each",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Risk 0 + Troponin 3 = total 7?\n\nWait, HEART score total ranges from 0-13, with each",
+        "Risk 0 + T 3 \u2192 total 2+2+0+0+3=7?\n\nWait, HEART total is 0",
+        "Risk 0 + Troponin 3 \u2192 total 7?\n\nWait HEART score ranges from 0-15. The categories are:"
+      ],
+      "openai/gpt-oss-20b": [
+        "Risk 0 + Troponins 3 = 7.\n\nHEART score of 7. Let's produce answer accordingly.",
+        "Risk 0 + Troponin 3 = 7 total.",
+        "Risk 0 + Troponin 3. Total = 7 points."
+      ]
+    },
+    "score": 5.72502326965332
+  },
+  {
+    "iteration": 31,
+    "selected_candidate": "component's points:\n\nH: 0-3, E:0-2, A:0-3, R:0-3, T",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "component adding up. Wait, let me check again:\n\nWait HEART score components:\n\nH: 0-3 (3 points max)\n\nE:",
+        "component's points:\n\nH: 0-3, E:0-2, A:0-3, R:0-3, T",
+        "component max points:\n\nH:3, E:2, A:3, R:3, T:3. Wait, maybe I'm mis"
+      ],
+      "openai/gpt-oss-20b": [
+        "category max 3 points etc. Our sum: 2+2+0+0+3=7. So answer: 7. But",
+        "category max 3 points.",
+        "component score 0-3. Summation."
+      ]
+    },
+    "score": 5.640568733215332
+  },
+  {
+    "iteration": 32,
+    "selected_candidate": ":0-3. So total 0-13.\n\nWait, HEART score is calculated as H + E + A + R + T",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ":0-3. Wait, adding up: 3+2+3+3+3=14? Wait, maybe I'm mixing",
+        ":0-3. Wait, adding up max is 3+2+3+3+3=14, but maybe different.",
+        ":0-3. So total 0-13.\n\nWait, HEART score is calculated as H + E + A + R + T"
+      ],
+      "openai/gpt-oss-20b": [
+        ":0-3. Actually ECG is up to 3? I'm mistaken.",
+        ":0-3 => max 13.\n\nOur sum 2+2+0+0+3 = 7 points.",
+        ":0-3 ."
+      ]
+    },
+    "score": 5.592306137084961
+  },
+  {
+    "iteration": 33,
+    "selected_candidate": ", each ranges from 0-3? Actually the scoring system: \nHistory: 0 for non-anginal, 1 for moderately atypical",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", so the total here would be 2+2+0+0+3 =7. \n\nHEART score categories: \n\n- 0",
+        ". Let me confirm the components again:\n\nWait, maybe I made a mistake in the ECG component.",
+        ". So 2+2+0+0+3 = 7.\n\nWait but let me confirm each component again.\n\nH: History points."
+      ],
+      "openai/gpt-oss-20b": [
+        ", each ranges from 0-3? Actually the scoring system: \nHistory: 0 for non-anginal, 1 for moderately atypical",
+        ".",
+        "."
+      ]
+    },
+    "score": 5.610291481018066
+  },
+  {
+    "iteration": 34,
+    "selected_candidate": ", 2 for moderately typical, 3 for classic (total 0-3)\nECG: 0 (normal), 1 (non",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", 2 for moderately typical, 3 for classic.",
+        ", 2 moderately typical, 3 classic.",
+        ", 2 for moderately typical, 3 for classic (total 0-3)\nECG: 0 (normal), 1 (non"
+      ],
+      "openai/gpt-oss-20b": [
+        ", 2 for moderately typical, 3 for typical.",
+        ", 2 for moderately typical, 3 for classic angina.",
+        ", 2 for moderately typical, 3 for classic angina => each 0-3.\nECG: 0 non-diagnostic,"
+      ]
+    },
+    "score": 5.535008430480957
+  },
+  {
+    "iteration": 35,
+    "selected_candidate": "-specific), 2 (definite ischemic)\nAge: 0 (<45),1 (45-65),2 (>65)\nRisk factors:",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "-specific), 2 (definite ischemic changes), 3 (definite STEMI/NSTEMI) (0-3)\nAge:",
+        "-specific), 2 (definite ischemic changes), 3 (STEMI) (0-3? Wait some sources say ECG is up",
+        "-specific), 2 (definite ischemic changes), 3 (definite STEMI) but wait, in some sources, ECG max is"
+      ],
+      "openai/gpt-oss-20b": [
+        "-specific), 2 (definite ischemic)\nAge: 0 (<45),1 (45-65),2 (>65)\nRisk factors:",
+        "-specific), 2 (ST elevation or depression), 3 (STEMI?) I'm not completely sure. But typical points: ECG changes produce",
+        "-specific repolarisation disturbance), 2 (ischemia), 3 (ST elevation)."
+      ]
+    },
+    "score": 5.448580741882324
+  },
+  {
+    "iteration": 36,
+    "selected_candidate": "0 (none), 1 (1-2), 2 (3+)\nTroponin: 0 (normal),1 (sl",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "0 (none), 1 (1-2), 2 (3+)\nTroponin: 0 (normal),1 (sl",
+        "0 (no), 1 (1-2 risk factors), 2 (3+)\nTroponin: 0 (normal),1",
+        "0 (none),1 (1-2 risk factors), 2 (3+ risk factors)\nTroponin: 0 (normal),"
+      ],
+      "openai/gpt-oss-20b": [
+        "0 (none),1 (<2? ),2 (2-3?),3 (>3?). I'd approximate but need exact mapping.",
+        "0 (none), 1 (1-2), 2 (3-4), 3 ( >4)\nTroponin:",
+        "0 none, 1 1-2, 2 3-4, 3 >4\nTroponin: 0 normal"
+      ]
+    },
+    "score": 5.3784332275390625
+  },
+  {
+    "iteration": 37,
+    "selected_candidate": "ightly),2 (moderately),3 (high)\n\nBut I think age points may be 0 for <45,1 for 45-65",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "ightly elevated),2 (moderate),3 (high)\n\nWait, in some versions, the total maximum is 13 (3+2+",
+        "ightly elevated),2 (moderate),3 (high)\n\nWait, maybe different sources.",
+        "ightly),2 (moderately),3 (high)\n\nSo total max is 3+2+2+2+3=12?"
+      ],
+      "openai/gpt-oss-20b": [
+        "ightly),2 (moderately),3 (high)\n\nBut I think age points may be 0 for <45,1 for 45-65",
+        "ightly),2 (moderate),3 (severe)\n\nBut this scoring may vary. Need to confirm.",
+        "ight, < 2x ULN), 2 (2-10x ULN),3 (>10x ULN)\n\nThus each can be"
+      ]
+    },
+    "score": 5.3409552574157715
+  },
+  {
+    "iteration": 38,
+    "selected_candidate": ",2 for >65; risk factors maybe 0 none, 1 one or two, 2 3 or more. So our patient:",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", 2 for over 65? So patient's age is 39, so 0.\n\nRisk factors: none, so 0",
+        ", 2 for >65. So in this case, the patient is 39, so 0.\n\nRisk factors: 0.",
+        ", 2 for >65. So in this case, 0.\n\nRisk factors: 0 (no risk factors listed)."
+      ],
+      "openai/gpt-oss-20b": [
+        ",2 for >65; risk factor points 0-3, troponin 0-3.\n\nNow compute:\n\nH=2\nE",
+        ",2 for >65; risk factors maybe 0 none, 1 one or two, 2 3 or more. So our patient:",
+        ",2>65 . Wait some sources assign 0,1,2 for age?"
+      ]
+    },
+    "score": 5.344274997711182
+  },
+  {
+    "iteration": 39,
+    "selected_candidate": "Age 0, Risk 0, Troponin 3, ECG 2, History 2. Sum = 7.\n\nLet's produce JSON",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "age 39: 0, risk factors 0 (no), so:\n\nTotal points: H(2) + E(2) +",
+        "H:2 (moderately typical) or 3?\n\nWait, the description says pain was heaviness, sometimes sharp, lasted hours,",
+        "H: Let me re-look at history. The pain was described as heaviness, sometimes sharp. Duration several hours."
+      ],
+      "openai/gpt-oss-20b": [
+        "age 0, risk 0, troponin 3, ECG 2, history 2 => total 7.\n\nThus HEART score",
+        "Age 0, Risk 0, Troponin 3, ECG 2, History 2. Sum = 7.\n\nLet's produce JSON",
+        "age 0, risk 0, troponin 3 => total 7? Wait, if history 2, ecg 2,"
+      ]
+    },
+    "score": 5.34384822845459
+  },
+  {
+    "iteration": 40,
+    "selected_candidate": ".assistantfinal{\"step_by_step_thinking\":\"The HEART score is calculated from five elements: History (H), ECG (E",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".\n\nWait, but wait: the troponin part's scoring may depend on the exact multiplier.",
+        ":\n\nStep by step thinking:\n\nFirst, assess each component of HEART score.\n\nH: History.",
+        ". The answer is HEART score of 7. But I need to confirm each component again."
+      ],
+      "openai/gpt-oss-20b": [
+        ".assistantfinal{\"step_by_step_thinking\":\"1. Recall HEART score components: History (0\u20113), ECG (0",
+        ".assistantfinal{\"step_by_step_thinking\":\"The HEART score is calculated from five elements: History (H), ECG (E",
+        "with step-by-step reasoning and answer as \"7\".assistantfinal{\"step_by_step_thinking\":\"The HEART score is calculated by"
+      ]
+    },
+    "score": 5.3377861976623535
+  },
+  {
+    "iteration": 41,
+    "selected_candidate": "), Age (A), Risk factors (R), and Troponin (T).",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "), Age (A), Risk factors (R), and Troponin (T).",
+        "), Age (A), Risk factors (R), and Troponin (T).",
+        "), Age (A), Risk factors (R), and Troponin (T)."
+      ],
+      "openai/gpt-oss-20b": [
+        "), Age (A), Risk factors (R) and Troponin (T).",
+        "), Age (A), Risk factors (R), and Troponin (T).",
+        "), Age (A), Risk factors (R), and Troponin (T)."
+      ]
+    },
+    "score": 5.288669109344482
+  },
+  {
+    "iteration": 42,
+    "selected_candidate": "For this patient:\\n\\n- **History (H):** Pain described as heaviness with exertional worsening but no nitroglycerin relief.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\\n\\n1. **History (H):** The patient's chest pain was described as heaviness with exertional worsening, but nitroglycer",
+        "\\n\\n1. **History (H):** The patient's chest pain was described as heaviness with exertional worsening, but nitroglycer",
+        "For this patient:\\n\\n- **History (H):** Pain described as heaviness with exertional worsening but no nitroglycerin relief."
+      ],
+      "openai/gpt-oss-20b": [
+        "Each element is scored 0\u20113 (except ECG which goes 0\u20112).",
+        "Each element is scored from 0\u20133 for H, R, and T, and 0\u20132 for E; age is 0 if",
+        "Each element receives 0\u20113 points (ECG is 0\u20112)."
+      ]
+    },
+    "score": 5.272714614868164
+  },
+  {
+    "iteration": 43,
+    "selected_candidate": "This is moderately typical angina \u2192 2 points.\\n- **ECG (E):** Presence of 1\u20132\u202fmm ST elevations",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Moderately typical angina features (score 2).\\n- **ECG (E):** Shows ST elevations in I/aVL and T",
+        "This is moderately typical (2 points).\\n- **ECG (E):** Shows ST elevations and T-wave inversions consistent with ischemic",
+        "It is moderately typical (score 2).\\n- **ECG (E):** ST elevations in I/aVL, ST depression in a"
+      ],
+      "openai/gpt-oss-20b": [
+        "This is moderately typical angina \u2192 2 points.\\n- **ECG (E):** Presence of 1\u20132\u202fmm ST elevations",
+        "This corresponds to a *moderately typical* anginal presentation \u2192 2 points.\\n- **ECG (E):** ST changes (1",
+        "This represents moderately typical anginal pain, giving 2 points.\\n- **ECG (E):** Presence of 1\u20112 mm ST"
+      ]
+    },
+    "score": 5.249156951904297
+  },
+  {
+    "iteration": 44,
+    "selected_candidate": "in leads I/aVL with reciprocal changes \u2192 definite ischemic changes \u2192 2 points.\\n- **Age (A):** 39\u202fy",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "in I/aVL, ST depression in aVR, and T-wave inversion in inferior leads suggests definite ischemic changes \u2192 2 points.\\n-",
+        "in I/aVL, ST depression in aVR, and T-wave inversions suggests definite ischemic changes \u2192 2 points.\\n- **Age",
+        "in I/aVL, ST depression in aVR, and T-wave inversions suggests definite ischemic changes \u2192 2 points.\\n- **Age"
+      ],
+      "openai/gpt-oss-20b": [
+        "in leads I and aVL with associated changes \u2013 classified as definite ischemic changes \u2192 2 points.\\n- **Age (A):**",
+        "in leads I/aVL with reciprocal changes \u2192 definite ischemic changes \u2192 2 points.\\n- **Age (A):** 39\u202fy",
+        "in I/aVL, ST depression in aVR, and T\u2011wave inversions \u2192 definite ischemic change \u2192 2 points.\\n- **"
+      ]
+    },
+    "score": 5.208420753479004
+  },
+  {
+    "iteration": 45,
+    "selected_candidate": "\u2192 <45\u202fy \u2192 0 points.\\n- **Risk factors (R):** No past medical history, no smoking, alcohol, drugs",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "/o \u2192 <45 \u2192 0 points.\\n- **Risk factors (R):** No history of smoking, diabetes, hypertension, or family",
+        "/o (under 45) \u2192 0 points.\\n- **Risk factors (R):** No history of smoking, diabetes, hypertension,",
+        "/o \u2192 <45 \u2192 0 points.\\n- **Risk factors (R):** No known risk factors \u2192 0 points.\\n-"
+      ],
+      "openai/gpt-oss-20b": [
+        "\u2192 <45\u202fy \u2192 0 points.\\n- **Risk factors (R):** No past medical history, no smoking, alcohol, drugs",
+        "<\u202f45\u202f\u2192 0 points.\\n- **Risk factors (R):** No prior medical history, no smoking, no family cardiac",
+        "\u2192 <45\u202fy \u2192 0 points."
+      ]
+    },
+    "score": 5.131091594696045
+  },
+  {
+    "iteration": 46,
+    "selected_candidate": ", or family history of CAD \u2192 0 points.\\n- **Troponin (T):** Troponin elevated to 5.97",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ", or family history \u2192 0 points.\\n- **Troponin (T):** Elevated at 5.97\u20136.2",
+        ", or family history \u2192 0 points.\\n- **Troponin (T):** Elevated at 5.97\u20136.2",
+        ", or family history \u2192 0 points.\\n- **Troponin (T):** Elevated to 6.24\u202fng/mL"
+      ],
+      "openai/gpt-oss-20b": [
+        ", or family cardiac disease \u2192 0 points.\\n- **Troponin (T):** Elevation >10\u00d7 the upper limit of normal",
+        ", or family history of CAD \u2192 0 points.\\n- **Troponin (T):** Troponin elevated to 5.97",
+        ", family history \u2192 0 points.\\n- **Troponin (T):** Troponin I peaked >6\u202fng/mL ("
+      ]
+    },
+    "score": 5.041178226470947
+  },
+  {
+    "iteration": 47,
+    "selected_candidate": "\u20136.24\u202fng/mL (well >10\u202f\u00d7\u202fupper limit) \u2192 high troponin \u2192 3 points.\\n\\n",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\u20136.24\u202fng/mL (assuming normal <0.04\u202fng/mL) \u2192 >10\u00d7 upper limit \u2192",
+        "\u20136.24\u202fng/mL (significantly above normal) \u2192 3 points.\\n\\nTotal HEART score = 2 +",
+        "\u20136.24\u202fng/mL, which is >10\u00d7 upper limit of normal \u2192 3 points.\\n\\nTotal HEART"
+      ],
+      "openai/gpt-oss-20b": [
+        "ng/mL (well above the usual upper limit of normal, >10\u00d7 ULN for most assays) \u2192 3 points.\\n\\n",
+        "ng/mL and peaking at 6.24\u202fng/mL, far above the ULN \u2192 high troponin \u2192 3",
+        "\u20136.24\u202fng/mL (well >10\u202f\u00d7\u202fupper limit) \u2192 high troponin \u2192 3 points.\\n\\n"
+      ]
+    },
+    "score": 5.013703346252441
+  },
+  {
+    "iteration": 48,
+    "selected_candidate": "Total score = 2\u202f+\u202f2\u202f+\u202f0\u202f+\u202f0\u202f+\u202f3\u202f=\u202f7.\\n\\nA score",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Total HEART score: 2 + 2 + 0 + 0 + 3 = 7.\", \"answer\": \"7\"}\n</think>",
+        "Total HEART score = 2 (H) + 2 (E) + 0 (A) + 0 (R) +",
+        "Total HEART score: 2 (H) + 2 (E) + 0 (A) + 0 (R) +"
+      ],
+      "openai/gpt-oss-20b": [
+        "Adding these: 2\u202f(H)+2\u202f(E)+0\u202f(A)+0\u202f(R)+3\u202f(T)=7 points.\\n\\n**",
+        "Adding: 2\u202f(H)+2\u202f(E)+0\u202f(A)+0\u202f(R)+3\u202f(T)= **7**.\\n\\nThus",
+        "Total score = 2\u202f+\u202f2\u202f+\u202f0\u202f+\u202f0\u202f+\u202f3\u202f=\u202f7.\\n\\nA score"
+      ]
+    },
+    "score": 4.963462829589844
+  },
+  {
+    "iteration": 49,
+    "selected_candidate": "of 7 falls into the high-risk category (scores 3\u201313 suggest high risk of adverse cardiac events).\", \"answer\": \"7",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "of 7 falls into the high-risk category (\u22653 points for H, \u22653 for T, and total \u22653).\", \"answer\":",
+        "of 7 falls in the high-risk category (typically \u22653), indicating a high likelihood of major adverse cardiac events.\", \"answer\": \"7\"}",
+        "of 7 falls into the high-risk category (scores 3\u201313 suggest high risk of adverse cardiac events).\", \"answer\": \"7"
+      ],
+      "openai/gpt-oss-20b": [
+        "of 7 falls into the high\u2011risk category (score \u22657).\",\"answer\":\"7\"}",
+        "of 7 places the patient in the high\u2011risk category for major adverse cardiac events.\\n\", \"answer\":\"7\"}",
+        "of 7 places the patient in the high-risk category (score \u22657) for major adverse cardiac events.\\n\",\"answer\":\"7\"}"
+      ]
+    },
+    "score": 4.945383071899414
+  },
+  {
+    "iteration": 50,
+    "selected_candidate": "\"}\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score is calculated from five elements: History (H), ECG (E),",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score is calculated from five elements: History (H), ECG (E),",
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score is calculated from five elements: History (H), ECG (E),",
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"The HEART score is calculated from five elements: History (H), ECG (E),"
+      ],
+      "openai/gpt-oss-20b": [
+        "\"}",
+        "\"}",
+        "\"}"
+      ]
+    },
+    "score": 4.859600067138672
+  }
+]
