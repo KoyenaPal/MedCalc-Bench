@@ -230,7 +230,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    #df = df.sample(n=100, random_state=42)
     merged_thought_data = None
     if ("ensembled_thought" in args.thought_type) or ("transferred_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)

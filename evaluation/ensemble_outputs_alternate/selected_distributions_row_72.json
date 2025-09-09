@@ -1,164 +1,38 @@
 [
   {
     "iteration": 0,
-    "selected_candidate": "analysisThe formula: corrected Na = Na + 1.6*(glucose-100)/100. Glucose 129, diff 29 \u2192 1.6*0.29",
+    "selected_candidate": "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (120 + 2*75)/3 =210",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "Okay, let's tackle this question. The patient's serum sodium is given as 139 mEq/L, but we need to find the corrected sodium concentration.",
-        "Okay, let's tackle this question. The task is to find the patient's corrected sodium concentration in mEq/L.",
-        "Okay, so the patient's lab results show a serum sodium of 139 mEq/L. The question is asking for the corrected sodium concentration."
+        "Okay, let's tackle this question.",
+        "Okay, let's see. The user is asking for the patient's mean arterial pressure (MAP) in mm Hg. The patient note provides",
+        "Okay, so I need to find the patient's mean arterial pressure (MAP) based on the given information."
       ],
       "openai/gpt-oss-20b": [
-        "analysisThe formula: corrected Na = Na + 1.6*(glucose-100)/100. Glucose 129, diff 29 \u2192 1.6*0.29",
-        "analysisWe need corrected sodium given normal sodium 139 but patient has hypo? Actually 139 is normal. Correction for hyperglycemia or hypo?",
-        "analysisWe need corrected sodium. We have serum Na+ 139 mEq/L. Need correction for glucose? Glucose 129 mg/dL (normal)."
+        "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (120 + 2*75)/3 =210",
+        "analysisWe need mean arterial pressure from vital signs given: blood pressure 120/75 mmHg. MAP = (125+2*75",
+        "analysisWe need MAP = (systolic + 2*diastolic)/3. SBP 120, DBP 75"
       ]
     },
-    "score": 7.835196495056152
+    "score": 7.306612968444824
   },
   {
     "iteration": 1,
-    "selected_candidate": "=0.464. ~0.5. ~0.49. 202? 98? Wait. Sodium 139. So corrected 139 +0.5=139.5 approx",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "\u2248 0.464. 139 +0.464= 139.464. Round to 139.5 or 1",
-        "=0.464. So 139 + 0.464\u2248139.46. But wait, maybe hyperglycemic correction?",
-        "= 0.464. 139 + 0.464 = 139.464 \u2248 139.5 mEq/L."
-      ],
-      "openai/gpt-oss-20b": [
-        "=0.464. add to 139 => 139.04 ~139.1. need mEq/L.assistantfinal{\"step_by_step_thinking\":\"The corrected sodium",
-        "=0.464. ??",
-        "=0.464. ~0.5. ~0.49. 202? 98? Wait. Sodium 139. So corrected 139 +0.5=139.5 approx"
-      ]
-    },
-    "score": 7.870815277099609
-  },
-  {
-    "iteration": 2,
-    "selected_candidate": ". But wait, wait. The formula is for hyperglycemia. Since the glucose is 129, which is above normal (normal ~70-100).",
+    "selected_candidate": "/3=70\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 120/7",
     "selected_model_index": "Qwen/QwQ-32B",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        ". But wait, wait. The formula is for hyperglycemia. Since the glucose is 129, which is above normal (normal ~70-100).",
-        ". Maybe more precise calculation.",
-        ". Wait, the formula might be 1.6*(glucose/100 -1) ? Let me recall."
+        "/3=70\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 120/7",
+        "/3=70\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 120/7",
+        "/3=70\n\nOkay, let me see. The question is asking for the patient's mean arterial pressure (MAP) in mm Hg"
       ],
       "openai/gpt-oss-20b": [
-        "139.5 mEq/L.assistantfinal{\"step_by_step_thinking\":\"The corrected serum sodium is calculated with the formula:\\n\\n\\(\\text{Corrected Na",
-        ". Need mEq/L.",
-        "139.5 mEq/L.assistantfinal{\"step_by_step_thinking\":\"The correction for hyperglycemia is made with the formula:\\n\\neCorrected Na ="
+        "/3=70 mmHg.assistantfinalcommentaryWe need to compute MAP. Use formula (SBP + 2",
+        "/3? Actually 120+150=270 /3=90. Return.assistantfinal{\"step_by_step_thinking\":\"",
+        "/3 =70 mm Hg.assistantfinal{\"step_by_step_thinking\":\"Mean arterial pressure (MAP) is calculated as ("
       ]
     },
-    "score": 7.538127422332764
-  },
-  {
-    "iteration": 3,
-    "selected_candidate": "Use formula: 139 + 1.6*(129-100)/100 = 139+1.6*29/100=139+0.464=139.46. Rounded to",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "The formula is applied when glucose is elevated. The formula adds to the sodium.",
-        "So the correction applies.",
-        "The correction applies when glucose is high. So, the formula: 1.6*(glucose -100)/100. So (129-100)=2"
-      ],
-      "openai/gpt-oss-20b": [
-        "So small correction.",
-        "Slight hyper. So corrected increases slightly. So answer ~139.5 mEq/L. Need step.assistantcommentaryWe need corrected sodium due to hyperglycemia.",
-        "Use formula: 139 + 1.6*(129-100)/100 = 139+1.6*29/100=139+0.464=139.46. Rounded to"
-      ]
-    },
-    "score": 6.860083103179932
-  },
-  {
-    "iteration": 4,
-    "selected_candidate": "139.5 mEq/L.assistantfinal{\"step_by_step_thinking\":\"The correction for hyperglycemia is made with the formula:\\n\\neCorrected Na =",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "139.5 or 139.5 mEq/L.",
-        "139.5. The answer is approximately 139.5. But maybe they want exact? Let me check the exact calculation.",
-        "one decimal?"
-      ],
-      "openai/gpt-oss-20b": [
-        "139.5 mEq/L.assistantfinal{\"step_by_step_thinking\":\"The corrected serum sodium is calculated with the formula:\\n\\n\\[\\n\\text{Correct",
-        "one decimal? 139.5.assistantfinal{\"step_by_step_thinking\":\"1. The patient\u2019s serum sodium is 139\u202fmEq/L.",
-        "139.5 mEq/L.assistantfinal{\"step_by_step_thinking\":\"The correction for hyperglycemia is made with the formula:\\n\\neCorrected Na ="
-      ]
-    },
-    "score": 7.222946643829346
-  },
-  {
-    "iteration": 5,
-    "selected_candidate": "Na + 1.6 \u00d7 (glucose \u2013 100)/100.\\n\\nThe patient\u2019s serum sodium is 139\u202fmEq/L and her glucose is 129\u202fmg/dL",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "Measured Na (mEq/L) + 1.6 \u00d7 (Serum glucose (mg/dL) / 100 - 2).\\n\\nGiven the patient's sodium of",
-        "Measured Na (mEq/L) + 1.6 \u00d7 (Serum glucose (mg/dL) / 100 - 2)\\n\\nPlugging in values:\\n",
-        "Measured Na + (1.6 \u00d7 (Glucose - 100)) / 100\\n\\nGiven:\\n- Measured Na: 139 mEq/L"
-      ],
-      "openai/gpt-oss-20b": [
-        "Na + 1.6 \u00d7 (glucose \u2013 100)/100.\\n\\nThe patient\u2019s serum sodium is 139\u202fmEq/L and her glucose is 129\u202fmg/dL",
-        "Na + 1.6 \u00d7 (glucose\u2212100)/100.\\n\\nThe patient\u2019s glucose = 129 mg/dL.",
-        "Na + [1.6 \u00d7 (glucose\u00a0\u2013\u00a0100)] \u00f7 100.\\n\\nValues:\\n- Measured sodium = 139\u202fmEq/L\\n- Glucose"
-      ]
-    },
-    "score": 6.787633895874023
-  },
-  {
-    "iteration": 6,
-    "selected_candidate": ".\\n\\nPlugging in:\\n139 + 1.6 \u00d7 (129 \u2013 100)/100 = 139 + 1.6 \u00d7 29/100 = 139 +",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        ".\\n\\nCalculations:\\n- Glucose difference: 129 \u2013 100 = 29\\n- Multiply by 1.6: 1.6 \u00d7",
-        ".",
-        "."
-      ],
-      "openai/gpt-oss-20b": [
-        ".\\n\\nPlugging in:\\n139 + 1.6 \u00d7 (129 \u2013 100)/100 = 139 + 1.6 \u00d7 29/100 = 139 +",
-        ".\\n\\n1. Glucose difference from 100\u202fmg/dL = 129 \u2013 100 = 29\u202fmg/dL.\\n2. 1.6 \u00d7 29",
-        ".\\n\\nGlucose\u2011deviation = 129 \u2013 100 = 29\u202fmg/dL.\\n\\nCorrection factor = 1.6 \u00d7 29 / 100 = 0"
-      ]
-    },
-    "score": 6.094786167144775
-  },
-  {
-    "iteration": 7,
-    "selected_candidate": "0.464 = 139.464. \\n\\nRounded to one decimal place, the corrected sodium is about 139.5\u202fmEq/L.\\n\\nThus, the corrected sodium",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "0.464 \u2248 139.46\u202fmEq/L.\\n\\nRounded to one decimal place, the corrected sodium is approximately 139.",
-        "0.464 = 139.464 mEq/L.\\n\\nRounded, the corrected sodium is approximately 139.5 mEq/L.\",\"answer",
-        "0.464 = 139.464.\\n\\nRounded to one decimal place, the corrected sodium is approximately 139.5\u202fmEq"
-      ],
-      "openai/gpt-oss-20b": [
-        "0.464 \u2248 139.5\u202fmEq/L.\\n\\nThus the corrected sodium concentration is about 139.5\u202fmEq/L.\",\"answer\":\"139.5\"}",
-        "0.464 \u2248 139.5\u202fmEq/L.\\n\\nThus, the corrected sodium concentration is about 139.5\u202fmEq/L.\",\"answer\":\"\u2248139.5",
-        "0.464 = 139.464. \\n\\nRounded to one decimal place, the corrected sodium is about 139.5\u202fmEq/L.\\n\\nThus, the corrected sodium"
-      ]
-    },
-    "score": 5.881139278411865
-  },
-  {
-    "iteration": 8,
-    "selected_candidate": "concentration is approximately 139.5 mEq/L.\",\"answer\":\"139.5\"}\n</think>\n\n{\"step_by_step_thinking\": \"The correction for hyperglycemia is made",
-    "selected_model_index": "Qwen/QwQ-32B",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "concentration is approximately 139.5 mEq/L.\",\"answer\":\"139.5\"}\n</think>\n\n{\"step_by_step_thinking\": \"The correction for hyperglycemia is made",
-        "concentration is approximately 139.5 mEq/L.\",\"answer\":\"139.5\"}\n</think>\n\nThe patient's corrected sodium concentration is calculated using the formula that adjusts for hyperglyc",
-        "concentration is 139.5 mEq/L.\", \"answer\": \"139.5\"}\n</think>\n\n{\"step_by_step_thinking\": \"The correction for hyperglycemia is"
-      ],
-      "openai/gpt-oss-20b": [
-        "concentration is approximately 139.5\u202fmEq/L.\", \"answer\":\"139.5\"}",
-        "concentration is 139.5\u202fmEq/L.\", \"answer\":\"139.5\"}",
-        "concentration is\\n\\nanswer: **139.5\u202fmEq/L**\",\"answer\":\"139.5\"}"
-      ]
-    },
-    "score": 5.70794153213501
+    "score": 6.851136207580566
   }
 ]

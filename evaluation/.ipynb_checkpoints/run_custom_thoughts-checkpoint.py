@@ -73,7 +73,16 @@ def extract_thinking(answer, model_name="qwen"):
     if match:
         return match.group(1)
     else:
-        return "No Thoughts"
+        if "openthinker" in model_name.lower():
+            match = re.search(r'<\|begin_of_thought\|>(.*?)', answer, re.DOTALL)
+        elif "gpt-oss" in model_name.lower():
+            match = re.search(r'assistantanalysis(.*?)', answer, re.DOTALL)
+        else:
+            match = re.search(r'<think>(.*?)', answer, re.DOTALL)
+        if match:
+            return match.group(1)
+        else:
+            return "No Thoughts"
 
 def extract_answer(answer, calid):
     if "gpt-oss" in model_name.lower():
@@ -221,7 +230,7 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    #df = df.sample(n=100, random_state=42)
     merged_thought_data = None
     if ("ensembled_thought" in args.thought_type) or ("transferred_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)

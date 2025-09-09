@@ -1,236 +1,92 @@
 [
   {
     "iteration": 0,
-    "selected_candidate": "analysisWe need due date. LMP 04/09/2021. 28 days normal, but cycle length 25 days. Naegele's adds 280 days =",
+    "selected_candidate": "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (125 + 2*70)/3 = (",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "Okay, let's tackle this problem step by step. The user wants to find the estimated due date using Naegele's Rule. The given information is the last menstrual period (LMP",
-        "Okay, let me try to figure this out. The patient's last menstrual period (LMP) is 04/09/2021, and her cycle length is",
-        "Okay, so I need to figure out the estimated due date using Naegele's Rule. Let me recall how that works."
+        "Okay, let's tackle this question.",
+        "Okay, let's tackle this question.",
+        "Okay, let me try to figure out the patient's mean arterial pressure from the given note. The user is asking for the mean arterial pressure ("
       ],
       "openai/gpt-oss-20b": [
-        "analysisWe need add 280 days to LMP but adjust for cycle length? The due date approximate: LMP + (280 - (cycle length - 28)).",
-        "analysisWe need due date. LMP 04/09/2021. 28 days normal, but cycle length 25 days. Naegele's adds 280 days =",
-        "analysisWe need due date. LMP 04/09/2021. 280 days later normally."
+        "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (125 + 2*70)/3 = (",
+        "analysisWe need mean arterial pressure from blood pressure reading given: 125/70 mmHg. MAP = diastolic + (syst",
+        "analysisWe need MAP. MAP = DBP + (SBP-DBP)/3. SBP 125, DBP 70"
       ]
     },
-    "score": 16.583768844604492
+    "score": 7.721215724945068
   },
   {
     "iteration": 1,
-    "selected_candidate": "40 weeks from LMP. But adjust for cycle length difference: If cycle shorter than 28, due date is earlier by (28 - cycle length)*7? Actually due date is LMP",
+    "selected_candidate": "125+140)/3=265/3=88.333~88. The answer 88 mmHg.assistantfinal{\"",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "40 weeks. But if cycle is regular but not 28, adjust?",
-        "40 weeks. But for cycle length not 28, adjust? Wait, standard Naegele's uses LMP + 280 days assuming 28-day cycle.",
-        "40 weeks. But since cycle is shorter, adjust?"
+        "125+140)/3 = 265/3 \u2248 88.33 mmHg.\n\nOkay,",
+        "125+140)/3 = 265/3 \u2248 88.33 mmHg.\n</think>",
+        "125+140)/3 = 265/3 \u2248 88.33 mmHg.\n</think>"
       ],
       "openai/gpt-oss-20b": [
-        "40 weeks from LMP. But adjust for cycle length difference: If cycle shorter than 28, due date is earlier by (28 - cycle length)*7? Actually due date is LMP",
-        "40 weeks. For different cycle length, adjust by adding cycle length - 28 days? Actually due date = LMP + 280 days - (cycle length -28).",
-        "40 weeks. Adjust for cycle length: subtract 3 days (28-25)."
+        "125+140)/3=265/3=88.333~88. The answer 88 mmHg.assistantfinal{\"",
+        "125 + 140)/?",
+        "125+140)/3=265/3\u224888.33 => 88 mmHg.assistantfinal{\"step_by_step_th"
       ]
     },
-    "score": 15.474299430847168
+    "score": 7.623453617095947
   },
   {
     "iteration": 2,
-    "selected_candidate": "+ 280 - (28-cycle_length)*7? Wait formula: For cycles shorter than 28, due date is earlier by (28 - cycle length)*7? Let's compute: difference =",
+    "selected_candidate": "step_by_step_thinking\":\"MAF: systolic 125, diastolic 70. Use formula (SBP+2*DBP",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "plus 280 days, but if cycle length isn't 28, then adjust. Wait, the standard Naegele's assumes 28-day cycle.",
-        "+ cycle length days. Wait, Naegele's is LMP + 280 days (40 weeks).",
-        "+ 280 days, but if cycle length varies, we adjust."
+        "step_by_step_thinking\": \"The patient's blood pressure is given as 125/70 mmHg. To calculate the mean",
+        "step_by_step_thinking\": \"The patient's blood pressure is given as 125/70 mmHg. To calculate the mean",
+        "step_by_step_thinking\": \"The patient's blood pressure is given as 125/70 mmHg. To calculate the mean"
       ],
       "openai/gpt-oss-20b": [
-        "+ 280 - (28-cycle_length)*7? Wait formula: For cycles shorter than 28, due date is earlier by (28 - cycle length)*7? Let's compute: difference =",
-        "+ 280 days minus (28 - cycle)*7? Wait formula: Adjust due date by adding or subtracting (28 - cycle length)*7? For cycle length shorter, ovulation earlier,",
-        "+ 280 days regardless of cycle length? The cycle length refers to ovulation day offset."
+        "step_by_step_thinking\":\"MAF: systolic 125, diastolic 70. Use formula (SBP+2*DBP",
+        "step_by_step_thinking\":\"The mean arterial pressure is calculated as (systolic blood pressure + 2 \u00d7 diastolic blood pressure)/3",
+        "step_by_step_thinking\":\"Mean arterial pressure is calculated as (systolic pressure + 2\u00d7diastolic pressure)/3. Using the"
       ]
     },
-    "score": 13.61996841430664
+    "score": 7.651660442352295
   },
   {
     "iteration": 3,
-    "selected_candidate": "28-25=3 days. So due date earlier by 3*7=21 days. So standard due date: LMP + 280 days. LMP 04/09/",
+    "selected_candidate": ")/3 => (125+140)/3=265/3\u224888.33 mmHg. Rounded to nearest whole number 88 mmHg.\",\"",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "28-25=3 days. So subtract 3 days from standard Naegele's date.\n\nWait, standard Naegele's assumes 28-day cycle.",
-        "28 -25=3 days. So subtract 3 days from standard due date.\n\nFirst compute standard Naegele's: LMP 04/09/20",
-        "28 -25 = 3 days. So subtract 3 days from the standard due date. \n\nFirst, standard Naegele's is LMP + 280 days"
+        ")/3. (125+140)/3=265/3\u224888.33. Rounded to 8",
+        ")/3. (125+140)/3=265/3\u224888.3, rounded to 88",
+        ")/3. (125+140)/3=265/3\u224888.3, so 88 mm"
       ],
       "openai/gpt-oss-20b": [
-        "3 days (28-25). earlier by 3*7=21 days? Wait for shorter cycle, ovulation earlier, so due date earlier?",
-        "28-25=3 days. So due date earlier by 3*7=21 days. So LMP+280 days= due date?",
-        "28-25=3 days. So due date earlier by 3*7=21 days. So standard due date: LMP + 280 days. LMP 04/09/"
+        ")/3 => (125+140)/3=265/3\u224888.33 mmHg. Rounded to nearest whole number 88 mmHg.\",\"",
+        ")/3. Compute: 125+140=265; divide by 3 \u2248 88.3 \u2192 round to nearest whole number 88",
+        ")/3 => 125+140=265. 265/3\u224888.3. Rounding to nearest integer gives 88 mmHg.\",\""
       ]
     },
-    "score": 10.802454948425293
+    "score": 7.401578426361084
   },
   {
     "iteration": 4,
-    "selected_candidate": "2021 plus 280 days =? 4/9/2021 + 280 days (~9.33 months). Let's compute: 2021 is not leap?",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "2021 plus 280 days is 01/06/2022. Then subtract 21 days?",
-        "2021. 280 days is 40 weeks. Let me calculate standard Naegele first.",
-        "2021. Adding 280 days: 04/09/2021 + 280 days. Let's compute that first."
-      ],
-      "openai/gpt-oss-20b": [
-        "2021 +280 days = compute. 2021-04-09 to 2021-? 280 days is 9 months 20 days?",
-        "2021. Add 280 days: 09 days left in Apr? April 30 days, so 21 days left after 9th?",
-        "2021 plus 280 days =? 4/9/2021 + 280 days (~9.33 months). Let's compute: 2021 is not leap?"
-      ]
-    },
-    "score": 9.959429740905762
-  },
-  {
-    "iteration": 5,
-    "selected_candidate": "2020 leap, 2021 not. 4/9 + 280 days: 2021 days: April 9 to end of April: 30-9=21 days.",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "2021/4=505.25 so not leap. So 28 days in feb. Let me count step by step. Alternatively, maybe the adjustment is",
-        "2021/4=505.25, so not leap. April has 30 days, so April 9 to May 9 is 30 days.",
-        "2021 not leap. Let me calculate step by step:\n\nApril has 30 days. From 4/9 to 4/30: 21 days. Then"
-      ],
-      "openai/gpt-oss-20b": [
-        "2020 leap, 2021 not. 4/9 + 280 days: 2021 days: April 9 to end of April: 30-9=21 days.",
-        "2021 is not leap. Add 280 days.\n\nFrom 4/9 to 4/30: 21 days left in April?",
-        "2021 not leap. April 9. Add 280 days: April has 30 days after 9? Days remaining in April: 21 days (30-9)."
-      ]
-    },
-    "score": 9.196691513061523
-  },
-  {
-    "iteration": 6,
-    "selected_candidate": "Remaining days 280-21=259. May 31 -> 259-31=228. June 30 ->198. July 31 ->167. Aug 31 ->136. Sep",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "May has 31, June 30, July 31, Aug 31, Sep 30, Oct 31, Nov 30, Dec 31",
-        "May (31), June (30), July (31), August (31), September (30), October (31), November (30), December (31)...",
-        "May 31, June30, July31, August31, September30, October31, November30, December31. Let me do step by step:"
-      ],
-      "openai/gpt-oss-20b": [
-        "May 31, June 30, July 31, Aug 31, Sep 30, Oct 31, Nov 30, Dec 31? Wait we just need 280 days total",
-        "Remaining days 280-21=259. May 31 -> 259-31=228. June 30 ->198. July 31 ->167. Aug 31 ->136. Sep",
-        "May 31, June30, July31, Aug31, Sep30, Oct31, Nov30, Dec31. Sum: 21+31+30+31+31+30+"
-      ]
-    },
-    "score": 7.882082462310791
-  },
-  {
-    "iteration": 7,
-    "selected_candidate": "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Then January 2022 14 days -> Jan 14, 2022.",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Then 14 days into next year",
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. So Jan 14, 2",
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Jan 14, 20"
-      ],
-      "openai/gpt-oss-20b": [
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Jan 2022: 14 days?",
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Jan 31 2022 ->?",
-        "30 ->106. Oct 31 ->75. Nov 30 ->45. Dec 31 ->14. Then January 2022 14 days -> Jan 14, 2022."
-      ]
-    },
-    "score": 6.894465923309326
-  },
-  {
-    "iteration": 8,
-    "selected_candidate": "So standard due date: 01/14/2022. Adjust earlier by 21 days for short cycle: 01/14 minus 21 days = 12/24/2021.",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "But that's standard due date (assuming 28-day cycle).",
-        "So standard due date is 1/14/2022. Now adjust for cycle length: since her cycle is 25 days (3 days shorter than 28), subtract",
-        "But standard due date is 40 weeks, so 04/09/2021 + 280 days = Jan 15, 2022?"
-      ],
-      "openai/gpt-oss-20b": [
-        "So standard due date: 01/14/2022. Adjust earlier by 21 days for short cycle: 01/14 minus 21 days = 12/24/2021.",
-        "So standard due date: 01/14/2022. Adjust earlier by 21 days gives due date: Jan 14 minus 21 days = December 24, 2021. Wait",
-        "So standard due date Jan 14, 2022. Adjust earlier by 21 days gives Dec 24, 2021? Wait subtract 21 days: Jan 14 minus 21 days"
-      ]
-    },
-    "score": 6.384958744049072
-  },
-  {
-    "iteration": 9,
-    "selected_candidate": "So due date 12/24/2021. Let's output.assistantfinal{\"step_by_step_thinking\":\"LMP = 04/09/2021. Standard Na",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "But wait, is that correct? Wait some sources say subtract (28 - cycle length)*7? Wait maybe it's subtract (28 - cycle length) days?",
-        "Wait that can't be right. Wait maybe I made a mistake. Let me recalculate:\n\nWait maybe the adjustment is different.",
-        "But wait, is that correct? Alternatively, maybe the adjustment is adding 7 days per 2 days shorter?"
-      ],
-      "openai/gpt-oss-20b": [
-        "So due date 12/24/2021. Let's output.assistantfinal{\"step_by_step_thinking\":\"LMP = 04/09/2021. Standard Na",
-        "So answer 12/24/2021.assistantfinal{\"step_by_step_thinking\":\"1. Convert the LMP of 04/09/2021 into a base",
-        "So answer 12/24/2021. Output JSON.assistantfinal{\"step_by_step_thinking\":\"1. Calculate the standard due date by adding 280 days (40"
-      ]
-    },
-    "score": 6.538414001464844
-  },
-  {
-    "iteration": 10,
-    "selected_candidate": "egele\u2019s due date = LMP + 280 days \u2192 01/14/2022. Cycle length is 25\u202fdays, 3\u202fdays shorter than the 28\u2011day",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "egle's Rule adds 280 days (40 weeks), resulting in 01/14/2022. However, since the patient's cycle length is 2",
-        "egle's adds 280 days (40 weeks) to LMP. For a 25-day cycle, subtract (28-25)*7 = 21 days",
-        "egle's Rule adds 280 days to LMP, giving 01/14/2022. Since the cycle length is 25 days (3 days shorter"
-      ],
-      "openai/gpt-oss-20b": [
-        "egele\u2019s due date = LMP + 280 days \u2192 01/14/2022. Cycle length is 25\u202fdays, 3\u202fdays shorter than the 28\u2011day",
-        "egele\u2019s rule: LMP + 280 days (40 weeks).",
-        "egele's adds 280 days \u2192 01/14/2022. Cycle is 3 days shorter than 28, shifting due date 21 days earlier."
-      ]
-    },
-    "score": 6.151158332824707
-  },
-  {
-    "iteration": 11,
-    "selected_candidate": "reference \u2192 shift due date earlier by 3\u202f\u00d7\u202f7 = 21\u202fdays. 01/14/2022 minus 21\u202fdays = 12/24/2021.\",\"",
-    "selected_model_index": "openai/gpt-oss-20b",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "standard.",
-        "standard.",
-        "standard."
-      ],
-      "openai/gpt-oss-20b": [
-        "norm. For each day shorter, the due date moves 7\u202fdays earlier. 3\u202fdays \u00d7\u202f7\u202fdays\u202f=\u202f21\u202fdays earlier.",
-        "reference \u2192 shift due date earlier by 3\u202f\u00d7\u202f7 = 21\u202fdays. 01/14/2022 minus 21\u202fdays = 12/24/2021.\",\"",
-        "norm, so due date is 3\u00d77\u202f=\u202f21\u202fdays earlier: 01/14/2022\u00a0\u2013\u00a021\u202fdays = 12/24/2021.\",\""
-      ]
-    },
-    "score": 5.914923667907715
-  },
-  {
-    "iteration": 12,
-    "selected_candidate": "answer\":\"12/24/2021\"}\n</think>\n\n{\"step_by_step_thinking\": \"LMP = 04/09/2021. Standard N",
+    "selected_candidate": "answer\":\"88\"}\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 125/70",
     "selected_model_index": "Qwen/QwQ-32B",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "answer\":\"12/24/2021\"}</think>",
-        "answer\":\"12/24/2021\"}\n</think>\n\n{\"step_by_step_thinking\": \"LMP = 04/09/2021. Standard N",
-        "answer\":\"12/24/2021\"}\n</think>\n\n{\"step_by_step_thinking\": \"LMP = 04/09/2021. Standard N"
+        "answer\":\"88\"}\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 125/70",
+        "answer\":\"88\"}\n\nWait, but in the note, it says blood pressure 125/70 mmHg. So SBP",
+        "answer\":\"88\"}\n</think>\n\n{\"step_by_step_thinking\": \"The patient's blood pressure is given as 125/70"
       ],
       "openai/gpt-oss-20b": [
-        "answer\":\"12/24/2021\"}",
-        "answer\":\"12/24/2021\"}",
-        "answer\":\"12/24/2021\"}"
+        "answer\":\"88\"}",
+        "answer\":\"88\"}",
+        "answer\":\"88\"}"
       ]
     },
-    "score": 5.695085048675537
+    "score": 7.166805267333984
   }
 ]

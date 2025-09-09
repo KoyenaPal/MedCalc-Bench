@@ -4,12 +4,61 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
 import nltk
 import re
+import argparse
 
 nltk.download("punkt")
 from nltk.tokenize import sent_tokenize
 from accelerate import Accelerator
 
 accelerator = Accelerator(mixed_precision="bf16")
+# -----------------------
+# Argument Parser
+# -----------------------
+parser = argparse.ArgumentParser(description="Process input file and generate output without answers.")
+parser.add_argument(
+    "--input_file",
+    type=str,
+    required=True,
+    help="Path to the input file (.csv or .jsonl)"
+)
+parser.add_argument(
+    "--output_file",
+    type=str,
+    default=None,
+    help="Path for the output file (optional). If not provided, a default path will be used."
+)
+
+args = parser.parse_args()
+input_file = args.input_file
+input_basename, input_ext = os.path.splitext(os.path.basename(input_file))
+input_ext = input_ext.lower()
+
+# Validate input extension
+if input_ext not in (".jsonl", ".csv"):
+    raise ValueError(f"Unsupported file type: {input_ext}")
+
+# Determine output file
+if args.output_file:
+    output_file = args.output_file
+else:
+    output_folder = "without_answer/outputs"
+    os.makedirs(output_folder, exist_ok=True)  # Create folder if it doesn't exist
+    output_file = os.path.join(output_folder, f"{input_basename}_without_answer{input_ext}")
+
+print(f"Input file: {input_file}")
+print(f"Output file: {output_file}")
+
+
+
+
+
+
+
+
+
+
+
+
 def extract_think_text(text):
     match = re.search(r"<think>(.*?)(</think>|$)", text, flags=re.DOTALL | re.IGNORECASE)
     if match:
@@ -26,29 +75,29 @@ def normalize_text(text):
 # -----------------------
 # Config
 # -----------------------
-input_file = "ensemble_outputs_alternate/merged_output.csv"  # or .csv
-input_basename, input_ext = os.path.splitext(input_file)
-input_ext = input_ext.lower()
 
-if input_ext not in (".jsonl", ".csv"):
-    raise ValueError(f"Unsupported file type: {input_ext}")
+# input_file = "ensemble_outputs_alternate/merged_output.csv"  # or .csv
+# input_basename, input_ext = os.path.splitext(input_file)
+# input_ext = input_ext.lower()
 
-# Output file name will match input type
-#output_file = f"without_answer/{input_basename}_without_answer{input_ext}"
-output_file = f"without_answer/outputs/merged_output_alternate_without_answer{input_ext}"
+# if input_ext not in (".jsonl", ".csv"):
+#     raise ValueError(f"Unsupported file type: {input_ext}")
 
-# -----------------------
-# Load Data
-# -----------------------
-if input_ext == ".jsonl":
-    df = pd.read_json(input_file, lines=True)
-elif input_ext == ".csv":
-    df = pd.read_csv(input_file)
+# # Output file name will match input type
+# #output_file = f"without_answer/{input_basename}_without_answer{input_ext}"
+# output_file = f"without_answer/outputs/merged_output_alternate_without_answer{input_ext}"
+
+# # -----------------------
+# # Load Data
+# # -----------------------
+# if input_ext == ".jsonl":
+#     df = pd.read_json(input_file, lines=True)
+# elif input_ext == ".csv":
+#     df = pd.read_csv(input_file)
 
 # -----------------------
 # Model setup
 # -----------------------
-#model_name = "mistralai/Ministral-8B-Instruct-2410"
 model_name = "openai/gpt-oss-20b"
 tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="/workspace/hf", torch_dtype=torch.bfloat16)
 model = AutoModelForCausalLM.from_pretrained(
@@ -137,3 +186,4 @@ elif input_ext == ".csv":
     df.to_csv(output_file, index=False)
 
 print(f"Saved processed file to: {output_file}")
+

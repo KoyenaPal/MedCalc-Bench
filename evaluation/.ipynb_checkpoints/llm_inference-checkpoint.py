@@ -36,6 +36,8 @@ class LLMInference:
     def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hf"):
         self.llm_name = llm_name
         self.cache_dir = cache_dir
+        self.thinking_start_tag = ""
+        self.thinking_end_tag = ""
         if self.llm_name.split('/')[0].lower() == "openai" and "oss" not in self.llm_name.lower():
             self.model = self.llm_name.split('/')[-1]
             if "gpt-3.5" in self.model or "gpt-35" in self.model:
@@ -60,12 +62,18 @@ class LLMInference:
             elif "pmc_llama" in llm_name.lower():
                 self.tokenizer.chat_template = open('../templates/pmc_llama.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 2048
-            elif "qwen" in llm_name.lower():
+            elif "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
                 self.max_length = 32768
+                self.thinking_start_tag = "<think>"
+                self.thinking_end_tag = "</think>"
             elif "openthinker" in llm_name.lower():
                 self.max_length = 32768
+                self.thinking_start_tag = "<|begin_of_thought|>"
+                self.thinking_end_tag = "<|end_of_thought|>"
             elif "gpt-oss-20b" in llm_name.lower():
                 self.max_length = 32768
+                self.thinking_start_tag = "assistantanalysis"
+                self.thinking_end_tag = "assistantfinal"
             self.model = transformers.pipeline(
                 "text-generation",
                 model=self.llm_name,
@@ -105,7 +113,7 @@ class LLMInference:
                                                             model_identity=messages[0]["content"],
                                                             reasoning_effort = messages[-1]["reasoning_effort"],
                                                             tokenize=False, add_generation_prompt=True)
-        if "qwen" in self.llm_name.lower():
+        if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
             prompt = f"{prompt}<think>{thinking_message}</think>"
         elif "openthinker" in self.llm_name.lower():
             prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|>"
@@ -123,7 +131,7 @@ class LLMInference:
                 do_sample=False,
                 eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=0.0
@@ -135,12 +143,14 @@ class LLMInference:
                 do_sample=False,
                 eos_token_id=self.tokenizer.eos_token_id,
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
-                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
+                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=0.0
             )
+            part_ans = response[0]["generated_text"]
+            
         ans = response[0]["generated_text"]
         return ans
 
@@ -166,7 +176,7 @@ class LLMInference:
                                                                 model_identity=messages[0]["content"],
                                                                 reasoning_effort = messages[-1]["reasoning_effort"],
                                                                 tokenize=False, add_generation_prompt=True)
-                if "qwen" in self.llm_name.lower():
+                if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
                     prompt += "<think>"
                 elif "openthinker" in self.llm_name.lower():
                     prompt += "<|begin_of_thought|>"
@@ -191,13 +201,30 @@ class LLMInference:
                     do_sample=False,
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
-                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4000),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4000),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=0.0
                 )
+                part_ans = response[0]["generated_text"]
+                if self.thinking_end_tag not in part_ans:
+                    part_ans = part_ans + self.thinking_end_tag
+                response = self.model(
+                    part_ans,
+                    do_sample=False,
+                    eos_token_id=self.tokenizer.eos_token_id,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 95),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 95),
+                    truncation=True,
+                    stopping_criteria=stopping_criteria,
+                    temperature=0.0
+                )
+                
             ans = response[0]["generated_text"]
+            print("ANSWER AFTER EDITING RESPONSE")
+            print(ans, flush=True)
         return ans
 
 

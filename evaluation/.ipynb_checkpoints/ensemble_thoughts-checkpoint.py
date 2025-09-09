@@ -18,6 +18,10 @@ import json
 # === CONFIGURATION ===
 SEED = 42  # Or any integer
 
+
+available_gpus = torch.cuda.device_count()
+print(f"Found {available_gpus} GPUs")
+
 def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
@@ -39,9 +43,11 @@ set_seed(SEED)
 
 
 # === LOAD MODELS ===
-def load_model_and_tokenizer(name, cache_dir="/workspace/hf", device_map="auto"):
+def load_model_and_tokenizer(name, cache_dir="/workspace/hf", device_map="auto", device_id = None):
+    if device_id is not None:
+        device_map = f"cuda:{device_id}"
     tokenizer = AutoTokenizer.from_pretrained(name, cache_dir=cache_dir)
-    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir, device_map=device_map, offload_folder="offload_dir", torch_dtype=torch.bfloat16)
+    model = AutoModelForCausalLM.from_pretrained(name, cache_dir=cache_dir, device_map=device_map, offload_folder="offload_dir", dtype=torch.bfloat16)
     model.eval()
     return tokenizer, model
 
@@ -96,7 +102,7 @@ def truncate_to_first_sentence(text):
     return match.group(1).strip() if match else text.strip()
 
 #prev was 128
-def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=40):
+def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=30):
     set_seed(SEED)
     
     # Tokenize with attention_mask
@@ -278,13 +284,13 @@ def main():
 
     parser = argparse.ArgumentParser(description="Context-aware sentence merging using perplexity.")
     # parser.add_argument("jsonl_files", nargs='+', help="Paths to input JSONL files.")
-    parser.add_argument("--output", type=str, default="ensemble_outputs_gen_qwq_gpt_oss_eval_openthinker/merged_output.csv", help="Path to save merged output.")
+    parser.add_argument("--output", type=str, default="medcalc_ensemble_outputs_gen_qwq_gpt_oss_eval_dapo/merged_output.csv", help="Path to save merged output.")
     parser.add_argument("--gen_models", nargs='+', default=[
         "Qwen/QwQ-32B",
         "openai/gpt-oss-20b"
     ], help="Hugging Face model names.")
     parser.add_argument("--eval_models", nargs='+', default=[
-        "open-thoughts/OpenThinker-7B"
+        "BytedTsinghua-SIA/DAPO-Qwen-32B"
     ], help="Hugging Face model names.")
     set_seed(SEED)
     args = parser.parse_args()
@@ -292,12 +298,18 @@ def main():
     generation_models = args.gen_models
     evaluation_models = args.eval_models
     #gen_tokenizers_models = eval_tokenizers_models = [load_model_and_tokenizer(m) for m in generation_models]
-    gen_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in generation_models]
-    eval_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in evaluation_models]
+    # gen_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in generation_models]
+    # eval_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in evaluation_models]
+    gen_tokenizers_models = [
+        (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
+        for i, m in enumerate(generation_models)]
+    eval_tokenizers_models = [
+        (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
+        for i, m in enumerate(evaluation_models)]
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
     write_header = not os.path.isfile(args.output)
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    #df = df.sample(n=100, random_state=42)
 
     with open(args.output, 'a', newline='', encoding='utf-8') as csvfile:
         fieldnames = ["Row Number", "Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]

@@ -1,110 +1,128 @@
 [
   {
     "iteration": 0,
-    "selected_candidate": "analysisWe need CURB-65. Criteria: confusion, Urea >7 mmol/L (BUN >20 mg/dL), Respiratory rate >=30, Blood pressure <90 syst",
+    "selected_candidate": "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (150 + 2*92)/3 = (",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "Okay, let's tackle this question. The user is asking for the patient's CURB-65 score.",
-        "Okay, let me try to figure out the CURB-65 score for this patient.",
-        "Okay, so I need to figure out the patient's CURB-65 score."
+        "Okay, let's tackle this question.",
+        "Okay, let's see. The user is asking for the patient's mean arterial pressure (MAP) in mmHg. I need to find",
+        "Okay, so I need to find the patient's mean arterial pressure (MAP) from the given note. Let me start by recalling how MAP is"
       ],
       "openai/gpt-oss-20b": [
-        "analysisCURB-65 components: Confusion, Urea>200 mmol?",
-        "analysisWe need CURB-65 for pneumonia severity.",
-        "analysisWe need CURB-65. Criteria: confusion, Urea >7 mmol/L (BUN >20 mg/dL), Respiratory rate >=30, Blood pressure <90 syst"
+        "analysisMean arterial pressure = (SBP + 2*DBP)/3 = (150 + 2*92)/3 = (",
+        "analysisWe need mean arterial pressure from BP 150/92. Formula: MAP = systolic + 2*diastolic /3",
+        "analysisWe need mean arterial pressure = DBP + (SBP-DBP)/3. SBP 150, DBP 92"
       ]
     },
-    "score": 8.466582298278809
+    "score": 8.77493667602539
   },
   {
     "iteration": 1,
-    "selected_candidate": "olic or <60 diastolic, age >=65. Let me check each point.\n\nPatient is 41, so age <65: 0. Confusion?",
-    "selected_model_index": "Qwen/QwQ-32B",
+    "selected_candidate": "150+184)/3=334/3. 34? Let's calculate: 334/3 = 111.333\u2026 ~111 mmHg",
+    "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "olic or <60 diastolic, age >=65.\n\nLooking at the patient's data:\n\n1. Confusion: The note doesn't mention confusion.",
-        "olic or <60 diastolic, age >=65. Let me check each point.\n\nPatient is 41, so age <65: 0. Confusion?",
-        "olic, age >=65. Let me check the patient's info.\n\nFirst, the patient is 41 years old, so age >=65 is no. Next, confusion?"
+        "150+184)/3 = 334/3 \u2248 111.33 mmHg. The",
+        "150 + 184)/3 = 334/3 \u2248 111.33 mm Hg",
+        "150 + 184)/3 = 334/3 \u2248 111.33 mmHg."
       ],
       "openai/gpt-oss-20b": [
-        "olic or <60 diastolic, Age >=65. Patient age 41 -> 0. Confusion? Not mentioned. Urea 21 mg/dL?",
-        "olic or <60 diastolic, Age >=65. Let's check.\n\nAge 41, not >=65 \u21920\nConfusion: none reported.",
-        "olic or <60 diastolic, Age >=65. We have age 41 => 0. Confusion? not mentioned."
+        "150+184)/3=334/3=111.33~111. The output JSON.assistantfinal{\"step_by_step",
+        "150 + 184)/3 = 334/3 \u2248 110.67 mmHg.assistantfinal{\"step_by_step",
+        "150+184)/3=334/3. 34? Let's calculate: 334/3 = 111.333\u2026 ~111 mmHg"
       ]
     },
-    "score": 8.17042064666748
+    "score": 8.59304428100586
   },
   {
     "iteration": 2,
-    "selected_candidate": "Not mentioned. Assume no confusion: 0. Urea 21 mg/dL? The labs: BUN/Cr 21/1.0 \u2013 BUN 21 mg/dL.",
+    "selected_candidate": ".assistantfinal{\"step_by_step_thinking\":\"Mean arterial pressure (MAP) is calculated as (systolic blood pressure +",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "The note mentions he had RUQ pain, fever, rigors, anorexia, malaise, but the exam says he was in ER with temp 101.7, HR",
-        "The note mentions altered mental status? Fever, rigors, but not confusion. On exam, maybe? The ER exam shows temp 101.7, but no mention of confusion.",
-        "The note mentions \"altered mental status\" indirectly via fever, rigors, but no explicit confusion."
+        ".\n\nWait, the question is to compute the mean arterial pressure (MAP). The formula is correct.",
+        ".",
+        "."
       ],
       "openai/gpt-oss-20b": [
-        "Not mentioned. Assume no confusion: 0. Urea 21 mg/dL? The labs: BUN/Cr 21/1.0 \u2013 BUN 21 mg/dL.",
-        "No mention. Urine?",
-        "Not mentioned: 0. Urea: BUN 21 => >20 mg/dL, that's 1 point."
+        ".assistantfinal{\"step_by_step_thinking\":\"Mean arterial pressure (MAP) is calculated as (Systolic BP +",
+        ".assistantfinal{\"step_by_step_thinking\":\"Mean arterial pressure (MAP) is calculated as (systolic blood pressure +",
+        ".assistantfinal{\"step_by_step_thinking\":\"To estimate mean arterial pressure (MAP) we use the formula MAP = (SB"
       ]
     },
-    "score": 8.182026863098145
+    "score": 8.606106758117676
   },
   {
     "iteration": 3,
-    "selected_candidate": "CURB-65 uses BUN. BUN 21 is exactly 20? Wait, 21 is over 20, so that's +1. Respiratory rate",
-    "selected_model_index": "Qwen/QwQ-32B",
-    "all_candidates": {
-      "Qwen/QwQ-32B": [
-        "The cutoff is >20 mg/dL. So that's 1 point.",
-        "CURB-65 uses BUN. BUN 21 is exactly 20? Wait, 21 is over 20, so that's +1. Respiratory rate",
-        "Since CURB-65 uses BUN, which is 21 mg/dL."
-      ],
-      "openai/gpt-oss-20b": [
-        "That's >20 mg/dL, so 1 point.",
-        "That is >20 \u00b5? The cutoff is BUN >20 mg/dL. He has BUN 21 mg/dL so >=20: That gives 1 point.",
-        "That is >20, so +1 for BUN>20 => 1 point."
-      ]
-    },
-    "score": 7.975531578063965
-  },
-  {
-    "iteration": 4,
-    "selected_candidate": "19 (<30): 0. Blood pressure 121/79 (systolic 121 >90, diastolic 79 >60): 0. So total 1. Also",
+    "selected_candidate": "2 \u00d7 diastolic blood pressure)/3. Here SBP = 150 mmHg and DBP = 92 mmHg. Plugging",
     "selected_model_index": "openai/gpt-oss-20b",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        "19, which is under 30: 0. BP was 121/79, so systolic 121, not under 90: 0",
-        "19, which is <30: 0. BP 121/79, so systolic 121, diastolic 79. Neither below the",
-        "19, which is under 30. 0. BP systolic 121, so no hypotension: 0. Total score is 1 (only BUN"
+        "2*diastolic blood pressure)/3. The patient's blood pressure was 150/92 mmHg. Plugging",
+        "2*diastolic blood pressure)/3. From the note, the patient's BP was 150/92. Plugging",
+        "2\u00d7diastolic blood pressure)/3. The patient's blood pressure is given as 150/92 mm Hg."
       ],
       "openai/gpt-oss-20b": [
-        "19 (<30). Blood pressure 121/79 (systolic 121 >90, diastolic 79 >60).",
-        "19 (<30): 0. Blood pressure 121/79 (systolic 121 >90, diastolic 79 >60): 0. So total 1. Also",
-        "19 (<30). Blood pressure 121/79 (systolic >90 and diastolic >60). So no score."
+        "2 \u00d7 diastolic blood pressure) \u00f7 3. Given the BP of 150/92 mm\u202fHg, the MAP is (",
+        "2 \u00d7 diastolic blood pressure)/3. Here SBP = 150 mmHg and DBP = 92 mmHg. Plugging",
+        "2 \u00d7 diastolic blood pressure) \u00f7 3.\\nGiven SBP = 150 mm Hg and DBP = 92 mm"
       ]
     },
-    "score": 7.568753242492676
+    "score": 8.320003509521484
+  },
+  {
+    "iteration": 4,
+    "selected_candidate": "in, MAP = (150 + 2\u00d792)/3 = (150 + 184)/3 = 334/3 \u2248 111",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "in the values: (150 + 2*92)/3 = (150 + 184)/3 =",
+        "in the values: (150 + (2 \u00d7 92))/3 = (150 + 184)/3 =",
+        "in the values: (150 + 2\u00d792)/3 = (150 + 184)/3 ="
+      ],
+      "openai/gpt-oss-20b": [
+        "in: (150 + 2*92) / 3 = (150 + 184) / 3 = 334 / 3 \ufffd",
+        "into the formula: MAP = (150 + 2*92)/3 = (150 + 184)/3 = 334/3 \u2248",
+        "in, MAP = (150 + 2\u00d792)/3 = (150 + 184)/3 = 334/3 \u2248 111"
+      ]
+    },
+    "score": 7.897477149963379
   },
   {
     "iteration": 5,
-    "selected_candidate": ", age under 65, so total score 1.\n</think>\n\n{\"step_by_step_thinking\": \"To calculate the CURB-65 score for the patient, we evaluate the following",
+    "selected_candidate": ".33 mmHg. Rounded to the nearest whole number, it's approximately 111 mmHg.\",\"answer\":\"111",
     "selected_model_index": "Qwen/QwQ-32B",
     "all_candidates": {
       "Qwen/QwQ-32B": [
-        ", age under 65, so total score 1.\n</think>\n\n{\"step_by_step_thinking\": \"To calculate the CURB-65 score for the patient, we evaluate the following",
-        ", the patient isn't 65+, so total 1. CURB-65 score 1.\n</think>\n\n{\"step_by_step_thinking\": \"The CURB-65 score",
-        "check age 41. CURB-65 score is 1.\n</think>\n\n{\"step_by_step_thinking\": \"The CURB-65 score assesses severity of pneumonia with five"
+        ".33 mmHg. Rounded to the nearest whole number, it's approximately 111 mmHg.\",\"answer\":\"111",
+        ".33 mmHg. Rounded to the nearest whole number, this is 111 mmHg.\",\"answer\":\"111\"}",
+        ".33 mmHg. Rounded to the nearest whole number, it's approximately 111 mmHg.\",\"answer\":\"111"
       ],
       "openai/gpt-oss-20b": [
-        "check confusion not present.",
-        "check: Urea more than 7 mmol/L is 20 mg/dL.",
-        "note, confusion not indicated. So score = 1.\n\nAnswer: \"1\"."
+        ".3 mmHg.\",\"answer\":\"111\"}",
+        ".3 mm Hg.\",\"answer\":\"111\"}",
+        ".3 mmHg.\",\"answer\":\"111\"}"
       ]
     },
-    "score": 7.3587646484375
+    "score": 7.54265022277832
+  },
+  {
+    "iteration": 6,
+    "selected_candidate": "\"}\n</think>\n\n{\"step_by_step_thinking\": \"Mean arterial pressure (MAP) is calculated as (systolic blood pressure + 2 \u00d7",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"Mean arterial pressure (MAP) is calculated as (systolic blood pressure + 2 \u00d7",
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"Mean arterial pressure (MAP) is calculated as (systolic blood pressure + 2 \u00d7",
+        "\"}\n</think>\n\n{\"step_by_step_thinking\": \"Mean arterial pressure (MAP) is calculated using the formula: MAP = (SBP +"
+      ],
+      "openai/gpt-oss-20b": [
+        "\"}",
+        "\"}",
+        "\"}"
+      ]
+    },
+    "score": 7.318204879760742
   }
 ]
