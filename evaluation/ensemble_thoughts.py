@@ -102,7 +102,7 @@ def truncate_to_first_sentence(text):
     return match.group(1).strip() if match else text.strip()
 
 #prev was 128
-def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=30):
+def generate_candidates(context, tokenizer, model, num_return_sequences, max_gen_tokens=15):
     set_seed(SEED)
     
     # Tokenize with attention_mask
@@ -307,12 +307,12 @@ def main():
     eval_tokenizers_models = [
         (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
         for i, m in enumerate(evaluation_models)]
-    os.makedirs(os.path.dirname(args.output), exist_ok=True)
-    write_header = not os.path.isfile(args.output)
+    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+    write_header = not os.path.isfile(output_file_path)
     df = pd.read_csv("../dataset/test_data.csv")
-    #df = df.sample(n=100, random_state=42)
+    df = df.sample(n=100, random_state=42)
 
-    with open(args.output, 'a', newline='', encoding='utf-8') as csvfile:
+    with open(output_file_path, 'a', newline='', encoding='utf-8') as csvfile:
         fieldnames = ["Row Number", "Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
     
@@ -358,7 +358,7 @@ def main():
             gc.collect()
             torch.cuda.empty_cache()
     
-            print(f"✅ Done. Row-wise output saved to: {args.output}")
+            print(f"✅ Done. Row-wise output saved to: {output_file_path}")
 
 if __name__ == "__main__":
     set_seed(SEED)

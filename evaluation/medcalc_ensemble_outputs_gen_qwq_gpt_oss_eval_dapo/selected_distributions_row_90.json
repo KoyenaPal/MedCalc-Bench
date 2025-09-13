@@ -1,0 +1,560 @@
+[
+  {
+    "iteration": 0,
+    "selected_candidate": "Okay, so I need to find the patient's mean arterial pressure (",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Okay, let's tackle this question.",
+        "Okay, let's see. The question is asking for the patient's",
+        "Okay, so I need to find the patient's mean arterial pressure ("
+      ],
+      "openai/gpt-oss-20b": [
+        "analysisMean arterial pressure = (SBP + 2*DB",
+        "analysisWe need MAP = (SBP + 2*DB",
+        "analysisWe need MAP = DBP + 1/3 ("
+      ]
+    },
+    "score": 8.183942794799805
+  },
+  {
+    "iteration": 1,
+    "selected_candidate": "MAP) based on the information provided.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "MAP) based on the information given.",
+        "MAP) based on the information given.",
+        "MAP) based on the information provided."
+      ],
+      "openai/gpt-oss-20b": [
+        "MAP). The...",
+        "MAP).",
+        "MAP). MAP \u2248\u202f\u2026\u2026..."
+      ]
+    },
+    "score": 8.350798606872559
+  },
+  {
+    "iteration": 2,
+    "selected_candidate": "Let me start by recalling how to calculate MAP. From what I remember,",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Let me look through the patient note again.",
+        "Let me look through the patient note again.",
+        "Let me start by recalling how to calculate MAP. From what I remember,"
+      ],
+      "openai/gpt-oss-20b": [
+        "... \u2026??\u2026\u2026\u2026\u2026???\u2026\u2026\u2026...",
+        "The\u2026?\u2026\u2026\u2026.We ...",
+        "We\u2026 \u2026\u2026\u2026\u2026\u2026\n\nWe need mean arterial pressure formula: MAP"
+      ]
+    },
+    "score": 8.746271133422852
+  },
+  {
+    "iteration": 3,
+    "selected_candidate": "the formula for mean arterial pressure is typically calculated using the systolic and di",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "the formula for mean arterial pressure is generally calculated using the systolic and di",
+        "the formula for mean arterial pressure is typically calculated using the systolic and di",
+        "the formula for mean arterial pressure is generally either (Diastolic BP +"
+      ],
+      "openai/gpt-oss-20b": [
+        "...assistantanalysisNeed MAP = (SBP +",
+        "\u2026?\u2026\u2026\u2026. The ...",
+        "...assistantanalysisNeed to calculate MAP using formula: MAP"
+      ]
+    },
+    "score": 8.42911434173584
+  },
+  {
+    "iteration": 4,
+    "selected_candidate": "...assistantanalysisNeed to calculate MAP using formula: MAP",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "astolic blood pressure values.",
+        "astolic blood pressure values.",
+        "astolic blood pressure values."
+      ],
+      "openai/gpt-oss-20b": [
+        "...",
+        "...\u2026?\u2026\u2026\u2026. The ...",
+        "...assistantanalysisNeed to calculate MAP using formula: MAP"
+      ]
+    },
+    "score": 9.194110870361328
+  },
+  {
+    "iteration": 5,
+    "selected_candidate": "= DBP + 1/3*(SBP-DBP).",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\u2248 (Diastolic BP) + 1/3 (S",
+        "\u2248 (Diastolic BP) + 1/3 (S",
+        "\u2248 (Diastolic BP) + 1/3 (S"
+      ],
+      "openai/gpt-oss-20b": [
+        "= DBP + 1/3(SBP - DBP).",
+        "= DBP + 1/3*(SBP-DBP).",
+        "= (SBP + 2*DBP)/3. Data:"
+      ]
+    },
+    "score": 8.990660667419434
+  },
+  {
+    "iteration": 6,
+    "selected_candidate": "BP given 125/75 mmHg. MAP=75+1/",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The patient's BP is given as 125/75 mm",
+        "The patient's blood pressure is given as 125/75",
+        "The patient's blood pressure is given as 125/75"
+      ],
+      "openai/gpt-oss-20b": [
+        "Here SBP=125, DBP=75 => MAP=75 +",
+        "BP given 125/75 mmHg. MAP=75+1/",
+        "Use BP 125/75. So MAP. Output JSON."
+      ]
+    },
+    "score": 8.950620651245117
+  },
+  {
+    "iteration": 7,
+    "selected_candidate": "3*(125-75)=75+1/3*50=75",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "3*(125-75)=75+16.",
+        "3*(125-75)=75 + 16",
+        "3*(125-75)=75+16."
+      ],
+      "openai/gpt-oss-20b": [
+        "3*50=75+16.67=91.7~92",
+        "3*(125-75)=75+1/3*50=75",
+        "3(50)=75+16.67=91.67 => approx"
+      ]
+    },
+    "score": 8.349227905273438
+  },
+  {
+    "iteration": 8,
+    "selected_candidate": "+16.67=91.67 approx 92 mmHg.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "+16.666\u224891.666,",
+        "+16.666...\u224891.666",
+        "+16.666\u2026=91.666"
+      ],
+      "openai/gpt-oss-20b": [
+        "+16.67=91.67 approx 92 mmHg.",
+        "+16.666=91.7 mmHg. Output.",
+        "+16.67=91.67 mm. Round maybe 92."
+      ]
+    },
+    "score": 8.1205472946167
+  },
+  {
+    "iteration": 9,
+    "selected_candidate": "So the answer is 92. Wait, let me check the formula",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The question is straightforward, just applying the formula correctly.",
+        "So the answer is 92. Wait, let me check the formula",
+        "But wait, sometimes people use a simplified method, but I think the standard"
+      ],
+      "openai/gpt-oss-20b": [
+        "assistantfinal{\"step_by_step_thinking\":\"1.",
+        "Provide reasoning.assistantfinal{\"step_by_step_thinking",
+        "assistantfinal{\"step_by_step_thinking\":\"Mean arterial"
+      ]
+    },
+    "score": 8.255149841308594
+  },
+  {
+    "iteration": 10,
+    "selected_candidate": ": MAP = DBP + 1/3 (SBP-DB",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "again.",
+        "again.",
+        "again."
+      ],
+      "openai/gpt-oss-20b": [
+        ": MAP = DBP + 1/3 (SBP-DB",
+        ": some use MAP = (SBP+2*DBP)/3",
+        ": sometimes MAP= (SBP + 2*DBP)/3"
+      ]
+    },
+    "score": 7.945392608642578
+  },
+  {
+    "iteration": 11,
+    "selected_candidate": "P). Yes, that's correct.",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "P). Yes, that's correct.",
+        "P). Yes, that's correct.",
+        "P). Yes, that's right."
+      ],
+      "openai/gpt-oss-20b": [
+        "P).",
+        "P).",
+        "P). Variation includes some formula using pulse pressure."
+      ]
+    },
+    "score": 8.275243759155273
+  },
+  {
+    "iteration": 12,
+    "selected_candidate": "The systolic is 125, diastolic 75",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The systolic is 125, diastolic 75",
+        "So the systolic is 125 and diastolic is",
+        "So substituting the values: 75 plus (125 minus"
+      ],
+      "openai/gpt-oss-20b": [
+        "So let's produce JSON with step_by_step_thinking and answer \"92\".",
+        "Provide step.assistantfinal{\"step_by_step_thinking",
+        "So final answer 92 mm Hg. Output.assistantfinal"
+      ]
+    },
+    "score": 8.335235595703125
+  },
+  {
+    "iteration": 13,
+    "selected_candidate": ", difference 50, 1/3=16.7, plus",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".",
+        ".",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ", difference 50, 1/3=16.7, plus",
+        ".",
+        "."
+      ]
+    },
+    "score": 7.945773601531982
+  },
+  {
+    "iteration": 14,
+    "selected_candidate": "75=91.7 mmHg. round to 92 mmHg",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "75 equals 91.67. Rounding to nearest",
+        "75 gives 91.67, so rounded to",
+        "75 gives 91.67, which rounds to"
+      ],
+      "openai/gpt-oss-20b": [
+        "diastolic 75 gives 91.7. So round to nearest",
+        "75=91.7 mmHg. round to 92 mmHg",
+        "diastolic 75 =>91.7. Round to nearest integer?"
+      ]
+    },
+    "score": 7.803189277648926
+  },
+  {
+    "iteration": 15,
+    "selected_candidate": ". Need to output JSON with step_by_step_thinking and answer.",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".",
+        ".",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ".",
+        ". Need to output JSON with step_by_step_thinking and answer.",
+        "."
+      ]
+    },
+    "score": 7.84477424621582
+  },
+  {
+    "iteration": 16,
+    "selected_candidate": "assistantfinal{\"step_by_step_thinking\":\"To calculate",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The answer is \"92\" as a string.",
+        "The answer should be a string.",
+        "The answer should be \"92\" as a string."
+      ],
+      "openai/gpt-oss-20b": [
+        "assistantfinal{\"step_by_step_thinking\":\"1.",
+        "assistantfinal{\"step_by_step_thinking\":\"To calculate",
+        "assistantfinal{\"step_by_step_thinking\":\"Mean arterial"
+      ]
+    },
+    "score": 7.863237380981445
+  },
+  {
+    "iteration": 17,
+    "selected_candidate": "the mean arterial pressure (MAP), the formula used is: MAP = Di",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "the mean arterial pressure (MAP), the formula used is: MAP = Di",
+        "the patient's mean arterial pressure (MAP), I use the formula: MAP",
+        "the patient's mean arterial pressure (MAP), the formula used is MAP ="
+      ],
+      "openai/gpt-oss-20b": [
+        "mean arterial pressure (MAP) we use the formula MAP = DBP +",
+        "the mean arterial pressure (MAP) we use the formula MAP = diast",
+        "mean arterial pressure (MAP) we use the formula MAP = DBP +"
+      ]
+    },
+    "score": 7.70200777053833
+  },
+  {
+    "iteration": 18,
+    "selected_candidate": "astolic Blood Pressure + 1/3 \u00d7 (Systolic Blood",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "astolic Blood Pressure (DBP) + 1/3 \u00d7 (",
+        "astolic Blood Pressure (DBP) + 1/3 \u00d7 (",
+        "astolic Blood Pressure (DBP) + 1/3 \u00d7 ("
+      ],
+      "openai/gpt-oss-20b": [
+        "astolic Blood Pressure + 1/3 \u00d7 (Systolic Blood",
+        "astolic Blood Pressure + 1/3 \u00d7 (Systolic Blood",
+        "astolic Blood Pressure + \u2153(Systolic Blood Pressure \u2013 Di"
+      ]
+    },
+    "score": 7.356762886047363
+  },
+  {
+    "iteration": 19,
+    "selected_candidate": "Pressure - Diastolic Blood Pressure).",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Pressure - Diastolic Blood Pressure).",
+        "Pressure - Diastolic Blood Pressure).",
+        "Pressure - Diastolic Blood Pressure)."
+      ],
+      "openai/gpt-oss-20b": [
+        "Pressure \u2013 Di astolic Blood Pressure).",
+        "Pressure \u2013 Di astolic Blood Pressure).",
+        "Pressure \u2013 Diastolic Blood Pressure)."
+      ]
+    },
+    "score": 7.4270830154418945
+  },
+  {
+    "iteration": 20,
+    "selected_candidate": "Here, the blood pressure given is 125/75 mmHg, where",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "The patient's blood pressure is given as 125/75",
+        "The patient's blood pressure is given as 125/75",
+        "The patient's blood pressure is given as 125/75"
+      ],
+      "openai/gpt-oss-20b": [
+        "Here, the blood pressure given is 125/75 mmHg, where",
+        "The patient\u2019s systolic BP = 125\u202fmm\u202fHg and di",
+        "The patient\u2019s blood pressure is reported as 125/75\u202fmm"
+      ]
+    },
+    "score": 7.266886234283447
+  },
+  {
+    "iteration": 21,
+    "selected_candidate": "125 mmHg is the systolic pressure and 75 mmHg is",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "systolic is 125 and diastolic is 75",
+        "systolic is 125 and diastolic is 75",
+        "systolic is 125 and diastolic is 75"
+      ],
+      "openai/gpt-oss-20b": [
+        "125 is the systolic value and 75 the diastolic value",
+        "125 is systolic and 75 is diastolic.",
+        "125 mmHg is the systolic pressure and 75 mmHg is"
+      ]
+    },
+    "score": 6.879242897033691
+  },
+  {
+    "iteration": 22,
+    "selected_candidate": "the diastolic pressure.\\n\\n1. Compute the difference between syst",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "the diastolic pressure.",
+        "the diastolic pressure.",
+        "the diastolic pressure."
+      ],
+      "openai/gpt-oss-20b": [
+        "the diastolic pressure.\\n\\n1. Compute the difference between syst",
+        "the diastolic pressure.",
+        "the diastolic pressure."
+      ]
+    },
+    "score": 6.7650909423828125
+  },
+  {
+    "iteration": 23,
+    "selected_candidate": "olic and diastolic pressures: 125 \u2013 75 = 50",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "olic and diastolic: 125 - 75 =",
+        "olic and diastolic: 125 - 75 =",
+        "olic and diastolic: 125 - 75 ="
+      ],
+      "openai/gpt-oss-20b": [
+        "olic and diastolic pressures: 125 \u2013 75 = 50",
+        "olic and diastolic pressures: 125 \u2013 75 = 50",
+        "olic and diastolic pressures: 125 \u2013 75 = 50"
+      ]
+    },
+    "score": 6.469452381134033
+  },
+  {
+    "iteration": 24,
+    "selected_candidate": "mmHg.\\n2. One\u2011third of this difference is 50",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "mmHg.\\n2. Multiply this difference by 1/3",
+        "mmHg.\\n2. Calculate one-third of this difference:",
+        "mmHg.\\n2. Take one-third of this difference:"
+      ],
+      "openai/gpt-oss-20b": [
+        "mmHg.\\n2. Take one third of this difference: 1",
+        "mmHg.\\n2. One\u2011third of this difference is 50",
+        "mmHg.\\n2. Take one\u2011third of this difference: ("
+      ]
+    },
+    "score": 6.503053188323975
+  },
+  {
+    "iteration": 25,
+    "selected_candidate": "\u00f7 3 \u2248 16.67 mmHg.\\n3",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "\u00d7 (1/3) \u2248 16.67 mm",
+        "\u00d7 (1/3) \u2248 16.67 mm",
+        "\u00d7 (1/3) \u2248 16.67 mm"
+      ],
+      "openai/gpt-oss-20b": [
+        "\u00f7 3 \u2248 16.7 mmHg.\\n3",
+        "\u00f7\u202f3 \u2248 16.7 mmHg.\\n3",
+        "\u00f7 3 \u2248 16.67 mmHg.\\n3"
+      ]
+    },
+    "score": 6.3122878074646
+  },
+  {
+    "iteration": 26,
+    "selected_candidate": ".",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".",
+        ".",
+        "."
+      ],
+      "openai/gpt-oss-20b": [
+        ".",
+        ".",
+        "."
+      ]
+    },
+    "score": 6.249731540679932
+  },
+  {
+    "iteration": 27,
+    "selected_candidate": "Add this value to the diastolic pressure: 75 + 16",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "Add this value to the diastolic pressure: 75 +",
+        "Add this value to the diastolic pressure: 75 +",
+        "Add this value to the diastolic pressure: 75 +"
+      ],
+      "openai/gpt-oss-20b": [
+        "Add this value to the diastolic pressure: 75 + 16",
+        "Add this to the diastolic pressure: 75 + 16.",
+        "Add this value to the diastolic pressure: 75 + 16"
+      ]
+    },
+    "score": 6.123548984527588
+  },
+  {
+    "iteration": 28,
+    "selected_candidate": ".67 \u2248 91.67 mmHg.\\n\\nRounded to",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".67 \u2248 91.67 mmHg.\\",
+        ".67 \u2248 91.67 mmHg.\\",
+        ".67 \u2248 91.67 mmHg.\\"
+      ],
+      "openai/gpt-oss-20b": [
+        ".67 \u2248 91.67 mmHg.\\n\\nRounded to",
+        ".67 \u2248 91.67 mmHg.\\n4. Rounded",
+        ".67 \u2248 91.67 mmHg.\\n\\nRounded to"
+      ]
+    },
+    "score": 5.900882720947266
+  },
+  {
+    "iteration": 29,
+    "selected_candidate": "the nearest whole number, the mean arterial pressure is about 92 mmHg",
+    "selected_model_index": "openai/gpt-oss-20b",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        "the nearest whole number, the MAP is approximately 92 mmHg",
+        "the nearest whole number, the MAP is approximately 92 mmHg",
+        "the nearest whole number, the MAP is approximately 92 mmHg"
+      ],
+      "openai/gpt-oss-20b": [
+        "the nearest whole number, the mean arterial pressure is about 92 mmHg",
+        "the nearest whole number, the mean arterial pressure is about 92 mmHg",
+        "the nearest whole number, the mean arterial pressure is about 92\u202fmm"
+      ]
+    },
+    "score": 5.832983493804932
+  },
+  {
+    "iteration": 30,
+    "selected_candidate": ".\",\"answer\":\"92\"}\n</think>\n\n{\"step_by_step_thinking\":",
+    "selected_model_index": "Qwen/QwQ-32B",
+    "all_candidates": {
+      "Qwen/QwQ-32B": [
+        ".\",\"answer\":\"92\"}\n</think>\n\n{\"step_by_step_thinking\":",
+        ".\",\"answer\":\"92\"}\n</think>\n\n{\"step_by_step_thinking\":",
+        ".\",\"answer\":\"92\"}\n</think>\n\n{\"step_by_step_thinking\":"
+      ],
+      "openai/gpt-oss-20b": [
+        ".\",\"answer\":\"92\"}",
+        ".\",\"answer\":\"92\"}",
+        ".\",\"answer\":\"92\"}"
+      ]
+    },
+    "score": 5.665939807891846
+  }
+]
