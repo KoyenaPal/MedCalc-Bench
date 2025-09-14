@@ -73,7 +73,16 @@ def extract_thinking(answer, model_name="qwen"):
     if match:
         return match.group(1)
     else:
-        return "No Thoughts"
+        if "openthinker" in model_name.lower():
+            match = re.search(r'<\|begin_of_thought\|>(.*?)', answer, re.DOTALL)
+        elif "gpt-oss" in model_name.lower():
+            match = re.search(r'assistantanalysis(.*?)', answer, re.DOTALL)
+        else:
+            match = re.search(r'<think>(.*?)', answer, re.DOTALL)
+        if match:
+            return match.group(1)
+        else:
+            return "No Thoughts"
 
 def clean_thinking(thought, model_name="qwen"):
     if "openthinker" in model_name.lower():
@@ -197,7 +206,7 @@ if __name__ == "__main__":
     model_name = args.model
     prompt_style = args.prompt
     target_model = args.target_model
-    additional_info = ""
+    additional_info = "_full"
     if args.source_model_output_file:
         if "without_answer" in args.source_model_output_file:
             additional_info = "_without_answer" 

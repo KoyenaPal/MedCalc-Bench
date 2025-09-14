@@ -206,7 +206,7 @@ if __name__ == "__main__":
     model_name = args.model
     prompt_style = args.prompt
     target_model = args.target_model
-    additional_info = ""
+    additional_info = "_full"
     if args.source_model_output_file:
         if "without_answer" in args.source_model_output_file:
             additional_info = "_without_answer" 

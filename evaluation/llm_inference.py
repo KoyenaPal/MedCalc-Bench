@@ -77,7 +77,7 @@ class LLMInference:
             self.model = transformers.pipeline(
                 "text-generation",
                 model=self.llm_name,
-                torch_dtype=self.type,
+                dtype=self.type,
                 device_map="auto",
                 model_kwargs={"cache_dir":self.cache_dir},
             )
