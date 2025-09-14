@@ -8,9 +8,9 @@ import argparse
 
 nltk.download("punkt")
 from nltk.tokenize import sent_tokenize
-from accelerate import Accelerator
+# from accelerate import Accelerator
 
-accelerator = Accelerator(mixed_precision="bf16")
+# accelerator = Accelerator(mixed_precision="bf16")
 # -----------------------
 # Argument Parser
 # -----------------------
@@ -49,16 +49,6 @@ print(f"Input file: {input_file}")
 print(f"Output file: {output_file}")
 
 
-
-
-
-
-
-
-
-
-
-
 def extract_think_text(text):
     match = re.search(r"<think>(.*?)(</think>|$)", text, flags=re.DOTALL | re.IGNORECASE)
     if match:
@@ -90,20 +80,19 @@ def normalize_text(text):
 # # -----------------------
 # # Load Data
 # # -----------------------
-# if input_ext == ".jsonl":
-#     df = pd.read_json(input_file, lines=True)
-# elif input_ext == ".csv":
-#     df = pd.read_csv(input_file)
+if input_ext == ".jsonl":
+    df = pd.read_json(input_file, lines=True)
+elif input_ext == ".csv":
+    df = pd.read_csv(input_file)
 
 # -----------------------
 # Model setup
 # -----------------------
-model_name = "openai/gpt-oss-20b"
-tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="/workspace/hf", torch_dtype=torch.bfloat16)
+model_name = "Qwen/Qwen3-8B"
+tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="/workspace/hf")
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     device_map="auto",
-    torch_dtype=torch.bfloat16,
     low_cpu_mem_usage=True,
     cache_dir="/workspace/hf"
 )
@@ -127,26 +116,25 @@ for i, text in enumerate(df[input_col], 1):
     text = extract_think_text(str(text))
 
     messages = [
-        {"role": "system", "content": "You are a helpful assistant that removes direct answers but keeps explanations or hints."},
+        # {"role": "system", "content": "You are a helpful assistant that removes direct answers but keeps explanations or hints."},
         {"role": "user", "content": f"""
-Task: Keep only the hint and explanation sentences from the text.  
+Task: Keep only the hints from the text and remove answer sentences.
 
 Definition: 
-- A "hint/explanation sentence" provides reasoning, guidance, or context that helps someone think about the problem without giving the final solution.  
-- An "answer sentence" directly states the final solution, result, or conclusion.  
+- A "hint/explanation sentence" provides guidance that helps someone think about the problem without giving the final solution.  
+- An "answer sentence" directly states the final answer, solution, result, or conclusion.
 
 Instructions:  
 1. Keep every hint/explanation sentence exactly as written.  
-2. Remove any answer sentences.  
+2. Remove all answer sentences. 
 3. Preserve the original wording, order, and formatting of the remaining text.  
-4. Output only the hints and explanations.  
+4. Output only the hints. 
 
 Original text:
 {text}
 """}
     ]
-    
-    chat_templated_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    chat_templated_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, enable_thinking=False)
     prompt_tokens = tokenizer(chat_templated_text, return_tensors="pt")
     num_prompt_tokens = prompt_tokens.input_ids.shape[1]
 
