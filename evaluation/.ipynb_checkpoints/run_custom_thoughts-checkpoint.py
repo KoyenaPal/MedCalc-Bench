@@ -240,6 +240,10 @@ if __name__ == "__main__":
         merged_thought_data = pd.read_csv(args.ensembled_file)
         print("Laoded ensembled thought file", flush=True)
         print(merged_thought_data.head())
+    additional_output_file_info = f"{args.thought_type}"
+    if "ensemble" in args.thought_type.lower():
+        ensemble_file_name, _ = os.path.splitext(os.path.basename(args.ensembled_file))
+        additional_output_file_info = additional_output_file_info + f"_{ensemble_file_name}"
 
     for index in tqdm.tqdm(range(len(df))):
 
@@ -363,10 +367,6 @@ if __name__ == "__main__":
         
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
-    additional_output_file_info = f"{args.thought_type}"
-    if "ensemble" in args.thought_type.lower():
-        name, _ = os.path.splitext(os.path.basename(args.ensembled_file))
-        additional_output_file_info = additional_output_file_info + f"_{name}"
     if "gpt-oss" in model_name.lower():
         additional_output_file_info = additional_output_file_info + f"_{args.reasoning_effort}"
 
