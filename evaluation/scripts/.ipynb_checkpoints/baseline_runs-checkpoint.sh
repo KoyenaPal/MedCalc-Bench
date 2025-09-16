@@ -17,7 +17,7 @@ for model in "${models[@]}"; do
     # Sanitize names for filenames
     safe_model="${model//\//_}"
     safe_targetmodel="${targetmodel//\//_}"
-    outputpath="outputs-original-full/${safe_model}_zero_shot_original.jsonl"
+    outputpath="without_answer/${safe_model}_zero_shot_original_without_answer.jsonl"
     timestamp=$(date +"%Y%m%d_%H%M%S")
     logfile="logs/${safe_model}_to_${safe_targetmodel}_$timestamp.log"
     echo "Running: python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot --source_model_output_file $outputpath --reasoning_effort low"

@@ -295,8 +295,10 @@ if __name__ == "__main__":
         if source_thought_data is not None:
             source_thought_row = source_thought_data[source_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
             answer_value = source_thought_row["LLM Answer"]
-            print("THOUGHTS IN GENERAL", source_thought_row["LLM Thinking"])
-            thinking = clean_thinking(str(source_thought_row["LLM Thinking"]), model_name)
+            llm_thinking_key = "LLM Thinking"
+            if "without_answer" in args.source_model_output_file:
+                llm_thinking_key = "LLM Thinking Without Answer"
+            thinking = clean_thinking(str(source_thought_row[llm_thinking_key]), model_name)
             
         if thinking == "" or thinking == "No Thoughts":
                 print("AT NO THOUGHTS SECTION", flush=True)
@@ -383,6 +385,8 @@ if __name__ == "__main__":
     additional_output_file_info = ""
     if "gpt-oss" in model_name.lower():
         additional_output_file_info = f"{args.reasoning_effort}"
+    #name, _ = os.path.splitext(os.path.basename(args.ensembled_file))
+    #additional_output_file_info = additional_output_file_info + f"_{name}"
 
     # compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
     compute_overall_accuracy(output_path, target_model, prompt_style, is_target_model=True, additional_output_file_info=additional_output_file_info)

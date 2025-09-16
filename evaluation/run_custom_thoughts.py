@@ -71,7 +71,9 @@ def extract_thinking(answer, model_name="qwen"):
         match = re.search(r'<think>(.*?)</think>', answer, re.DOTALL)
         
     if match:
-        return match.group(1)
+        match_text = match.group(1)
+        cleaned_text = match_text.replace("assistantanalysis", "").replace("<|end_of_thought|>","").replace("</think>","")
+        return cleaned_text
     else:
         if "openthinker" in model_name.lower():
             match = re.search(r'<\|begin_of_thought\|>(.*?)', answer, re.DOTALL)
@@ -80,7 +82,9 @@ def extract_thinking(answer, model_name="qwen"):
         else:
             match = re.search(r'<think>(.*?)', answer, re.DOTALL)
         if match:
-            return match.group(1)
+            match_text = match.group(1)
+            cleaned_text = match_text.replace("assistantanalysis", "").replace("<|end_of_thought|>","").replace("</think>","")
+            return cleaned_text
         else:
             return "No Thoughts"
 
@@ -230,9 +234,9 @@ if __name__ == "__main__":
         one_shot_json = json.load(file)
 
     df = pd.read_csv("../dataset/test_data.csv")
-    #df = df.sample(n=100, random_state=42)
+    df = df.sample(n=100, random_state=42)
     merged_thought_data = None
-    if ("ensembled_thought" in args.thought_type) or ("transferred_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
+    if ("ensembled_thought" in args.thought_type) or ("ensembled_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)
         print("Laoded ensembled thought file", flush=True)
         print(merged_thought_data.head())
@@ -282,13 +286,13 @@ if __name__ == "__main__":
         thinking_message = ""
         if args.thought_type == "empty":
             thinking_message = "<empty>"
-        elif "ensembled_thought" in args.thought_type or ("transferred_thought_without_answer" in args.thought_type):
+        elif "ensembled_thought" in args.thought_type or ("ensembled_thought_without_answer" in args.thought_type):
             curr_merged_thought_row = merged_thought_data[merged_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
             thinking_message = ""
             if args.thought_type == "ensembled_thought_without_answer":
                 thinking_message = curr_merged_thought_row["Ensembled Thought Without Answer"]
-            elif "transferred_thought_without_answer" in args.thought_type:
-                thinking_message = curr_merged_thought_row["LLM Thinking Without Answer"]
+            # elif "transferred_thought_without_answer" in args.thought_type:
+            #     thinking_message = curr_merged_thought_row["LLM Thinking Without Answer"]
             else:
                 thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
                 if args.thought_type == "ensembled_thought_minus_last":
@@ -360,6 +364,9 @@ if __name__ == "__main__":
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
     additional_output_file_info = f"{args.thought_type}"
+    if "ensemble" in args.thought_type.lower():
+        name, _ = os.path.splitext(os.path.basename(args.ensembled_file))
+        additional_output_file_info = additional_output_file_info + f"_{name}"
     if "gpt-oss" in model_name.lower():
         additional_output_file_info = additional_output_file_info + f"_{args.reasoning_effort}"
 

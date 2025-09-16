@@ -5,6 +5,8 @@ import torch
 import nltk
 import re
 import argparse
+import random
+import numpy as np
 
 nltk.download("punkt")
 from nltk.tokenize import sent_tokenize
@@ -14,6 +16,11 @@ from nltk.tokenize import sent_tokenize
 # -----------------------
 # Argument Parser
 # -----------------------
+
+torch.manual_seed(42)
+random.seed(42)
+np.random.seed(42)
+
 parser = argparse.ArgumentParser(description="Process input file and generate output without answers.")
 parser.add_argument(
     "--input_file",
@@ -41,7 +48,7 @@ if input_ext not in (".jsonl", ".csv"):
 if args.output_file:
     output_file = args.output_file
 else:
-    output_folder = "without_answer/outputs"
+    output_folder = "without_answer"
     os.makedirs(output_folder, exist_ok=True)  # Create folder if it doesn't exist
     output_file = os.path.join(output_folder, f"{input_basename}_without_answer{input_ext}")
 
@@ -84,6 +91,9 @@ if input_ext == ".jsonl":
     df = pd.read_json(input_file, lines=True)
 elif input_ext == ".csv":
     df = pd.read_csv(input_file)
+
+if "original" in input_file.lower():
+    df = df.sample(n=100, random_state=42)
 
 # -----------------------
 # Model setup
