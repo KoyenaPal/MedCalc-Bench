@@ -284,13 +284,14 @@ def main():
 
     parser = argparse.ArgumentParser(description="Context-aware sentence merging using perplexity.")
     # parser.add_argument("jsonl_files", nargs='+', help="Paths to input JSONL files.")
-    parser.add_argument("--output", type=str, default="medcalc_ensemble_outputs_gen_qwq_openthinker_eval_gpt_oss", help="Path to save merged output.")
+    parser.add_argument("--output", type=str, default="medcalc_ensemble_outputs_gen_qwq_gpt_oss_dapo_eval_openthinker", help="Path to save merged output.")
     parser.add_argument("--gen_models", nargs='+', default=[
         "Qwen/QwQ-32B",
-        "open-thoughts/OpenThinker-7B"
+        "openai/gpt-oss-20b",
+        "BytedTsinghua-SIA/DAPO-Qwen-32B",  
     ], help="Hugging Face model names.")
     parser.add_argument("--eval_models", nargs='+', default=[
-        "openai/gpt-oss-20b"
+        "open-thoughts/OpenThinker-7B"
     ], help="Hugging Face model names.")
     set_seed(SEED)
     args = parser.parse_args()
