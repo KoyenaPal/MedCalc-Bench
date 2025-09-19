@@ -210,9 +210,19 @@ if __name__ == "__main__":
     model_name = args.model
     prompt_style = args.prompt
     thought_type = args.thought_type
+    additional_output_file_name = ""
+    if args.ensembled_file:
+        # Get the base name without the directory
+        base = os.path.basename(args.ensembled_file)  # 'medcalc_ensemble_gen_qwq_dapo_eval_oss.csv'
+        
+        # Remove extension
+        name_without_ext = os.path.splitext(base)[0]  # 'medcalc_ensemble_gen_qwq_dapo_eval_oss'
+        
+        # Split by '_' and take the part after the first two segments
+        parts = name_without_ext.split('_', 2)
+        additional_output_file_name = "_" + parts[2]  # 'gen_qwq_dapo_eval_oss'
 
-    output_path = f"{model_name.replace('/', '_')}_{prompt_style}_{thought_type}.jsonl"
-
+    output_path = f"{model_name.replace('/', '_')}_{prompt_style}_{thought_type}{additional_output_file_name}.jsonl"
     if not os.path.exists("outputs"):
         os.makedirs("outputs")
 
