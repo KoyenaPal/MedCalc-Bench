@@ -106,16 +106,19 @@ class LLMInference:
         '''
         stopping_criteria = None
         temperature = 0.0
+        old_prompt = None
         if do_sample:
             temperature = 1.0
         if prompt is None:
             prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            old_prompt = prompt
             if "gpt-oss" in self.llm_name.lower():
                 user_message = [{"role": "user", "content": messages[-1]["content"]}]
                 prompt = self.tokenizer.apply_chat_template(user_message,
                                                             model_identity=messages[0]["content"],
                                                             reasoning_effort = messages[-1]["reasoning_effort"],
                                                             tokenize=False, add_generation_prompt=True)
+                
         if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
             prompt = f"{prompt}<think>{thinking_message}</think>"
         elif "openthinker" in self.llm_name.lower():
@@ -134,7 +137,8 @@ class LLMInference:
                 do_sample=do_sample,
                 eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
+                max_length=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
+                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
@@ -143,11 +147,11 @@ class LLMInference:
             print("RESPONSE SECTION NOW", flush=True)
             response = self.model(
                 prompt,
-                do_sample=False,
+                do_sample=do_sample,
                 eos_token_id=self.tokenizer.eos_token_id,
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
-                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
+                max_length=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
+                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
