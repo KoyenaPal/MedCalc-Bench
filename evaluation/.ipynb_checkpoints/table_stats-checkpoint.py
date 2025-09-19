@@ -1,15 +1,16 @@
 import json 
 import numpy as np
 import os
+import argparse
 
 from collections import defaultdict
 
-def combined_compute_overall_accuracy(output_path, prompt_style, additional_output_file_info=""):
+def combined_compute_overall_accuracy(output_path, prompt_style, additional_output_file_info="", output_dir="outputs"):
     # Structure: model_name -> category -> list of 0/1
     model_category_accuracy = defaultdict(lambda: defaultdict(list))
     combined_category_accuracy = defaultdict(list)
 
-    with open(f"outputs/{output_path}") as file:
+    with open(f"{output_dir}/{output_path}") as file:
         for line in file:
             data = json.loads(line)
             category = data["Category"]
@@ -54,10 +55,10 @@ def combined_compute_overall_accuracy(output_path, prompt_style, additional_outp
     overall = (total_correct / total_count * 100) if total_count else 0.0
     print(f"Overall Accuracy: {overall:.2f}% ({total_correct}/{total_count})\n")
 
-def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False, additional_output_file_info=""): 
+def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False, additional_output_file_info="", output_dir="outputs", results_dir="results"): 
     category_accuracy = {}
 
-    with open(f"outputs/{output_path}") as file:
+    with open(f"{output_dir}/{output_path}") as file:
         for line in file:
             data = json.loads(line)
             
@@ -112,12 +113,81 @@ def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_mo
         model_name = model_name.split('/')[1]
 
     if not is_target_model:
-        with open(f"results/results_{model_name}_{prompt_style}_{additional_output_file_info}.json", "w") as file:
+        with open(f"{results_dir}/results_{model_name}_{prompt_style}_{additional_output_file_info}.json", "w") as file:
             json.dump(category_stats, file, indent=4)
     else:
         output_path = output_path.split('json')[0]
-        with open(f"results/results_{output_path}.json", "w") as file:
+        with open(f"{results_dir}/results_{output_path}.json", "w") as file:
             json.dump(category_stats, file, indent=4)        
 
     return category_stats
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Compute overall accuracy from model outputs.")
+
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        required=True,
+        help="Path to the output file to evaluate."
+    )
+
+    parser.add_argument(
+        "--model_name",
+        type=str,
+        required=True,
+        help="Name of the model being evaluated."
+    )
+
+    parser.add_argument(
+        "--prompt_style",
+        type=str,
+        default="zero_shot",
+        help="Prompt style used for evaluation."
+    )
+
+    parser.add_argument(
+        "--is_target_model",
+        action="store_true",
+        help="Flag indicating if the evaluated model is the target model."
+    )
+
+    parser.add_argument(
+        "--additional_output_file_info",
+        type=str,
+        default="",
+        help="Additional info string to append to output file names."
+    )
+
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default="outputs",
+        help="Directory where outputs will be stored."
+    )
+
+    parser.add_argument(
+        "--results_dir",
+        type=str,
+        default="results",
+        help="Directory where outputs will be stored."
+    )
+    args = parser.parse_args()
+    # Ensure results directory exists
+    os.makedirs(args.results_dir, exist_ok=True)
+
+    #args = parser.parse_args()
+
+    compute_overall_accuracy(
+        output_path=args.output_path,
+        model_name=args.model_name,
+        prompt_style=args.prompt_style,
+        is_target_model=args.is_target_model,
+        additional_output_file_info=args.additional_output_file_info,
+        output_dir=args.output_dir,
+        results_dir=args.results_dir
+    )
+
+
 

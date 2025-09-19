@@ -223,7 +223,7 @@ if __name__ == "__main__":
 
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
-
+    
     for index in tqdm.tqdm(range(len(df))):
 
         row = df.iloc[index]
@@ -328,9 +328,9 @@ if __name__ == "__main__":
         
         with open(f"outputs/{output_path}", "a") as f:
             f.write(json.dumps(outputs) + "\n")
-    additional_output_file_info = ""
+    additional_output_file_info = "original"
     if "gpt-oss" in model_name.lower():
-        additional_output_file_info = f"original_{args.reasoning_effort}"
+        additional_output_file_info = f"{args.reasoning_effort}"
 
     compute_overall_accuracy(output_path, model_name, prompt_style, additional_output_file_info=additional_output_file_info)
 

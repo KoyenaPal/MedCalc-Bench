@@ -82,16 +82,16 @@ class LLMInference:
                 model_kwargs={"cache_dir":self.cache_dir},
             )
 
-    def answer(self, messages, thinking_message=""):
+    def answer(self, messages, thinking_message="", do_sample=False):
         # generate answers
         ans = ""
         if thinking_message != "":
             print("CAME TO GENERATE WITH THINKING", flush=True)
             if thinking_message == "<empty>":
                 thinking_message = ""
-            ans = self.generate_with_thinking(messages, thinking_message=thinking_message)
+            ans = self.generate_with_thinking(messages, thinking_message=thinking_message, do_sample=do_sample)
         else:
-            ans = self.generate(messages)
+            ans = self.generate(messages, do_sample=do_sample)
         ans = re.sub("\s+", " ", ans)
         
         return ans
@@ -100,11 +100,14 @@ class LLMInference:
         stopping_criteria = StoppingCriteriaList([CustomStoppingCriteria(stop_str, self.tokenizer, input_len)])
         return stopping_criteria
     
-    def generate_with_thinking(self, messages, thinking_message="", prompt=None):
+    def generate_with_thinking(self, messages, thinking_message="", prompt=None, do_sample=False):
         '''
         generate response given messages and thinking message
         '''
         stopping_criteria = None
+        temperature = 0.0
+        if do_sample:
+            temperature = 1.0
         if prompt is None:
             prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
             if "gpt-oss" in self.llm_name.lower():
@@ -128,13 +131,13 @@ class LLMInference:
         if "llama-3" in self.llm_name.lower():
             response = self.model(
                 prompt,
-                do_sample=False,
+                do_sample=do_sample,
                 eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                 pad_token_id=self.tokenizer.eos_token_id,
                 max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
-                temperature=0.0
+                temperature=temperature
             )
         else:
             print("RESPONSE SECTION NOW", flush=True)
@@ -147,17 +150,20 @@ class LLMInference:
                 max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 1500),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
-                temperature=0.0
+                temperature=temperature
             )
             part_ans = response[0]["generated_text"]
             
         ans = response[0]["generated_text"]
         return ans
 
-    def generate(self, messages, prompt=None):
+    def generate(self, messages, prompt=None, do_sample=False):
         '''
         generate response given messages
         '''
+        temperature = 0.0
+        if do_sample:
+            temperature = 1.0
         if "openai" in self.llm_name.lower() and "oss" not in self.llm_name.lower():
             response = openai.ChatCompletion.create(
                     model=self.model,
@@ -185,41 +191,41 @@ class LLMInference:
             if "llama-3" in self.llm_name.lower():
                 response = self.model(
                     prompt,
-                    do_sample=False,
+                    do_sample=do_sample,
                     eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                     pad_token_id=self.tokenizer.eos_token_id,
                     max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
-                    temperature=0.0
+                    temperature=temperature
                 )
             else:
                 # SETUP SEED
                 print("RESPONSE SECTION NOW", flush=True)
                 response = self.model(
                     prompt,
-                    do_sample=False,
+                    do_sample=do_sample,
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4000),
-                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4000),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
-                    temperature=0.0
+                    temperature=temperature
                 )
                 part_ans = response[0]["generated_text"]
                 if self.thinking_end_tag not in part_ans:
                     part_ans = part_ans + self.thinking_end_tag
                 response = self.model(
                     part_ans,
-                    do_sample=False,
+                    do_sample=do_sample,
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.eos_token_id,
                     max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 95),
                     max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 95),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
-                    temperature=0.0
+                    temperature=temperature
                 )
                 
             ans = response[0]["generated_text"]

@@ -301,9 +301,11 @@ if __name__ == "__main__":
                 thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
                 if args.thought_type == "ensembled_thought_minus_last":
                     thinking_message = "".join(thinking_message.split(".")[:-1])
-
-
-        answer = llm.answer(messages, thinking_message=thinking_message)
+        do_sample = False
+        if args.thought_type == "with_sampling":
+            do_sample = True
+            thinking_message = ""
+        answer = llm.answer(messages, thinking_message=thinking_message, do_sample=do_sample)
         print(answer)
        
         try:

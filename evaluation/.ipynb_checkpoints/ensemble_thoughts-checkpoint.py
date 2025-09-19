@@ -302,16 +302,32 @@ def main():
     # gen_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in generation_models]
     # eval_tokenizers_models = [(m, load_model_and_tokenizer(m)) for m in evaluation_models]
     output_file_path = args.output + "/merged_output.csv"
+    gpu_ids = list(range(available_gpus))
+    # ASSUMES THAT YOU CAN HAVE 1 GPU FOR EACH MODEL
+    gen_gpu_ids = gpu_ids[:len(generation_models)]
+    eval_gpu_ids = gpu_ids[len(generation_models):len(generation_models)+len(evaluation_models)]
+    # gen_tokenizers_models = [
+    #     (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
+    #     for i, m in enumerate(generation_models)]
+    # eval_tokenizers_models = [
+    #     (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
+        # for i, m in enumerate(evaluation_models)]
+    # Load generation models
     gen_tokenizers_models = [
-        (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
-        for i, m in enumerate(generation_models)]
+        (m, load_model_and_tokenizer(m, device_id=gpu_id))
+        for m, gpu_id in zip(generation_models, gen_gpu_ids)
+    ]
+    
+    # Load evaluation models
     eval_tokenizers_models = [
-        (m, load_model_and_tokenizer(m, device_id = i % available_gpus))
-        for i, m in enumerate(evaluation_models)]
+        (m, load_model_and_tokenizer(m, device_id=gpu_id))
+        for m, gpu_id in zip(evaluation_models, eval_gpu_ids)
+    ]
+
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
     write_header = not os.path.isfile(output_file_path)
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)
+    df = df.sample(n=100, random_state=42)[15:]
 
     with open(output_file_path, 'a', newline='', encoding='utf-8') as csvfile:
         fieldnames = ["Row Number", "Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
