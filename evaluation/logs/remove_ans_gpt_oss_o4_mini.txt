@@ -1,0 +1,738 @@
+Input file: outputs/openai_gpt-oss-20b_zero_shot_original_low.jsonl
+Output file: without_answer/openai_gpt-oss-20b_zero_shot_original_low_without_answer.jsonl
+GENERATED TEXT We need Child-Pugh score: parameters: encephalopathy grade, ascites, bilirubin, albumin, INR.  
+We have: encephalopathy present (confusion, asterixis, slurred speech) => grade II? but at least 1.  
+Ascites not mentioned => none.
+Processed 1/100
+GENERATED TEXT BP 138/92 => MAP 107? Actually MAP = (2*diast + syst)/3 = (2*92+138)/3= (184+138)/3=322/3=107.3  
+PaO2 78 on FiO2 0.63? Actually on room air? They say FiO2 63%? That seems wrong.  
+But PaO2 78 mmHg on FiO2 0.63 gives PaO2/FiO2 ratio 78/0.63=124.
+Processed 2/100
+GENERATED TEXT We need Framingham formula: QTc = QT / sqrt(RR). RR in seconds. HR 144 bpm => RR = 60/144 = 0.4167 s. sqrt(RR)= sqrt(0.4167)=0.645.
+Processed 3/100
+GENERATED TEXT We need to compute QTc = QT / sqrt(RR).  
+RR in seconds = 60/HR.  
+HR=72 bpm => RR=60/72=0.8333 s.  
+sqrt(RR)=sqrt(0.8333)=0.9129.  
+QTc=330/0.9129=361.5 msec.
+Processed 4/100
+GENERATED TEXT Need MAP.
+Use supine BP 89/52.
+MAP = (SBP + 2*DBP)/3 = (89 + 104)/3?
+Wait 2*DBP = 104.
+Processed 5/100
+GENERATED TEXT Need maintenance fluid calculation.
+For adult: 30-35 mL/kg/day.
+Use 30 mL/kg/day.
+Patient weight 22-year-old male weight? Not given.
+Maybe weight is 22 kg? No.
+They said healthy 22-year-old male. No weight.
+Can't compute.
+Maybe use 70 kg average.
+Processed 6/100
+GENERATED TEXT We need Glasgow-Blatchford score.  
+Variables: blood pressure systolic <90, heart rate >100, systolic 90-100, hemoglobin <12 men, <11 women, BUN >30, melena, syncope, hepatic disease, cardiac failure.  
+Here: HR 88 (<100), BP 130 (>90).  
+Hemoglobin 13 >12.  
+BUN 18 (<30).  
+Melena present = 2 points.  
+No syncope, no hepatic, no CHF.
+Processed 7/100
+GENERATED TEXT BMI = weight(kg)/height(m)^2.  
+Weight 42 kg.  
+Height 145 cm = 1.45 m.
+Processed 8/100
+GENERATED TEXT Ovulation occurs about 14 days before next period?  
+For cycle length 25, ovulation occurs 25-14=11 days after LMP.  
+Conception occurs around ovulation.
+Processed 9/100
+GENERATED TEXT We need HAS-BLED score: hypertension, abnormal renal/liver, stroke history, bleeding history, labile INR, age >65, drugs/alcohol.  
+He has uncontrolled hypertension (1), abnormal renal (1), abnormal liver (1), age >65 (1), alcohol >8 drinks/week (1).  
+No prior stroke, no bleeding history, INR normal.
+Processed 10/100
+GENERATED TEXT We need corrected anion gap.  
+Formula: AG = Na - (Cl + HCO3).  
+Corrected for albumin: add 2.5*(4 - albumin).  
+Albumin 1.5 g/dL.  
+So correction = 2.5*(4-1.5)=2.5*2.5=6.25.  
+Compute AG: Na 139, Cl 102, HCO3 30.  
+AG = 139 - (102+30)=139-132=7.
+Processed 11/100
+GENERATED TEXT Need creatinine 14.6 mg/dL, age 27, female, African-American.  
+MDRD: GFR = 175 * (Scr)^-1.154 * (Age)^-0.203 * (0.742 if female) * (1.212 if African American).  
+Compute.  
+Let's approximate: Scr^-1.154: 14.6^-1.154.  
+Age factor: 27^-0.203.
+Processed 12/100
+GENERATED TEXT Need serum osmolality.  
+Use formula: 2*(Na+K)+Glucose/18+BUN/2.8.  
+Values: Na 130, K 5.3, glucose 83.9, BUN 109.  
+Compute.
+Processed 13/100
+GENERATED TEXT We need to compute corrected QT using Hodges formula: QTc = QT + 1.75*(HR-60).  
+HR=154.  
+So HR-60=94.  
+1.75*94=164.5.  
+QT=330.
+Processed 14/100
+GENERATED TEXT Need MAP = (SBP + 2*DBP)/3.  
+SBP 125, DBP 75.
+Processed 15/100
+GENERATED TEXT Need creatinine 8.9 mg/dL.  
+Use CKD-EPI 2021 equation: GFR = 141 * min(Scr/κ,1)^α * max(Scr/κ,1)^-1.209 * 0.993^Age * 1.018 if female * 1.159 if black.  
+κ=0.7 for females, α=-0.329.  
+Age 38.  
+So compute.  
+Scr=8.9.  
+Scr/κ=8.9/0.7=12.714.  
+min=1, max=12.714.  
+So GFR=141 * 1^(-0.329) * 12.714^-1.209 * 0.993^38 *1.018.  
+1^anything=1.  
+12.714^-1.209 = exp(-1.209*ln12.714).  
+ln12.714=2.543.  
+product= -1.209*2.543=-3.075.  
+exp(-3.075)=0.046.  
+0.993^38 = exp(38*ln0.993).  
+ln0.993=-0.00703.  
+product=-0.267.  
+exp(-0.267)=0.766.  
+Multiply: 141 *0.046*0.766*1.018.  
+141*0.046=6.486.  
+*0.766=4.97.  
+*1.018=5.06.
+Processed 16/100
+GENERATED TEXT We need to compute due date.
+LMP 03/24/2017.
+Cycle length 30 days.
+Naegele's rule: add 280 days (40 weeks) to LMP.
+But if cycle length differs from 28 days, adjust: add (cycle length - 28) days to due date.
+So due date = LMP + 280 days + (cycle length - 28).
+Cycle length 30, difference +2 days.
+So due date = 03/24/2017 + 282 days.
+Let's compute.
+March 24 2017 + 282 days.
+2017 is not leap year? 2016 was leap, 2017 not.
+Days per month: March 31 days, so from March 24 to March 31 = 7 days remaining in March (including 24? Actually 24 to 31 inclusive? Let's do standard: add 282 days after March 24. So March 24 + 282 days.
+Let's compute by adding months.
+March 24 to April 24 = 31 days? Wait March has 31 days.
+From March 24 to March 31 = 7 days.
+Then April 1 to April 30 = 30 days.
+Let's just use date addition.
+Better: Use known due date for 28-day cycle: LMP 3/24/2017 + 280 days = due date?
+3/24/2017 + 280 days = 10/31/2017? Let's check: 280 days is 40 weeks.
+3/24 + 7 weeks = 5/15, + 33 weeks = 10/31.
+Processed 17/100
+GENERATED TEXT We need Child-Pugh score: parameters: encephalopathy grade, ascites, bilirubin, albumin, INR.  
+We have encephalopathy stage 3-4 (grade III/IV).  
+Bilirubin 1.9 mg/dL.  
+Albumin 3.3 g/dL.  
+INR 1.6.  
+Ascites? Not mentioned.  
+Assume none? But likely mild? Not given.  
+We assume no ascites.  
+So assign points: Encephalopathy grade III/IV = 3 points.  
+Bilirubin 1.9 mg/dL: 1.6-3.0 mg/dL = 2 points.  
+Albumin 3.3 g/dL: 2.8-3.5 = 1 point.  
+INR 1.6: 1.5-1.9 = 2 points.  
+Ascites none: 0 points.
+Processed 18/100
+GENERATED TEXT Need creatinine 8 mg/dL.  
+MDRD: eGFR = 175 × (Scr)^-1.154 × (Age)^-0.203 × (0.742 if female) × (1.212 if black).  
+Age 73.  
+Scr 8.  
+Compute: Scr^-1.154: 8^-1.154.  
+ln8=2.079; *-1.154 = -2.399; exp = 0.0907.  
+Age^-0.203: 73^-0.203.  
+ln73=4.29; *-0.203=-0.871; exp=0.418.  
+Multiply: 175 *0.0907=15.87. *0.418=6.63.  
+Female factor 0.742 => 4.92.  
+Black factor 1.212 => 5.96.
+Processed 19/100
+GENERATED TEXT Compute weight = BMI * height^2.  
+Height 1.45 m.  
+Square: 2.1025.
+Processed 20/100
+GENERATED TEXT We need to compute corrected QT using Fridericia: QTc = QT / (RR)^(1/3).  
+RR interval in seconds = 60 / HR.  
+HR=170 bpm => RR=60/170=0.35294 s.  
+Cube root of RR: (0.35294)^(1/3).  
+Compute: cube root of 0.35294.  
+Let's approximate: 0.35^(1/3).  
+0.35^(1/3) ~ e^( (1/3)*ln(0.35) ).  
+ln(0.35)=-1.0498.  
+/3 = -0.3499.  
+exp = 0.704.  
+So cube root ~0.704.
+Processed 21/100
+GENERATED TEXT We need Child-Pugh score: parameters: encephalopathy, ascites, bilirubin, albumin, INR.  
+Score points: Encephalopathy: grade 1 = 1 point.  
+Ascites: none = 1 point.  
+Bilirubin: 1.2-2.0 = 2 points.  
+Albumin: 2.8-3.5 = 2 points.  
+INR: 1.5-1.8 = 2 points; 1.9-2.4 = 3 points.
+Processed 22/100
+GENERATED TEXT Need FIB-4 = (Age * AST) / (Platelet count * sqrt(ALT)).  
+Age? Not given.  
+Probably current age: started at 2 years, now about 3 years later?  
+Actually timeline: initial at 2 years, then one year later (3 years), then 4 months after AIH diagnosis (so ~3.5 years).  
+So age ~3.5 years.  
+Platelet count currently 101000? earlier 101000.  
+Use 101,000.  
+AST 87, ALT 104.  
+Compute sqrt(ALT)=sqrt(104)=10.198.  
+Numerator: 3.5*87=304.5.  
+Denominator: 101000*10.198=1,030,798.
+Processed 23/100
+GENERATED TEXT We need Rautaharju formula: QTc = QT / sqrt(RR/1000).  
+RR in ms?  
+RR = 60,000 / HR.  
+HR 79 bpm => RR = 60000/79 ≈ 759.49 ms.  
+sqrt(RR/1000)= sqrt(0.75949)=0.8715.
+Processed 24/100
+GENERATED TEXT We need GCS: Eye, Verbal, Motor.  
+Eye: eyes open to pain = 2.  
+Verbal: incomprehensible, grunts, no words = 2? Actually verbal: 2 = incomprehensible sounds.  
+Motor: withdrawal to pain = 4.
+Processed 25/100
+GENERATED TEXT We need albumin corrected delta gap.  
+Formula: delta gap = AG - (4 - albumin).  
+Albumin in g/dL?  
+Provided albumin 4.2 g/L.  
+Convert to g/dL: 4.2 g/L = 0.42 g/dL.  
+Usually albumin normal 4.0-5.0 g/dL.  
+So albumin low? 0.42 g/dL unrealistic.  
+Maybe misprint: 4.2 g/dL.  
+Likely 4.2 g/dL.  
+Use 4.2.  
+Then correction: (4 - albumin) = 4 - 4.2 = -0.2.
+Processed 26/100
+GENERATED TEXT We need GCS.  
+Eye opening: slight opening to pain?  
+He opened eyes slightly to sternal rub.  
+Motor: reflex extension movement = decorticate?  
+That is abnormal flexion?  
+Extension is decerebrate?  
+Wait motor: 1=none, 2=extension to pain (decerebrate), 3=flexion to pain (decorticate), 4=localizes pain, 5=obeys commands.  
+He had hesitatingly reflex into extension movement.
+Processed 27/100
+GENERATED TEXT We need albumin corrected delta gap.  
+Delta gap = serum bicarbonate - (Na + K - Cl).  
+Corrected for albumin: add 2.5 mEq per g/dL decrease? Actually correction: add 2.5 mEq/L for each 1 g/dL decrease in albumin from normal 4.0.  
+Albumin values given: initial 1.2 g/dL, later 2.5, 1.9, 2.2.  
+Which albumin? Likely current?  
+The question: "patient's albumin corrected delta gap".  
+Probably use latest albumin 2.2 g/dL.  
+Need bicarbonate 18 mEq/L.  
+Na 135, K 5.5, Cl 110.
+Processed 28/100
+GENERATED TEXT Need adjusted body weight formula: Adjusted BW = IBW + 0.4*(Actual BW - IBW).  
+Need IBW for male: 50 + 2.3*(height in inches over 5ft).  
+Height 160 cm = 63 inches (since 1 inch=2.54 cm, 160/2.54=62.99).  
+5ft=60 inches.  
+Over 5ft: 3 inches.
+Processed 29/100
+GENERATED TEXT Need corrected sodium formula: corrected Na = measured Na + 1.6*(glucose-100)/100? Actually for hyperglycemia: corrected Na = measured Na + 1.6*(glucose-100)/100. Glucose 129 mg/dL. Difference 29. 1.6*29/100=0.464.
+Processed 30/100
+GENERATED TEXT We need MME.
+Conversion: Oxycodone 1.5, Hydromorphone 4, Codeine 0.15.
+Processed 31/100
+GENERATED TEXT Need FeverPAIN score: components: Fever (temp >38), Ear pain? Actually FeverPAIN for sore throat: Fever, Pain, Earache, Age, No cough, >3 days.  
+Score 0-5.  
+Here: low-grade fever present.  
+Pain: severe neck pain.  
+Earache: none.  
+Age 28 (<15? age >15 gives 1).  
+No cough? He had cough earlier but not now.  
+Duration >3 days: yes.
+Processed 32/100
+GENERATED TEXT Need HEART score components: History, ECG, Age, Risk factors, Troponin.  
+We have no troponin info.  
+History: typical chest pain? acute chest pain and palpitations, but unclear typical.  
+Likely non-specific.  
+ECG: ST depression inferior leads, isolated ST elevation D1-aVL.
+Processed 33/100
+GENERATED TEXT We need to calculate HAS-BLED score.
+Factors: Hypertension (1), Abnormal renal/liver (1 each), Stroke history (1), Bleeding history or predisposition (1), Labile INR (1), Elderly >65 (1), Drugs/alcohol (1 each).
+Patient: Hypertension present.
+Renal disease present (kidney transplant, renal disease).
+Liver cirrhosis present.
+Stroke history: TIA last year.
+Alcohol: 12 drinks per week (moderate? >8 drinks per week is risk).
+So alcohol yes.
+Drugs: none.
+Labile INR: stable.
+Elderly: no.
+So count: Hypertension 1, Renal 1, Liver 1, Stroke 1, Alcohol 1.
+Processed 34/100
+GENERATED TEXT We need Child-Pugh score: parameters: encephalopathy grade, ascites, bilirubin, albumin, INR.  
+Assign points: 1-3 each.  
+Given: encephalopathy grade 1-2: that's grade 1-2 considered mild?  
+In Child-Pugh: encephalopathy: grade 1-2 = 1 point; grade 3-4 = 2 points.  
+Ascites: moderate ascites = grade 2?  
+Child-Pugh: ascites: none = 1; mild = 2; moderate/severe = 3.  
+Bilirubin: 2.5 mg/dL.  
+Child-Pugh: bilirubin <2 = 1; 2-3 = 2; >3 = 3.  
+Albumin: 2.8 g/dL.  
+Child-Pugh: albumin >3.5 =1; 2.8-3.5 =2; <2.8 =3.  
+INR: 1.9.  
+Child-Pugh: INR <1.7 =1; 1.7-2.3 =2; >2.3 =3.  
+Child-Pugh class: 5-6 = A; 7-9 = B; 10-15 = C.
+Processed 35/100
+GENERATED TEXT Need FeverPAIN score: criteria: Fever, Ear pain, I think it's for sore throat?  
+Actually FeverPAIN for sore throat: Fever, Ear pain, I think?  
+Let's recall: FeverPAIN score components: Fever (≥38°C), Ear pain, I think?  
+Wait: FeverPAIN: Fever, Ear pain, I think?  
+Let's check: FeverPAIN score for sore throat: Fever (≥38°C), Ear pain, I think?  
+Actually components: Fever, Ear pain, I think?  
+Let's recall: FeverPAIN: Fever, Ear pain, I think? I'm mixing.  
+Let's quickly recall: FeverPAIN: Fever, Ear pain, I think? Actually it's: Fever, Ear pain, I think?  
+Let's search memory: FeverPAIN: Fever, Ear pain, I think? I'm stuck.  
+Let's approximate: Score 0-5.  
+But patient has no fever.
+Processed 36/100
+GENERATED TEXT We need Rautaharju formula: QTc = QT / sqrt(RR/1000).  
+RR in ms? RR = 60/HR *1000.
+Processed 37/100
+GENERATED TEXT We need LDL cholesterol concentration.
+Processed 38/100
+GENERATED TEXT Need delta gap: (Bicarbonate - 24) - (Serum Na - Serum Cl).  
+Use admission values? likely at presentation?  
+Use initial labs: Na 141, Cl 104, HCO3 29.  
+But delta gap negative?  
+maybe use later values: Na 134, Cl 104, HCO3 22.
+Processed 39/100
+GENERATED TEXT We need to compute corrected QT using Fridericia: QTc = QT / (RR)^(1/3).  
+RR interval in seconds = 60 / HR.  
+HR=164 bpm => RR=60/164=0.36585 s.  
+Cube root of RR: (0.36585)^(1/3).  
+Compute: cube root of 0.36585.  
+Let's approximate: 0.7^3=0.343; 0.71^3=0.357; 0.72^3=0.373.
+Processed 40/100
+GENERATED TEXT Need delta gap: (anion gap - 12) - (serum bicarbonate/24).
+Processed 41/100
+GENERATED TEXT We need corrected calcium formula: Corrected Ca = measured total Ca + 0.8*(4 - albumin). Measured total Ca is low calcium 7.6 mg/dL. Albumin 2.8 g/dL. Difference 4-2.8=1.2. 0.8*1.2=0.96.
+Processed 42/100
+GENERATED TEXT Need HOMA-IR = (fasting insulin in μU/mL * fasting glucose in mmol/L)/22.5.  
+We have fasting insulin 26 uIU/ml?  
+Wait insulin decreased by 26 uIU/ml from baseline?  
+The note says "insulin (−26uIU/ml)" meaning reduction of 26.  
+But we need current fasting insulin value.  
+Not given.  
+We have baseline? Not provided.  
+We have FG 210 mg/dL initially, then 163 mg/dL after exenatide, then 118.9kg weight.  
+No insulin value.  
+Maybe use 26 uIU/ml as current?  
+But that's change.  
+Might assume current insulin 26?  
+But unrealistic.
+Processed 43/100
+GENERATED TEXT We need to calculate HAS-BLED score.  
+Factors: Hypertension (yes) =1.  
+Abnormal renal/liver? Renal normal, liver not mentioned.  
+Bleeding history? none.  
+Labile INR? INR normal.  
+Elderly >65 =1.  
+Drugs/alcohol? Alcohol none, drugs? Not specified.
+Processed 44/100
+GENERATED TEXT Need MAP = (SBP + 2*DBP)/3.  
+178 + 2*100 = 378.  
+/3 = 126.
+Processed 45/100
+GENERATED TEXT We need to compute due date.  
+LMP 02/03/2012.  
+Cycle 28 days.  
+Naegele: add 280 days (40 weeks).  
+02/03/2012 + 280 days.  
+Let's calculate.  
+2012 is leap year.  
+Feb 3 2012.  
+Add 280 days.  
+Let's compute: 2012-02-03 to 2012-12-31?  
+Let's do month by month.  
+Feb 2012: 29 days total.  
+From Feb 3 to Feb 29 inclusive?  
+Actually days remaining in Feb after Feb 3: Feb 3 to Feb 29 = 27 days (since Feb 3 is day 3, days 3-29 inclusive = 27).  
+But easier: add 280 days.  
+Let's compute using date arithmetic: 2012-02-03 + 280 days.  
+We can compute by adding 280 days: 280 = 9 months (approx).  
+Let's use known due date: LMP Feb 3 2012 -> due date around Nov 9 2012?  
+Let's check: 280 days from Feb 3 is about 9 months 17 days.  
+Feb 3 + 9 months = Nov 3.  
++ 17 days = Nov 20.  
+Wait 9 months from Feb 3 is Nov 3 (since Feb->Mar 1 month, etc).  
+Then add 17 days -> Nov 20.  
+But need to account for leap year days? Already accounted.  
+Let's compute precisely.  
+Let's use day count: Feb 3 to Feb 28: 25 days?  
+Wait Feb 3 to Feb 28 inclusive?  
+Actually Feb 3 is day 34 of year (since Jan 31 + Feb 3).  
+2012 is leap year, so 366 days.  
+366 - 34 = 332 days remaining after Feb 3 (excluding Feb 3).  
+But we need 280 days, so due date will be within 2012.  
+So due date is 280 days after Feb 3, which is 280 days after day 34 of year = day 314 of year.  
+Day 314 of 2012: Let's find month/day.  
+Days per month 2012: Jan 31, Feb 29, Mar 31, Apr 30, May 31, Jun 30, Jul 31, Aug 31, Sep 30, Oct 31, Nov 30, Dec 31.  
+Cumulative days end of month: Jan 31, Feb 60, Mar 91, Apr 121, May 152, Jun 182, Jul 213, Aug 244, Sep 274, Oct 305, Nov 335, Dec 366.  
+Day 314 falls in November (since 305 < 314 <= 335).  
+Day 314 - 305 = 9.
+Processed 46/100
+GENERATED TEXT Delta gap = anion gap - (Na - (Cl + HCO3)).  
+Need values.  
+Initial: Na 134, Cl 105, HCO3 17.  
+AG 20.8.  
+Compute: Na - (Cl + HCO3) = 134 - (105+17)=134-122=12.
+Processed 47/100
+GENERATED TEXT We need CHA2DS2-VASc score.  
+Age 83 => >75 gives 3 points.  
+Hypertension yes 1.  
+Diabetes yes 1.  
+Stroke/TIA history? none.  
+Vascular disease? none.  
+Sex female? no.
+Processed 48/100
+GENERATED TEXT Need CURB-65: confusion, urea > 7 mmol/L (BUN 21 mg/dL ~7.4 mmol/L), respiratory rate >=30, blood pressure low (<90 systolic or <60 diastolic), age >=65.  
+Patient age 41, no confusion, BUN 21 mg/dL >7, RR 19 (<30), BP 121/79 normal, no confusion.
+Processed 49/100
+GENERATED TEXT Need corrected sodium: formula: corrected Na = Na + 1.6*(glucose-100)/100?  
+Actually for hyperglycemia: corrected Na = Na + 1.6*(glucose-100)/100.  
+Glucose 250 mg/dL.  
+So (250-100)=150.  
+150/100=1.5.  
+1.5*1.6=2.4.
+Processed 50/100
+GENERATED TEXT Need FeverPAIN score: factors: Fever >38.5? yes 39.6. Pain? not given. Ear pain? not. Age >12? no. No.
+Processed 51/100
+GENERATED TEXT We need to compute target weight = BMI * height^2.  
+Height 77 inches.  
+Convert to meters: 1 inch = 0.0254 m.  
+77*0.0254 = 1.9558 m.  
+Square: 1.9558^2 = 3.826? Let's compute: 1.9558^2 = (1.9558*1.9558).  
+1.9558*1.9558 approximate: 1.9558*1.9558 = (1.9558*2) - (1.9558*0.0442).  
+1.9558*2=3.9116.  
+1.9558*0.0442 ≈ 0.086? Let's compute precisely: 1.9558*0.0442 = 1.9558*44.2/1000 = (1.9558*44.2)/1000.  
+1.9558*44 = 86.0592; 1.9558*0.2=0.39116; sum=86.45036; divide by 1000=0.08645036.  
+Subtract: 3.9116-0.08645=3.82515.  
+So height^2 ≈3.825 m^2.  
+Multiply by BMI 19.7: 3.825*19.7 = 3.825*20 - 3.825*0.3.  
+3.825*20=76.5.  
+3.825*0.3=1.1475.  
+Subtract: 75.3525 kg.
+Processed 52/100
+GENERATED TEXT Need corrected sodium for hyperglycemia?  
+But glucose 70 normal.  
+Maybe correction for hyperkalemia?  
+Actually correction for hyperglycemia: corrected Na = measured Na + 1.6*(glucose-100)/100.  
+But glucose 70 <100 so no correction.  
+Maybe correction for hyperkalemia? Not.  
+Maybe correction for hypernatremia? Not.  
+Maybe correction for hyperglycemia?
+Processed 53/100
+GENERATED TEXT We need to count criteria met for PERC rule.  
+PERC criteria: age <50, heart rate <100, oxygen sat >=95, no hemoptysis, no unilateral leg swelling, no prior VTE, no estrogen use, no surgery/trauma in past 4 weeks, no malignancy.  
+Patient is 57 -> age criterion not met.
+Processed 54/100
+GENERATED TEXT We need corrected calcium formula: Corrected Ca = measured total Ca + 0.8*(4 - albumin).  
+Albumin 3.2 g/dL.  
+So 4-3.2=0.8.  
+0.8*0.8=0.64.  
+Measured Ca 7.2 mg/dL.  
+Add 0.64 = 7.84 mg/dL.
+Processed 55/100
+GENERATED TEXT Ovulation occurs ~14 days before next period.  
+Cycle length 29 days, so ovulation ~14 days after LMP?  
+Actually ovulation occurs about 14 days before next period.  
+Next period would be LMP + 29 days = 11/09/2020.  
+Ovulation ~14 days before that: 10/26/2020.  
+Conception occurs around ovulation day.  
+Processed 56/100
+GENERATED TEXT We need to compute QTc = QT / sqrt(RR).  
+RR in seconds = 60/HR.
+Processed 57/100
+GENERATED TEXT BMI = 68/(1.68^2)=68/2.8224=24.1 normal.  
+So use actual weight 68.  
+Cockcroft-Gault: (140-age)*weight/(72*Cr).  
+(140-66)=74.  
+74*68=5032.  
+72*5.09=366.48.
+Processed 58/100
+GENERATED TEXT We need CURB-65 score: points for confusion, urea > 7 mmol/L (or BUN > 20 mg/dL), respiratory rate ≥30, blood pressure low (systolic <90 or diastolic ≤60), age ≥65.
+Processed 59/100
+GENERATED TEXT BMI = weight(kg)/height(m)^2.
+Height 156 cm = 1.56 m.
+Weight 44 kg.
+Processed 60/100
+GENERATED TEXT Need CHA2DS2-VASc: factors: Congestive heart failure (1), Hypertension (1), Age ≥75 (2), Diabetes (1), Stroke/TIA (2), Vascular disease (1), Age 65-74 (1), Sex category female (1).
+Processed 61/100
+GENERATED TEXT Compute days between 10/01/2022 and 06/13/2023.  
+Oct 1 to Dec 31 2022: 31-1+1=31 days in Oct? Actually Oct 1 to Oct 31 inclusive 31 days.  
+Nov 30, Dec 31.  
+Sum 31+30+31=92.  
+2023 Jan 1 to Jun 13: Jan31, Feb28, Mar31, Apr30, May31, Jun13 => 31+28+31+30+31+13=164.
+Processed 62/100
+GENERATED TEXT We need to calculate HAS-BLED score.  
+Factors: Hypertension (uncontrolled >160/100) =1.  
+Abnormal renal/liver function (none) =0.  
+Stroke history (previous stroke) =1.  
+Bleeding history or predisposition (significant bleeding event after minor procedure) =1.  
+Labile INR (labile) =1.  
+Age >65? patient 59, so 0.  
+Drugs/alcohol: moderate alcohol 3 drinks/week, not heavy, so 0.
+Processed 63/100
+GENERATED TEXT We need to compute corrected QT using Hodges formula: QTc = QT + 1.75*(HR-60).  
+HR=161.  
+So HR-60=101.  
+1.75*101=176.75.  
+QT=330.  
+So QTc=330+176.75=506.75 msec.  
+Round?
+Processed 64/100
+GENERATED TEXT We need SOFA score components: PaO2/FiO2, platelet, bilirubin, MAP, creatinine, GCS.
+Compute.
+SOFA: 1 point for 200-300? Actually ranges: >400 0, 300-400 1, 200-300 2, 100-200 3, <100 4.
+MAP: we have BP 120/80.
+Processed 65/100
+GENERATED TEXT We need to compute due date. LMP 05/20/2020. Cycle 28 days. Naegele: add 280 days (40 weeks). 05/20/2020 + 280 days =? 2020 is leap year. 05/20 to 12/31? Let's compute: May 20 to May 31 = 11 days. June 30, July 31, Aug 31, Sep 30, Oct 31, Nov 30, Dec 31. Sum: 11+30+31+31+30+31+30+31 = 225 days. Need 280-225=55 days into 2021. Jan 31 days, Feb 28 (2021 not leap), March 31. 55-31=24 remaining after Jan. 24 days into Feb? Wait we used Jan 31, remaining 24 days.
+Processed 66/100
+GENERATED TEXT BMI = weight(kg)/height(m)^2.  
+Height 165.0 cm = 1.65 m.  
+Weight 60.2 kg.
+Processed 67/100
+GENERATED TEXT Need serum osmolality.  
+Use formula: 2*(Na+ + K+) + glucose/18 + BUN/2.8.  
+Values: corrected sodium 133 mmol/L, potassium 3.2 mmol/L, glucose 569 mg/dL.  
+BUN 25.9 mg/dL.
+Processed 68/100
+GENERATED TEXT We need MME.
+Need conversion factors: Fentanyl patch 1 mg/24h? 60 mg patch? Actually fentanyl patch 60 mcg/h? But 60 mg patch? Might be 60 mcg/h? But given 60 mg patch 1 time a day.
+Use conversion: 1 mg fentanyl patch = 100 MME? Actually 1 mg fentanyl patch (24h) equals 100 MME.
+Conversion: hydromorphone 1 mg = 4 MME.
+Buccal fentanyl 1 mg = 100 MME? Actually buccal fentanyl 1 mg = 100 MME.
+Processed 69/100
+GENERATED TEXT We need to compute conception date: LMP 08/22/2014, cycle length 27 days. Ovulation occurs about 14 days before next period. Conception occurs around ovulation. So conception date = LMP + (cycle length - 14) days? Actually ovulation day = LMP + (cycle length - 14). For 27-day cycle, ovulation day = 27-14=13 days after LMP. So conception date ~ 13 days after LMP.
+Processed 70/100
+GENERATED TEXT We need LDL cholesterol concentration from lab results: given 252 mg/dl total cholesterol, 84 triglycerides, 66 HDL, 72 LDL.
+Processed 71/100
+GENERATED TEXT We need Caprini score.  
+Points: Age 61-74 = 1.  
+Prior DVT = 3.  
+Recent trauma/surgery? She had multiple traumas and surgery? She had femoral shaft fracture surgery? Not specified but likely surgery.  
+Recent major trauma = 2? Actually Caprini: Major surgery = 2, Minor surgery = 1. Trauma = 2.  
+Also immobilization >3 days = 1.  
+BMI 27.1 (BMI 25-29.9 = 1).  
+Varicose veins = 1.  
+Also maybe "history of prior DVT" already counted.
+Processed 72/100
+GENERATED TEXT Need SIRS criteria: temperature >38 or <36, HR>90, RR>20 or PaCO2<32, WBC>12k or <4k or >10% bands.
+Processed 73/100
+GENERATED TEXT July 18 to July 31 =13 days.  
+Aug 31, Sep 30, Oct 31, Nov 30, Dec 31, Jan 31, Feb 9.
+Processed 74/100
+GENERATED TEXT Need HEART score: History, ECG, Age, Risk factors, Troponin.
+Patient 47, history of chest pain? He had pleuritic chest pain.
+History: typical? Probably non-specific.
+In HEART, History: typical angina=2, atypical=1, non-anginal=0.
+He had pleuritic chest pain, not typical.
+So 0? But maybe atypical? I'd give 1.
+ECG: low voltage, no ST changes: non-diagnostic=0.
+Age: 47 (<55) =0.
+Risk factors: diabetes, hypertension, smoking? Not mentioned smoking. He has diabetes and hypertension: 1 point.
+Troponin: initial 0.481 (elevated).
+Troponin >3x ULN? ULN 0.012, 0.481 is >3x. So 2 points.
+Processed 75/100
+GENERATED TEXT We need Child-Pugh score: parameters: bilirubin, albumin, INR, ascites, encephalopathy.  
+Values: bilirubin 40.2 umol/L.  
+Convert to mg/dL? 1 mg/dL = 17.1 umol/L.  
+So 40.2 umol/L = 2.35 mg/dL.  
+Child-Pugh: bilirubin: <2 mg/dL = 1 point; 2-3 mg/dL = 2; >3 mg/dL = 3.  
+So 2.35 mg/dL => 2 points.  
+Albumin 3.1 g/dL: <2.8 = 3; 2.8-3.5 = 2; >3.5 =1.  
+So 3.1 => 2 points.  
+INR 2.1: <1.7 =1; 1.7-2.3=2; >2.3=3.  
+So 2.1 => 2 points.  
+Ascites: negative (none) => 1 point.  
+Encephalopathy: patient has confusion, asterixis, so grade II? But presence of any encephalopathy = 2 points.  
+So 2 points.  
+Child-Pugh class B is 6-9.  
+Processed 76/100
+GENERATED TEXT Usually maintenance fluid = 4 mL/kg/day for first 10 kg, 2 mL/kg/day for next 10 kg, 1 mL/kg/day thereafter.
+Use 4+2+1.
+Processed 77/100
+GENERATED TEXT We need anion gap.  
+Provided: K 6.3, Na 144, Cl 99, HCO3 5.8.  
+AG = Na + K - (Cl + HCO3).  
+Compute: 144+6.3=150.3.  
+Cl+HCO3=99+5.8=104.8.  
+They mention AG 40 earlier.
+Processed 78/100
+GENERATED TEXT Need Framingham risk score 10-year risk.  
+Use age 67, female, total cholesterol 196, HDL 50, systolic BP 140, treated?  
+She is on lisinopril and metoprolol, so treated.  
+Smoking? No.  
+Diabetes? Not mentioned.  
+So use Framingham risk score table.  
+For women age 65-69: points: age 65-69 = 4 points.  
+Total cholesterol 200-239 mg/dL = 1 point.  
+HDL 50-59 = 1 point.  
+SBP 140-159 treated = 2 points.  
+Non-smoker = 0.  
+Diabetes none.  
+Sum = 4+1+1+2=8 points.  
+For women 8 points corresponds to 10-year risk ~? Table: 8 points = 5%?  
+Let's recall: For women: 0-4 points = <1%; 5-6 = 1-2%; 7-8 = 3-5%; 9-10 = 6-8%; 11-12 = 9-12%; 13-14 = 13-16%; 15-16 = 17-20%; 17+ = >20%.
+Processed 79/100
+GENERATED TEXT Equivalence: 5 mg hydrocortisone = 5 mg prednisone?
+Actually hydrocortisone is about 1:1 with prednisone?
+Wait: Hydrocortisone is about 1:1 with prednisone?
+Let's recall: Prednisone is about 1.25 times more potent than hydrocortisone?
+Actually hydrocortisone 5 mg = prednisone 5 mg?
+I think hydrocortisone 5 mg = prednisone 5 mg.
+But some say hydrocortisone 5 mg = prednisone 5 mg.
+Processed 80/100
+GENERATED TEXT We need MME.  
+Need conversion factors: Hydroxycodone 1 mg = 1.0 MME?  
+Actually hydroxycodone 1 mg = 1.0 MME.  
+Fentanyl patch: 40 mg?  
+Wait fentanyl patch 40 mg?  
+Usually patch 40 mcg?  
+But given 40 mg?  
+Might be miswritten.  
+Fentanyl patch 40 mg?  
+That seems huge.  
+But we assume 40 mg patch?  
+Conversion: Fentanyl 1 mg = 100 MME?  
+Actually fentanyl 1 mg = 100 MME.  
+So 40 mg = 4000 MME.  
+But that seems unrealistic.  
+Maybe they mean 40 mcg?  
+But they wrote mg.  
+We'll assume mg.  
+Traumatic?  
+Tramadol 1 mg = 0.1 MME.  
+So 60 mg = 6 MME per dose.  
+2 times a day => 12 MME.  
+Hydro 10 mg once => 10 MME.  
+Fentanyl 40 mg 3 times => 120 mg total => 120*100=12000 MME.
+Processed 81/100
+GENERATED TEXT We need Framingham formula: QTc = QT / sqrt(RR).
+RR in seconds.
+HR 81 bpm => RR = 60/81 = 0.7407 s.
+sqrt(RR)= sqrt(0.7407)=0.860.
+Processed 82/100
+GENERATED TEXT We need Centor Score: criteria: tonsillar exudates, tender anterior cervical lymphadenopathy, fever >38.3, absence of cough.
+He has sore throat, fever 100.8 (below 38.3), posterior cervical lymphadenopathy (tender?), rash not relevant.
+He has no cough mentioned.
+Processed 83/100
+GENERATED TEXT We need to compute QTc = QT / sqrt(RR).  
+RR in seconds = 60/HR.
+Processed 84/100
+GENERATED TEXT Need Framingham risk score: need age 50, male, total cholesterol 107 mg/dL?  
+Wait LDL 107, HDL 43.  
+Need total cholesterol?  
+Not given.  
+Use LDL?  
+Framingham uses total cholesterol.  
+We don't have.  
+Maybe use LDL as total?  
+Not accurate.  
+Maybe assume total cholesterol 200?  
+Not possible.
+Processed 85/100
+GENERATED TEXT Need delta gap: (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Actually delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Wait delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Actually delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+I'm mixing.  
+Standard: delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Actually delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Let's recall: delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Wait formula: delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+I'm stuck.  
+Let's compute: Na 135, Cl 103, HCO3 19.  
+Baseline? We don't have baseline.  
+Maybe delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+But baseline unknown.  
+Maybe they want delta gap = (Na - Cl - HCO3) - (Na - Cl - HCO3) baseline?  
+Processed 86/100
+GENERATED TEXT Need PSI calculation. Need points: age 75 => 75*? Actually PSI uses age in years. Age 75 => 75 points. Sex female? female gets 10 points. Comorbidities: CHF present => 10 points. No liver disease, no neoplasm. Respiratory rate 22 => >20 gives 20 points. PaO2 80 mmHg => >59 gives 0. BUN 27 mg/dL => >30? BUN 27 <30 => 0. Sodium 139 normal => 0. Temperature 36.5 normal => 0. Heart rate 82 normal => 0. Hematocrit 39% >30 => 0. Pleural effusion present => 10 points. PSI classes: I<50, II 51-70, III 71-90, IV 91-130, V>130.
+Processed 87/100
+GENERATED TEXT Need APACHE II: components: acute physiology score (12 variables), age points, chronic health points. We have limited data. Likely cannot compute exactly. Provide explanation.
+Processed 88/100
+GENERATED TEXT Need albumin corrected delta ratio.  
+Usually albumin corrected ratio = (serum albumin / 4.0) * (serum creatinine / 1.0)??  
+Wait albumin corrected ratio used in proteinuria?  
+Actually albumin corrected ratio = (serum albumin / 4.0) * (serum creatinine / 1.0).  
+But maybe they mean albumin corrected ratio for proteinuria: (serum albumin / 4.0) * (serum creatinine / 1.0).  
+But we have albumin 3.8 g/dL.  
+So ratio = (3.8/4.0)*(creatinine/1.0).  
+But creatinine 10.48 mg/dL.  
+But maybe they want albumin corrected ratio = (serum albumin / 4.0) * (serum creatinine / 1.0).
+Processed 89/100
+GENERATED TEXT We need SOFA score components: PaO2/FiO2, platelet, bilirubin, MAP, creatinine, GCS. Compute. PaO2/FiO2: PaO2 76 mmHg, FiO2 0.54 => ratio 76/0.54=140.7. SOFA: 140-200 = 1 point. Platelets 175k => 150-200k = 1 point. Bilirubin 2.3 mg/dL => 2-3 mg/dL = 1 point. MAP: 120-75=45 mmHg. MAP 70-109 = 1 point. 45 <70 => 2 points? Wait MAP 45 <70 => 2 points? Actually SOFA: MAP <70 = 2 points. So 2. Creatinine 1.4 mg/dL => 1.2-1.9 = 1 point. GCS 10 => 6-8 = 2 points? Wait GCS 6-8 = 2 points. 9-12 = 1 point. So 10 falls 9-12 => 1 point.
+Processed 90/100
+GENERATED TEXT Need BSA.  
+Use DuBois formula: BSA (m²) = 0.007184 * weight(kg)^0.425 * height(cm)^0.725.  
+Weight 100 kg, height 172 cm.  
+Compute.  
+Let's approximate: weight^0.425: ln(100)=4.6052; *0.425=1.958; exp=7.07.  
+Height^0.725: ln(172)=5.147; *0.725=3.733; exp=41.8.  
+Multiply: 7.07*41.8=295.5.
+Processed 91/100
+GENERATED TEXT We need to calculate CCI.  
+List conditions: hepatoblastoma (cancer? but hepatoblastoma is a malignant tumor; but CCI includes "any malignancy" weight 2? Actually CCI: malignancy (2).  
+Leukemia (2).  
+Congestive heart failure (1).  
+Diabetes mellitus uncomplicated (1).  
+Dementia (1).  
+Severe liver disease (cirrhosis) (3).  
+Cerebrovascular accident (stroke) (1).  
+Connective tissue disease (1).  
+No CKD, no COPD, no PVD, no peptic ulcer, no AIDS.  
+Wait check: dementia weight 1. Yes.
+Processed 92/100
+GENERATED TEXT Use DuBois formula: BSA = 0.007184 * weight^0.425 * height^0.725.  
+Compute.  
+weight^0.425: ln32=3.4657; *0.425=1.473; exp=4.36.  
+height 150 cm =1.5 m? but formula uses cm.  
+height^0.725: ln150=5.0106; *0.725=3.634; exp=37.9.
+Processed 93/100
+GENERATED TEXT We need to calculate HAS-BLED score.
+
+Drugs/alcohol (alcohol moderate 3 drinks/week maybe not >3? threshold >3 drinks/day? Actually HAS-BLED alcohol: >3 drinks/day or >5/week? Usually >3 drinks/day or >5/week.
+Processed 94/100
+GENERATED TEXT We need to calculate Revised Cardiac Risk Index (RCRI).  
+Factors: Unstable angina, recent MI (<6 months), LVEF <35%, cardiac surgery, renal insufficiency (Cr >2.0 or dialysis), CV disease (stroke, TIA, peripheral vascular disease).  
+Also high-risk surgery.  
+Each factor 1 point.  
+Count.  
+Patient: 81-year-old female, past cerebrovascular accident (stroke) residual weakness => yes stroke/TIA => 1.  
+No MI.  
+LVEF unknown.  
+Cardiac surgery? No, abdominal aortic aneurysm repair (non-cardiac high-risk).  
+Renal insufficiency: creatinine 120 µmol/L (~1.36 mg/dL). Not >2.0. So no.
+Processed 95/100
+GENERATED TEXT Need conversion: Prednisone PO to Hydrocortisone IV.  
+Equivalence: 5 mg prednisone = 4 mg hydrocortisone.  
+So 1 mg prednisone = 0.8 mg hydrocortisone.  
+45.802 mg prednisone => 45.802 *0.8 = 36.6416 mg hydrocortisone.
+Processed 96/100
+GENERATED TEXT We need to compute due date. LMP 04/09/2021. Cycle length 25 days. Naegele's rule: add 280 days (40 weeks) to LMP. But adjust for cycle length: subtract (cycle length - 28) days. So due date = LMP + 280 days - (cycle length - 28). Cycle length 25, so cycle length - 28 = -3. So subtract -3 = add 3 days. So due date = LMP + 280 + 3 = LMP + 283 days. Let's compute. April 9, 2021 + 283 days. Let's calculate. April 9 to April 30: 21 days (since April has 30 days). After April 9 inclusive? Usually add days. Let's just compute using date arithmetic. April 9 + 283 days. We can compute by adding months. April 9 + 283 days =? Let's convert to days: 283 days = 9 months + 13 days? Let's compute. From April 9, 2021 to May 9, 2021: 30 days (April 9 to May 9). Actually April has 30 days, so April 9 to May 9 is 30 days. Then to June 9: 31 days. July 9: 30 days. August 9: 31 days. September 9: 30 days. October 9: 31 days. November 9: 30 days. December 9: 31 days. That's 30+31+30+31+30+31+30+31 = 244 days. We need 283 days, so remaining 39 days after Dec 9, 2021. Add 39 days to Dec 9, 2021: December has 31 days, so from Dec 9 to Dec 31 is 22 days (since 31-9=22). After Dec 31, we have 39-22=17 days into January 2022. Let's double-check: LMP 04/09/2021 + 280 days = 01/16/2022? Wait typical due date for LMP 04/09/2021 would be 01/16/2022 (since 280 days). But we added 3 days because cycle shorter, giving 01/19? Wait we added 3 days, so due date should be 01/19/2022? Let's recompute. Hold on: Standard due date for LMP 04/09/2021 is 01/16/2022 (since 280 days). Let's verify: 04/09/2021 + 280 days = 01/16/2022. Yes. Now cycle length 25 days, shorter by 3 days, so due date earlier by 3 days? Wait rule: If cycle shorter than 28, add days? Actually due date is earlier if cycle shorter. Because ovulation occurs earlier. So due date earlier by (28 - cycle length) days. So subtract 3 days. Let's confirm. But earlier we added 3 days incorrectly. Let's correct: cycle length 25, difference = 28-25 = 3 days earlier. Let's compute again: LMP 04/09/2021 + 280 days = 01/16/2022. Let's output JSON.
+Processed 97/100
+GENERATED TEXT Need delta ratio = (ALP/AST) / (GGT/ALT).  
+Use values?  
+Likely from day 54?  
+Use highest?  
+Use day 54: ALP >1884, AST 24, GGT 45?  
+Wait GGT 45 ug/dL?  
+Actually ammonia 45.  
+GGT not given.  
+Use day 36: ALP >1800, GGT >1500, AST 152, ALT 85.
+Processed 98/100
+GENERATED TEXT We need Wells criteria for PE.  
+But patient is asymptomatic, no signs.  
+Wells criteria includes: clinical signs of DVT (3), PE more likely than pneumothorax (3), HR>100 (1.5), immobilization/surgery (1.5), previous DVT/PE (1.5), hemoptysis (1), malignancy (1).  
+Sum.
+Processed 99/100
+GENERATED TEXT Centor criteria: fever, tonsillar exudates, tender anterior cervical nodes, absence of cough.
+Patient has fever, cough present, no mention of tonsillar exudates or nodes.
+Processed 100/100
+Saved processed file to: without_answer/openai_gpt-oss-20b_zero_shot_original_low_without_answer.jsonl
