@@ -140,8 +140,8 @@ class LLMInference:
                 do_sample=do_sample,
                 eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                 pad_token_id=self.tokenizer.eos_token_id,
-                # max_length=min(self.max_length, 2*prompt_token_len),
-                max_new_tokens=min(self.max_length, prompt_token_len + 95),
+                max_length=min(self.max_length, prompt_token_len + 100 + old_prompt_token_len + 4096),
+                max_new_tokens=min(self.max_length, prompt_token_len + 100 + old_prompt_token_len + 4096),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
@@ -154,8 +154,8 @@ class LLMInference:
                 do_sample=do_sample,
                 eos_token_id=self.tokenizer.eos_token_id,
                 pad_token_id=self.tokenizer.eos_token_id,
-                # max_length=min(self.max_length,  2*old_prompt_token_len + 4096 + 95),
-                max_new_tokens=min(self.max_length,  prompt_token_len + 95),
+                max_length=min(self.max_length, prompt_token_len + 100 + old_prompt_token_len + 4096),
+                max_new_tokens=min(self.max_length, prompt_token_len + 100 + old_prompt_token_len + 4096),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
@@ -203,7 +203,7 @@ class LLMInference:
                     do_sample=do_sample,
                     eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=False)) + 96),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=temperature
@@ -230,8 +230,8 @@ class LLMInference:
                     do_sample=do_sample,
                     eos_token_id=self.tokenizer.eos_token_id,
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 95),
-                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 95),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=temperature
