@@ -298,7 +298,8 @@ if __name__ == "__main__":
             llm_thinking_key = "LLM Thinking"
             if "without_answer" in args.source_model_output_file:
                 llm_thinking_key = "LLM Thinking Without Answer"
-            thinking = clean_thinking(str(source_thought_row[llm_thinking_key]), model_name)
+            thinking = str(source_thought_row[llm_thinking_key])
+            #thinking = clean_thinking(str(source_thought_row[llm_thinking_key]), model_name)
             
         if thinking == "" or thinking == "No Thoughts":
                 print("AT NO THOUGHTS SECTION", flush=True)

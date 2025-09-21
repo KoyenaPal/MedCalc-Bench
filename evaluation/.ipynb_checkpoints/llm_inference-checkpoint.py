@@ -118,6 +118,7 @@ class LLMInference:
                                                             model_identity=messages[0]["content"],
                                                             reasoning_effort = messages[-1]["reasoning_effort"],
                                                             tokenize=False, add_generation_prompt=True)
+                old_prompt = prompt
                 
         if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
             prompt = f"{prompt}<think>{thinking_message}</think>"
@@ -131,27 +132,30 @@ class LLMInference:
         
         if "meditron" in self.llm_name.lower():
             stopping_criteria = self.custom_stop(["###", "User:", "\n\n\n"], input_len=len(self.tokenizer.encode(prompt, add_special_tokens=True)))
+        prompt_token_len = len(self.tokenizer.encode(prompt, add_special_tokens=True))
+        old_prompt_token_len = len(self.tokenizer.encode(old_prompt, add_special_tokens=True))
         if "llama-3" in self.llm_name.lower():
             response = self.model(
                 prompt,
                 do_sample=do_sample,
                 eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
-                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
+                max_length=min(self.max_length, (2*old_prompt_token_len) + 4096 + 95 - prompt_token_len),
+                max_new_tokens=min(self.max_length, (2*old_prompt_token_len) + 4096 + 95 - prompt_token_len),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
             )
         else:
+            
             print("RESPONSE SECTION NOW", flush=True)
             response = self.model(
                 prompt,
                 do_sample=do_sample,
                 eos_token_id=self.tokenizer.eos_token_id,
                 pad_token_id=self.tokenizer.eos_token_id,
-                max_length=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
-                max_new_tokens=min(self.max_length, len(self.tokenizer.encode(old_prompt, add_special_tokens=True)) + 4096 + 95),
+                max_length=min(self.max_length, (2*old_prompt_token_len) + 4096 + 95 - prompt_token_len),
+                max_new_tokens=min(self.max_length, (2*old_prompt_token_len) + 4096 + 95 - prompt_token_len),
                 truncation=True,
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
@@ -187,7 +191,8 @@ class LLMInference:
                                                                 reasoning_effort = messages[-1]["reasoning_effort"],
                                                                 tokenize=False, add_generation_prompt=True)
                 if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
-                    prompt += "<think>"
+                    if "dapo" in self.llm_name.lower():
+                        prompt += "<think>"
                 elif "openthinker" in self.llm_name.lower():
                     prompt += "<|begin_of_thought|>"
             if "meditron" in self.llm_name.lower():
@@ -198,7 +203,7 @@ class LLMInference:
                     do_sample=do_sample,
                     eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=False)) + 4096),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=temperature
