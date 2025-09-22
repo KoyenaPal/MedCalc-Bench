@@ -2,9 +2,10 @@
 
 # Define arrays of models and prompt styles
 #models=("Qwen/QwQ-32B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "open-thoughts/OpenThinker-7B")
-models=("Qwen/QwQ-32B")
+models=("open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "Qwen/QwQ-32B")
+# model= ("openai/gpt-oss-20b")
 #models=("Qwen/QwQ-32B" "open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B")
-targetmodels=("openai/gpt-oss-20b" "open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "Qwen/QwQ-32B")
+targetmodels=("open-thoughts/OpenThinker-7B")
 # reasoningeffort= ("low" "medium" "high")
 mkdir -p logs
 

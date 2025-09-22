@@ -123,7 +123,7 @@ class LLMInference:
         if "qwen" in self.llm_name.lower() or "phi" in self.llm_name.lower():
             prompt = f"{prompt}<think>{thinking_message}</think>"
         elif "openthinker" in self.llm_name.lower():
-            prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|>"
+            prompt = f"{prompt}<|begin_of_thought|>{thinking_message}<|end_of_thought|><|begin_of_solution|>"
         elif "gpt-oss" in self.llm_name.lower():
             prompt = f"{prompt}assistantanalysis{thinking_message}assistantfinal"
         # prompt = f"{prompt}<think>{thinking_message}</think>"
@@ -147,7 +147,6 @@ class LLMInference:
                 temperature=temperature
             )
         else:
-            
             print("RESPONSE SECTION NOW", flush=True)
             response = self.model(
                 prompt,
@@ -160,7 +159,6 @@ class LLMInference:
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
             )
-            part_ans = response[0]["generated_text"]
             
         ans = response[0]["generated_text"]
         return ans
@@ -225,6 +223,8 @@ class LLMInference:
                 part_ans = response[0]["generated_text"]
                 if self.thinking_end_tag not in part_ans:
                     part_ans = part_ans + self.thinking_end_tag
+                if "openthinker" in self.llm_name.lower() and "<|begin_of_solution|>" not in part_ans:
+                    part_ans = part_ans + "<|begin_of_solution|>"
                 response = self.model(
                     part_ans,
                     do_sample=do_sample,
