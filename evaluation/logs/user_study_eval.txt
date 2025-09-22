@@ -1,0 +1,75 @@
+=== Model Evaluation Pipeline + Keeping Incomplete Rows ===
+📁 Output: results_user_study | Plots: plots_user_study
+📖 Loading: user_study_raw_results.csv
+⚠️ Keeping 1 incomplete rows
+📊 Dataset: 15 rows × 160 columns
+🔄 Expanding to long format...
+📈 Created 1199 data points
+
+=== Statistical Analysis ===
+🧪 Testing 3 criteria across 4 models
+
+--- Clarity of Steps ---
+  OSS vs DAPO: t=-6.188, p=0.0000***, d=-1.011
+  OSS vs QwQ+DAPO/OSS: t=-8.841, p=0.0000***, d=-1.449
+  OSS vs QwQ+OSS/DAPO: t=-1.398, p=0.1641, d=-0.228
+  DAPO vs QwQ+DAPO/OSS: t=-2.973, p=0.0034**, d=-0.487
+  DAPO vs QwQ+OSS/DAPO: t=4.481, p=0.0000***, d=0.732
+  QwQ+DAPO/OSS vs QwQ+OSS/DAPO: t=7.001, p=0.0000***, d=1.147
+
+--- Ease of Following ---
+  OSS vs DAPO: t=-5.123, p=0.0000***, d=-0.837
+  OSS vs QwQ+DAPO/OSS: t=-7.593, p=0.0000***, d=-1.240
+  OSS vs QwQ+OSS/DAPO: t=-0.575, p=0.5663, d=-0.094
+  DAPO vs QwQ+DAPO/OSS: t=-2.761, p=0.0065**, d=-0.451
+  DAPO vs QwQ+OSS/DAPO: t=4.603, p=0.0000***, d=0.752
+  QwQ+DAPO/OSS vs QwQ+OSS/DAPO: t=7.131, p=0.0000***, d=1.164
+
+--- Confidence ---
+  OSS vs DAPO: t=-5.739, p=0.0000***, d=-0.937
+  OSS vs QwQ+DAPO/OSS: t=-7.638, p=0.0000***, d=-1.247
+  OSS vs QwQ+OSS/DAPO: t=-0.658, p=0.5116, d=-0.107
+  DAPO vs QwQ+DAPO/OSS: t=-2.247, p=0.0261*, d=-0.367
+  DAPO vs QwQ+OSS/DAPO: t=4.739, p=0.0000***, d=0.774
+  QwQ+DAPO/OSS vs QwQ+OSS/DAPO: t=6.520, p=0.0000***, d=1.065
+
+--- Best Overall Rankings ---
+  DAPO vs OSS: t=-5.420, p=0.0000***, d=-0.885
+  DAPO vs QwQ+DAPO/OSS: t=3.760, p=0.0002***, d=0.614
+  DAPO vs QwQ+OSS/DAPO: t=-3.880, p=0.0002***, d=-0.634
+  OSS vs QwQ+DAPO/OSS: t=10.041, p=0.0000***, d=1.640
+  OSS vs QwQ+OSS/DAPO: t=1.640, p=0.1031, d=0.268
+  QwQ+DAPO/OSS vs QwQ+OSS/DAPO: t=-8.329, p=0.0000***, d=-1.360
+
+🔧 Bonferroni correction: 24 tests, α = 0.002083
+   Significant: 20 → 17
+
+📊 Summary (Bonferroni corrected):
+   OSS < DAPO on Clarity of Steps: p=0.0000, d=-1.011
+   OSS < QwQ+DAPO/OSS on Clarity of Steps: p=0.0000, d=-1.449
+   DAPO > QwQ+OSS/DAPO on Clarity of Steps: p=0.0004, d=0.732
+   QwQ+DAPO/OSS > QwQ+OSS/DAPO on Clarity of Steps: p=0.0000, d=1.147
+   OSS < DAPO on Ease of Following: p=0.0000, d=-0.837
+   OSS < QwQ+DAPO/OSS on Ease of Following: p=0.0000, d=-1.240
+   DAPO > QwQ+OSS/DAPO on Ease of Following: p=0.0002, d=0.752
+   QwQ+DAPO/OSS > QwQ+OSS/DAPO on Ease of Following: p=0.0000, d=1.164
+   OSS < DAPO on Confidence: p=0.0000, d=-0.937
+   OSS < QwQ+DAPO/OSS on Confidence: p=0.0000, d=-1.247
+   DAPO > QwQ+OSS/DAPO on Confidence: p=0.0001, d=0.774
+   QwQ+DAPO/OSS > QwQ+OSS/DAPO on Confidence: p=0.0000, d=1.065
+   DAPO < OSS on best-overall: p=0.0000, d=-0.885
+   DAPO > QwQ+DAPO/OSS on best-overall: p=0.0059, d=0.614
+   DAPO < QwQ+OSS/DAPO on best-overall: p=0.0038, d=-0.634
+   OSS > QwQ+DAPO/OSS on best-overall: p=0.0000, d=1.640
+   QwQ+DAPO/OSS < QwQ+OSS/DAPO on best-overall: p=0.0000, d=-1.360
+
+=== Creating Visualizations ===
+✅ Plot saved: plots_user_study/boxplot_Clarity_of_Steps_all_rows.pdf
+✅ Plot saved: plots_user_study/boxplot_Ease_of_Following_all_rows.pdf
+✅ Plot saved: plots_user_study/boxplot_Confidence_all_rows.pdf
+✅ Plot saved: plots_user_study/boxplot_best_overall_all_rows.pdf
+✅ Plot saved: plots_user_study/boxplot_combined_all_rows.pdf
+📊 All visualizations completed!
+💾 Data saved in: results_user_study
+
+✅ Analysis complete!
