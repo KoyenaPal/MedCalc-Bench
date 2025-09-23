@@ -203,6 +203,7 @@ if __name__ == "__main__":
     parser.add_argument('--prompt', type=str, help='Specify prompt type. Options are direct_answer, zero_shot, one_shot')
     parser.add_argument('--thought_type', type=str, help='Specify thought_type if any. For instance, empty, ensembled_thought')
     parser.add_argument('--ensembled_file', type=str, help='If using ensembled thoughts, specify from where it should get the thoughts from')
+    parser.add_argument('--sampling_file', type=str, help='If using sampled thoughts, specify from where it should get the thoughts from')
     parser.add_argument('--reasoning_effort', type=str, default="medium", help='if using openai oss models, you can specify reasoning effort')
 
     args = parser.parse_args()
@@ -246,10 +247,17 @@ if __name__ == "__main__":
     df = pd.read_csv("../dataset/test_data.csv")
     df = df.sample(n=100, random_state=42)
     merged_thought_data = None
+    sampled_thought_data = None
     if ("ensembled_thought" in args.thought_type) or ("ensembled_thought_without_answer" in args.thought_type) and args.ensembled_file is not None:
         merged_thought_data = pd.read_csv(args.ensembled_file)
         print("Laoded ensembled thought file", flush=True)
         print(merged_thought_data.head())
+    if ("with_sampling" in args.thought_type) or ("with_sampling_without_answer" in args.thought_type) and args.sampling_file is not None:
+        sampled_thought_data = pd.read_json(args.sampling_file, lines=True)
+        print("Laoded sampling thought file", flush=True)
+        print(sampled_thought_data.head())
+
+        
     additional_output_file_info = f"{args.thought_type}"
     if "ensemble" in args.thought_type.lower():
         ensemble_file_name, _ = os.path.splitext(os.path.basename(args.ensembled_file))
@@ -288,7 +296,7 @@ if __name__ == "__main__":
 
         print("System:\n", system)
         print("User:\n", user)
-
+        do_sample = False
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user}
@@ -311,10 +319,13 @@ if __name__ == "__main__":
                 thinking_message = extract_thinking(curr_merged_thought_row["Ensembled Thought"])
                 if args.thought_type == "ensembled_thought_minus_last":
                     thinking_message = "".join(thinking_message.split(".")[:-1])
-        do_sample = False
-        if args.thought_type == "with_sampling":
+        elif "with_sampling" in args.thought_type or ("with_sampling_without_answer" in args.thought_type):
             do_sample = True
             thinking_message = ""
+            if args.thought_type == "with_sampling_without_answer":
+                curr_sampled_thought_row = sampled_thought_data[sampled_thought_data["Row Number"] == int(row["Row Number"])].iloc[0]
+                thinking_message = curr_sampled_thought_row["LLM Thinking Without Answer"]
+            
         answer = llm.answer(messages, thinking_message=thinking_message, do_sample=do_sample)
         print(answer)
        
