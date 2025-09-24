@@ -327,7 +327,7 @@ def main():
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
     write_header = not os.path.isfile(output_file_path)
     df = pd.read_csv("../dataset/test_data.csv")
-    df = df.sample(n=100, random_state=42)[15:]
+    df = df.sample(n=100, random_state=42)
 
     with open(output_file_path, 'a', newline='', encoding='utf-8') as csvfile:
         fieldnames = ["Row Number", "Note ID", "Calculator ID", "Question", "Patient Note", "Ensembled Thought"]
