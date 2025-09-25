@@ -1,7 +1,8 @@
 """
-CSV Model Evaluation Analysis Pipeline
+Enhanced CSV Model Evaluation Analysis Pipeline
 
-Processes model evaluation data with statistical analysis and publication-ready visualizations.
+Processes model evaluation data with statistical analysis and publication-ready visualizations,
+including accuracy and consistency metrics.
 """
 
 import pandas as pd
@@ -36,11 +37,19 @@ MODEL_COLORS = {
     'default': '#FFACAC'         # Pink fallback
 }
 
+# Accuracy and Consistency Data
+PERFORMANCE_METRICS = {
+    'OSS': {'consistency': 0.48, 'accuracy': 0.39},
+    'DAPO': {'consistency': 0.56, 'accuracy': 0.38},
+    'QwQ+DAPO/OSS': {'consistency': 0.88, 'accuracy': 0.40},
+    'QwQ+OSS/DAPO': {'consistency': 0.80, 'accuracy': 0.38}
+}
+
 # =============================================================================
 # MAIN FUNCTION
 # =============================================================================
 
-def process_csv_complete_with_diagnostics_and_drop(
+def process_csv_with_performance_metrics(
     file_path, 
     output_dir="results", 
     visualizations_dir="visualizations",
@@ -50,13 +59,13 @@ def process_csv_complete_with_diagnostics_and_drop(
     create_plots=True
 ):
     """
-    Process model evaluation CSV with statistical analysis and visualizations.
+    Process model evaluation CSV with statistical analysis, visualizations, and performance metrics.
     
-    Returns: (expanded_dataframe, clean_dataframe, ttest_results)
+    Returns: (expanded_dataframe, clean_dataframe, ttest_results, performance_summary)
     """
     # Setup
     action = "Dropping" if drop_incomplete else "Keeping"
-    print(f"=== Model Evaluation Pipeline + {action} Incomplete Rows ===")
+    print(f"=== Enhanced Model Evaluation Pipeline + {action} Incomplete Rows ===")
     print(f"📁 Output: {output_dir}" + (f" | Plots: {visualizations_dir}" if create_plots else ""))
     
     _create_directories(output_dir, visualizations_dir if create_plots else None)
@@ -65,19 +74,424 @@ def process_csv_complete_with_diagnostics_and_drop(
     df_clean = _process_csv(file_path, drop_incomplete)
     df_expanded = _expand_data(df_clean)
     
+    # Calculate user study means and add performance metrics
+    performance_summary = _create_performance_summary(df_expanded)
+    
     # Analysis and visualization
     ttest_results = _analyze_data(df_expanded, bonferroni_correction) if run_ttests and len(df_expanded) > 0 else None
     
     if create_plots and len(df_expanded) > 0:
-        _create_plots(df_expanded, visualizations_dir, drop_incomplete)
+        _create_enhanced_plots(df_expanded, performance_summary, visualizations_dir, drop_incomplete)
     
-    _save_data(df_clean, df_expanded, ttest_results, output_dir, drop_incomplete)
+    _save_enhanced_data(df_clean, df_expanded, ttest_results, performance_summary, output_dir, drop_incomplete)
     
-    print("\n✅ Analysis complete!")
-    return df_expanded, df_clean, ttest_results
+    print("\n✅ Enhanced analysis complete!")
+    return df_expanded, df_clean, ttest_results, performance_summary
+
+def _create_performance_summary(df_expanded):
+    """Create summary table with user study means and performance metrics."""
+    print("\n=== Creating Performance Summary ===")
+    
+    # Calculate user study means by model and criterion
+    user_means = df_expanded.groupby(['model_label', 'criterion'])['value'].agg(['mean', 'std', 'count']).reset_index()
+    
+    # Create comprehensive summary
+    summary_data = []
+    
+    for model in ['OSS', 'DAPO', 'QwQ+DAPO/OSS', 'QwQ+OSS/DAPO']:
+        row = {'Model': model}
+        
+        # Add performance metrics
+        if model in PERFORMANCE_METRICS:
+            row['Consistency'] = PERFORMANCE_METRICS[model]['consistency']
+            row['Accuracy'] = PERFORMANCE_METRICS[model]['accuracy']
+        
+        # Add user study means
+        model_data = user_means[user_means['model_label'] == model]
+        
+        for criterion in CRITERIA + ['best-overall']:
+            crit_data = model_data[model_data['criterion'] == criterion]
+            if len(crit_data) > 0:
+                mean_val = crit_data['mean'].iloc[0]
+                std_val = crit_data['std'].iloc[0]
+                count_val = crit_data['count'].iloc[0]
+                
+                # Use proper column names
+                if criterion == 'best-overall':
+                    row['Best_Overall_Mean'] = mean_val
+                    row['Best_Overall_Std'] = std_val
+                    row['Best_Overall_N'] = count_val
+                else:
+                    clean_name = criterion.replace(' ', '_').replace('of_', '')
+                    row[f'{clean_name}_Mean'] = mean_val
+                    row[f'{clean_name}_Std'] = std_val
+                    row[f'{clean_name}_N'] = count_val
+        
+        summary_data.append(row)
+    
+    summary_df = pd.DataFrame(summary_data)
+    
+    # Print summary
+    print("📊 Performance Summary:")
+    print(summary_df[['Model', 'Consistency', 'Accuracy']].to_string(index=False, float_format='%.3f'))
+    
+    return summary_df
 
 # =============================================================================
-# DATA PROCESSING
+# ENHANCED VISUALIZATIONS
+# =============================================================================
+
+def _create_enhanced_plots(df_expanded, performance_summary, vis_dir, drop_incomplete):
+    """Create all visualizations including performance metrics."""
+    print("\n=== Creating Enhanced Visualizations ===")
+    _setup_plot_style()
+    
+    # Original plots
+    _create_original_plots(df_expanded, vis_dir, drop_incomplete)
+    
+    # New enhanced plots
+    _create_performance_overview(performance_summary, vis_dir, drop_incomplete)
+    _create_comprehensive_dashboard(df_expanded, performance_summary, vis_dir, drop_incomplete)
+    _create_correlation_analysis(performance_summary, vis_dir, drop_incomplete)
+    
+    print("📊 All enhanced visualizations completed!")
+
+def _create_original_plots(df_expanded, vis_dir, drop_incomplete):
+    """Create the original plots from the base pipeline."""
+    # Individual criterion plots
+    regular_data = df_expanded[df_expanded['criterion'] != 'best-overall']
+    if len(regular_data) > 0:
+        for criterion in regular_data['criterion'].unique():
+            _plot_criterion(regular_data, criterion, vis_dir, drop_incomplete)
+    
+    # Best-overall plot
+    best_data = df_expanded[df_expanded['criterion'] == 'best-overall'] 
+    if len(best_data) > 0:
+        _plot_best_overall(best_data, vis_dir, drop_incomplete)
+    
+    # Combined overview
+    _plot_combined(df_expanded, vis_dir, drop_incomplete)
+
+def _create_performance_overview(performance_summary, vis_dir, drop_incomplete):
+    """Create overview plot with accuracy and consistency."""
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
+    
+    models = performance_summary['Model'].tolist()
+    colors = [MODEL_COLORS[model] for model in models]
+    
+    # Consistency
+    consistency = performance_summary['Consistency'].tolist()
+    bars1 = ax1.bar(models, consistency, color=colors, alpha=0.8, edgecolor='black', linewidth=1.2)
+    ax1.set_title('Model Consistency', fontsize=14, fontweight='bold')
+    ax1.set_ylabel('Consistency Score', fontsize=12, fontweight='bold')
+    ax1.set_ylim(0, 1.0)
+    ax1.grid(True, alpha=0.3)
+    
+    # Add value labels on bars
+    for bar, val in zip(bars1, consistency):
+        ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                f'{val:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Accuracy
+    accuracy = performance_summary['Accuracy'].tolist()
+    bars2 = ax2.bar(models, accuracy, color=colors, alpha=0.8, edgecolor='black', linewidth=1.2)
+    ax2.set_title('Model Accuracy', fontsize=14, fontweight='bold')
+    ax2.set_ylabel('Accuracy Score', fontsize=12, fontweight='bold')
+    ax2.set_ylim(0, 1.0)
+    ax2.grid(True, alpha=0.3)
+    
+    for bar, val in zip(bars2, accuracy):
+        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
+                f'{val:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # User Study Means - Clarity
+    if 'Clarity_Steps_Mean' in performance_summary.columns:
+        clarity_means = performance_summary['Clarity_Steps_Mean'].tolist()
+        bars3 = ax3.bar(models, clarity_means, color=colors, alpha=0.8, edgecolor='black', linewidth=1.2)
+        ax3.set_title('User Study: Clarity of Steps', fontsize=14, fontweight='bold')
+        ax3.set_ylabel('Mean Rating', fontsize=12, fontweight='bold')
+        ax3.grid(True, alpha=0.3)
+        
+        for bar, val in zip(bars3, clarity_means):
+            if not pd.isna(val):
+                ax3.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05,
+                        f'{val:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # User Study Means - Best Overall
+    if 'Best_Overall_Mean' in performance_summary.columns:
+        best_means = performance_summary['Best_Overall_Mean'].tolist()
+        bars4 = ax4.bar(models, best_means, color=colors, alpha=0.8, edgecolor='black', linewidth=1.2)
+        ax4.set_title('User Study: Best Overall', fontsize=14, fontweight='bold')
+        ax4.set_ylabel('Mean Rating', fontsize=12, fontweight='bold')
+        ax4.grid(True, alpha=0.3)
+        
+        for bar, val in zip(bars4, best_means):
+            if not pd.isna(val):
+                ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05,
+                        f'{val:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Rotate x-axis labels for all subplots
+    for ax in [ax1, ax2, ax3, ax4]:
+        ax.tick_params(axis='x', rotation=45)
+        ax.set_facecolor('#FAFAFA')
+    
+    plt.suptitle('Model Performance Overview', fontsize=16, fontweight='bold', y=0.98)
+    plt.tight_layout()
+    
+    _save_plot(vis_dir, "performance_overview", drop_incomplete)
+
+def _create_comprehensive_dashboard(df_expanded, performance_summary, vis_dir, drop_incomplete):
+    """Create a comprehensive dashboard with all metrics."""
+    fig = plt.figure(figsize=(18, 12))
+    
+    # Create grid layout
+    gs = fig.add_gridspec(3, 4, hspace=0.3, wspace=0.3)
+    
+    models = performance_summary['Model'].tolist()
+    colors = [MODEL_COLORS[model] for model in models]
+    
+    # Top row - Performance metrics
+    ax1 = fig.add_subplot(gs[0, :2])
+    consistency = performance_summary['Consistency'].tolist()
+    accuracy = performance_summary['Accuracy'].tolist()
+    
+    x = np.arange(len(models))
+    width = 0.35
+    
+    bars1 = ax1.bar(x - width/2, consistency, width, label='Consistency', 
+                    color=[MODEL_COLORS[m] for m in models], alpha=0.8, edgecolor='black')
+    bars2 = ax1.bar(x + width/2, accuracy, width, label='Accuracy', 
+                    color=[MODEL_COLORS[m] for m in models], alpha=0.6, edgecolor='black')
+    
+    ax1.set_title('Performance Metrics', fontsize=14, fontweight='bold')
+    ax1.set_ylabel('Score', fontsize=12)
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(models, rotation=45, ha='right')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    ax1.set_ylim(0, 1.0)
+    
+    # Add value labels
+    for bars in [bars1, bars2]:
+        for bar in bars:
+            height = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2., height + 0.01,
+                    f'{height:.2f}', ha='center', va='bottom', fontsize=10)
+    
+    # Scatter plot - Consistency vs Accuracy
+    ax2 = fig.add_subplot(gs[0, 2:])
+    scatter = ax2.scatter(consistency, accuracy, c=colors, s=200, alpha=0.8, 
+                         edgecolors='black', linewidth=2)
+    
+    for i, model in enumerate(models):
+        ax2.annotate(model, (consistency[i], accuracy[i]), 
+                    xytext=(5, 5), textcoords='offset points', fontsize=10, fontweight='bold')
+    
+    ax2.set_xlabel('Consistency', fontsize=12, fontweight='bold')
+    ax2.set_ylabel('Accuracy', fontsize=12, fontweight='bold')
+    ax2.set_title('Consistency vs Accuracy', fontsize=14, fontweight='bold')
+    ax2.grid(True, alpha=0.3)
+    
+    # User study results
+    if len(df_expanded) > 0:
+        # Group user study data
+        user_means = df_expanded.groupby(['model_label', 'criterion'])['value'].mean().reset_index()
+        
+        # Plot each criterion
+        criteria_to_plot = ['Clarity of Steps', 'Ease of Following', 'Confidence']
+        for i, criterion in enumerate(criteria_to_plot):
+            ax = fig.add_subplot(gs[1, i])
+            crit_data = user_means[user_means['criterion'] == criterion]
+            
+            if len(crit_data) > 0:
+                model_means = []
+                model_names = []
+                model_colors = []
+                
+                for model in models:
+                    model_data = crit_data[crit_data['model_label'] == model]
+                    if len(model_data) > 0:
+                        model_means.append(model_data['value'].iloc[0])
+                        model_names.append(model)
+                        model_colors.append(MODEL_COLORS[model])
+                
+                if model_means:
+                    bars = ax.bar(model_names, model_means, color=model_colors, alpha=0.8, edgecolor='black')
+                    ax.set_title(f'{criterion}', fontsize=12, fontweight='bold')
+                    ax.set_ylabel('Mean Rating', fontsize=10)
+                    ax.tick_params(axis='x', rotation=45)
+                    ax.grid(True, alpha=0.3)
+                    
+                    for bar, val in zip(bars, model_means):
+                        ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05,
+                               f'{val:.2f}', ha='center', va='bottom', fontsize=9, fontweight='bold')
+        
+        # Best Overall
+        ax4 = fig.add_subplot(gs[1, 3])
+        best_data = user_means[user_means['criterion'] == 'best-overall']
+        
+        if len(best_data) > 0:
+            model_means = []
+            model_names = []
+            model_colors = []
+            
+            for model in models:
+                model_data = best_data[best_data['model_label'] == model]
+                if len(model_data) > 0:
+                    model_means.append(model_data['value'].iloc[0])
+                    model_names.append(model)
+                    model_colors.append(MODEL_COLORS[model])
+            
+            if model_means:
+                bars = ax4.bar(model_names, model_means, color=model_colors, alpha=0.8, edgecolor='black')
+                ax4.set_title('Best Overall', fontsize=12, fontweight='bold')
+                ax4.set_ylabel('Mean Rating', fontsize=10)
+                ax4.tick_params(axis='x', rotation=45)
+                ax4.grid(True, alpha=0.3)
+                
+                for bar, val in zip(bars, model_means):
+                    ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05,
+                           f'{val:.2f}', ha='center', va='bottom', fontsize=9, fontweight='bold')
+    
+    # Bottom row - Combined view
+    ax5 = fig.add_subplot(gs[2, :])
+    
+    # Create multi-metric comparison
+    metrics_data = []
+    for model in models:
+        metrics_data.append({
+            'Model': model,
+            'Consistency': PERFORMANCE_METRICS[model]['consistency'],
+            'Accuracy': PERFORMANCE_METRICS[model]['accuracy']
+        })
+    
+    # Add user study means if available
+    if len(df_expanded) > 0:
+        user_overall = df_expanded.groupby('model_label')['value'].mean()
+        for i, model in enumerate(models):
+            if model in user_overall.index:
+                metrics_data[i]['User_Rating'] = user_overall[model]
+    
+    metrics_df = pd.DataFrame(metrics_data)
+    
+    # Normalize all metrics to 0-1 scale for comparison
+    normalized_data = []
+    metric_cols = ['Consistency', 'Accuracy']
+    if 'User_Rating' in metrics_df.columns:
+        metric_cols.append('User_Rating')
+    
+    for _, row in metrics_df.iterrows():
+        for metric in metric_cols:
+            normalized_data.append({
+                'Model': row['Model'],
+                'Metric': metric,
+                'Value': row[metric]
+            })
+    
+    norm_df = pd.DataFrame(normalized_data)
+    
+    # Create grouped bar chart
+    pivot_data = norm_df.pivot(index='Model', columns='Metric', values='Value')
+    pivot_data.plot(kind='bar', ax=ax5, color=['#FF6B6B', '#4ECDC4', '#45B7D1'], 
+                    alpha=0.8, edgecolor='black', linewidth=1)
+    
+    ax5.set_title('Normalized Metrics Comparison', fontsize=14, fontweight='bold')
+    ax5.set_ylabel('Normalized Score', fontsize=12)
+    ax5.set_xlabel('Model', fontsize=12)
+    ax5.tick_params(axis='x', rotation=45)
+    ax5.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax5.grid(True, alpha=0.3)
+    
+    # Style all subplots
+    for ax in [ax1, ax2, ax4, ax5] + ([ax3] if 'ax3' in locals() else []):
+        ax.set_facecolor('#FAFAFA')
+    
+    plt.suptitle('Comprehensive Model Evaluation Dashboard', fontsize=18, fontweight='bold', y=0.95)
+    plt.tight_layout()
+    
+    _save_plot(vis_dir, "comprehensive_dashboard", drop_incomplete)
+
+def _create_correlation_analysis(performance_summary, vis_dir, drop_incomplete):
+    """Create simple scatter plots for correlation analysis."""
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    
+    models = performance_summary['Model'].tolist()
+    colors = [MODEL_COLORS[model] for model in models]
+    consistency = performance_summary['Consistency'].tolist()
+    accuracy = performance_summary['Accuracy'].tolist()
+    
+    # Get user study data if available
+    user_ratings = []
+    if 'Best_Overall_Mean' in performance_summary.columns:
+        user_ratings = performance_summary['Best_Overall_Mean'].tolist()
+    
+    # Consistency vs User Ratings
+    if user_ratings and not all(pd.isna(user_ratings)):
+        ax1.scatter(consistency, user_ratings, c=colors, s=150, alpha=0.9, 
+                   edgecolors='black', linewidth=1.5)
+        
+        for i, model in enumerate(models):
+            if not pd.isna(user_ratings[i]):
+                ax1.annotate(model, (consistency[i], user_ratings[i]), 
+                            xytext=(8, 8), textcoords='offset points', 
+                            fontsize=11, fontweight='bold')
+        
+        # Add trend line
+        valid_indices = [i for i, rating in enumerate(user_ratings) if not pd.isna(rating)]
+        if len(valid_indices) > 1:
+            valid_consistency = [consistency[i] for i in valid_indices]
+            valid_ratings = [user_ratings[i] for i in valid_indices]
+            z = np.polyfit(valid_consistency, valid_ratings, 1)
+            p = np.poly1d(z)
+            ax1.plot(valid_consistency, p(valid_consistency), "r--", alpha=0.8, linewidth=2)
+            
+            # Calculate correlation
+            corr = np.corrcoef(valid_consistency, valid_ratings)[0, 1]
+            ax1.text(0.05, 0.95, f'r = {corr:.3f}', transform=ax1.transAxes, 
+                    bbox=dict(boxstyle="round", facecolor='white', alpha=0.9),
+                    fontsize=13, fontweight='bold')
+        
+        ax1.set_xlabel('Consistency', fontsize=13, fontweight='bold')
+        ax1.set_ylabel('User Rating (Best Overall)', fontsize=13, fontweight='bold')
+        ax1.set_title('Consistency vs User Preference', fontsize=14, fontweight='bold')
+        ax1.grid(True, alpha=0.4)
+    
+    # Accuracy vs User Ratings  
+    if user_ratings and not all(pd.isna(user_ratings)):
+        ax2.scatter(accuracy, user_ratings, c=colors, s=150, alpha=0.9, 
+                   edgecolors='black', linewidth=1.5)
+        
+        for i, model in enumerate(models):
+            if not pd.isna(user_ratings[i]):
+                ax2.annotate(model, (accuracy[i], user_ratings[i]), 
+                            xytext=(8, 8), textcoords='offset points', 
+                            fontsize=11, fontweight='bold')
+        
+        # Add trend line
+        valid_indices = [i for i, rating in enumerate(user_ratings) if not pd.isna(rating)]
+        if len(valid_indices) > 1:
+            valid_accuracy = [accuracy[i] for i in valid_indices]
+            valid_ratings = [user_ratings[i] for i in valid_indices]
+            z = np.polyfit(valid_accuracy, valid_ratings, 1)
+            p = np.poly1d(z)
+            ax2.plot(valid_accuracy, p(valid_accuracy), "r--", alpha=0.8, linewidth=2)
+            
+            # Calculate correlation
+            corr = np.corrcoef(valid_accuracy, valid_ratings)[0, 1]
+            ax2.text(0.05, 0.95, f'r = {corr:.3f}', transform=ax2.transAxes, 
+                    bbox=dict(boxstyle="round", facecolor='white', alpha=0.9),
+                    fontsize=13, fontweight='bold')
+        
+        ax2.set_xlabel('Accuracy', fontsize=13, fontweight='bold')
+        ax2.set_ylabel('User Rating (Best Overall)', fontsize=13, fontweight='bold')
+        ax2.set_title('Accuracy vs User Preference', fontsize=14, fontweight='bold')
+        ax2.grid(True, alpha=0.4)
+    
+    plt.tight_layout()
+    _save_plot(vis_dir, "scatter_plot", drop_incomplete)
+
+# =============================================================================
+# DATA PROCESSING (inherit from original)
 # =============================================================================
 
 def _process_csv(file_path, drop_incomplete):
@@ -204,7 +618,7 @@ def _infer_model(col):
     return 'best-overall'
 
 # =============================================================================
-# STATISTICAL ANALYSIS
+# STATISTICAL ANALYSIS (inherit from original)
 # =============================================================================
 
 def _analyze_data(df_expanded, bonferroni_correction):
@@ -307,43 +721,8 @@ def _process_test_results(results, bonferroni_correction):
     return df
 
 # =============================================================================
-# VISUALIZATION
+# ORIGINAL VISUALIZATION FUNCTIONS
 # =============================================================================
-
-def _create_plots(df_expanded, vis_dir, drop_incomplete):
-    """Create all visualizations."""
-    print("\n=== Creating Visualizations ===")
-    _setup_plot_style()
-    
-    # Individual criterion plots
-    regular_data = df_expanded[df_expanded['criterion'] != 'best-overall']
-    if len(regular_data) > 0:
-        for criterion in regular_data['criterion'].unique():
-            _plot_criterion(regular_data, criterion, vis_dir, drop_incomplete)
-    
-    # Best-overall plot
-    best_data = df_expanded[df_expanded['criterion'] == 'best-overall'] 
-    if len(best_data) > 0:
-        _plot_best_overall(best_data, vis_dir, drop_incomplete)
-    
-    # Combined overview
-    _plot_combined(df_expanded, vis_dir, drop_incomplete)
-    
-    print("📊 All visualizations completed!")
-
-def _setup_plot_style():
-    """Configure matplotlib for publication-quality output."""
-    plt.style.use('seaborn-v0_8-whitegrid')
-    
-    # Font selection
-    serif_fonts = ['DejaVu Serif', 'Times', 'Times New Roman', 'Liberation Serif', 'serif']
-    font = next((f for f in serif_fonts if f in plt.rcParams['font.serif'] or f == 'serif'), 'serif')
-    
-    plt.rcParams.update({
-        'font.size': 11, 'font.family': 'serif', 'font.serif': [font],
-        'figure.dpi': 300, 'axes.linewidth': 0.8, 'grid.alpha': 0.3,
-        'legend.frameon': True, 'legend.shadow': True, 'legend.framealpha': 0.9
-    })
 
 def _plot_criterion(regular_data, criterion, vis_dir, drop_incomplete):
     """Create individual criterion plot."""
@@ -559,6 +938,20 @@ def _add_means(data):
                     markeredgecolor='white', markeredgewidth=2, 
                     label='Mean' if i == 0 else "", zorder=10)
 
+def _setup_plot_style():
+    """Configure matplotlib for publication-quality output."""
+    plt.style.use('seaborn-v0_8-whitegrid')
+    
+    # Font selection
+    serif_fonts = ['DejaVu Serif', 'Times', 'Times New Roman', 'Liberation Serif', 'serif']
+    font = next((f for f in serif_fonts if f in plt.rcParams['font.serif'] or f == 'serif'), 'serif')
+    
+    plt.rcParams.update({
+        'font.size': 11, 'font.family': 'serif', 'font.serif': [font],
+        'figure.dpi': 300, 'axes.linewidth': 0.8, 'grid.alpha': 0.3,
+        'legend.frameon': True, 'legend.shadow': True, 'legend.framealpha': 0.9
+    })
+
 # =============================================================================
 # UTILITIES
 # =============================================================================
@@ -579,26 +972,30 @@ def _save_plot(vis_dir, filename, drop_incomplete):
     print(f"✅ Plot saved: {path}")
     plt.close()
 
-def _save_data(df_clean, df_expanded, ttest_results, output_dir, drop_incomplete):
-    """Save all results."""
+def _save_enhanced_data(df_clean, df_expanded, ttest_results, performance_summary, output_dir, drop_incomplete):
+    """Save all results including performance summary."""
     suffix = '_complete_only' if drop_incomplete else '_all_rows'
     out_path = Path(output_dir)
     
     df_clean.to_csv(out_path / f'clean_data{suffix}.csv', index=False)
     df_expanded.to_csv(out_path / f'expanded_data{suffix}.csv', index=False) 
+    performance_summary.to_csv(out_path / f'performance_summary{suffix}.csv', index=False)
     
     if ttest_results is not None and len(ttest_results) > 0:
         ttest_results.to_csv(out_path / f'statistical_tests{suffix}.csv', index=False)
     
-    print(f"💾 Data saved in: {out_path}")
+    print(f"💾 Enhanced data saved in: {out_path}")
 
 # =============================================================================
 # EXAMPLE USAGE
 # =============================================================================
 
 if __name__ == "__main__":
-    df_expanded, df_clean, ttests = process_csv_complete_with_diagnostics_and_drop(
+    df_expanded, df_clean, ttests, performance_summary = process_csv_with_performance_metrics(
         'user_study_raw_results.csv',
-        output_dir='results_user_study', 
-        visualizations_dir='plots_user_study'
+        output_dir='results_enhanced_user_study', 
+        visualizations_dir='plots_enhanced_user_study'
     )
+    
+    print("\n=== Performance Summary ===")
+    print(performance_summary.to_string(index=False, float_format='%.3f'))

@@ -177,6 +177,10 @@ def _extract_data(df, cols, model, criterion, data, group_prefix=None):
         for idx in df.index:
             value = _get_float(df.at[idx, col])
             if value is not None:
+                # Transform ranking values to same scale (6 - rank) for best-overall
+                if criterion == 'best-overall':
+                    value = 6 - value
+                
                 data.append({
                     'original_row': idx, 'original_col': col, 'group': group_name,
                     'model': model, 'criterion': criterion, 'value': value
@@ -355,49 +359,86 @@ def _plot_best_overall(best_data, vis_dir, drop_incomplete):
     """Create best-overall plot.""" 
     plt.figure(figsize=(10, 6))
     _create_boxplot(best_data, 'model_label', 'value')
-    _style_plot('Best Overall Model Ranking', 'Model', 'Rank (Lower = Better)', best_data, invert_y=True)
+    _style_plot('Best Overall Model Ranking', 'Model', 'Score', best_data)
     _save_plot(vis_dir, "boxplot_best_overall", drop_incomplete)
 
 def _plot_combined(df_expanded, vis_dir, drop_incomplete):
-    """Create combined overview plot."""
+    """Create combined overview plot with all criteria on single plot."""
     regular_data = df_expanded[df_expanded['criterion'] != 'best-overall']
     best_data = df_expanded[df_expanded['criterion'] == 'best-overall']
     
-    criteria = regular_data['criterion'].unique() if len(regular_data) > 0 else []
-    n_plots = len(criteria) + (1 if len(best_data) > 0 else 0)
+    # Combine regular criteria and best-overall data
+    combined_data = []
     
-    if n_plots == 0:
+    if len(regular_data) > 0:
+        combined_data.append(regular_data)
+    
+    if len(best_data) > 0:
+        best_data_copy = best_data.copy()
+        best_data_copy['criterion'] = 'Best Overall'
+        combined_data.append(best_data_copy)
+    
+    if not combined_data:
         return
     
-    # Create layout
-    if n_plots <= 2:
-        rows, cols, figsize = 1, n_plots, (6 * n_plots, 6)
-    elif n_plots <= 4:
-        rows, cols, figsize = 2, 2, (12, 10)  
-    else:
-        rows, cols, figsize = (n_plots + 2) // 3, 3, (15, 5 * rows)
+    # Combine all data
+    all_data = pd.concat(combined_data, ignore_index=True)
     
-    fig, axes = plt.subplots(rows, cols, figsize=figsize)
-    axes = np.atleast_1d(axes).flatten()
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(12, 8))
     
-    plot_idx = 0
+    # Get models in consistent order
+    models = [MODEL_LABELS[m] for m in MODEL_TYPES if MODEL_LABELS[m] in all_data['model_label'].unique()]
     
-    # Plot criteria
-    for criterion in criteria:
-        _create_subplot(regular_data, criterion, axes[plot_idx])
-        plot_idx += 1
+    # Create custom legend at top
+    criteria = all_data['criterion'].unique()
+    criteria_colors = []
+    legend_labels = []
     
-    # Plot best-overall
-    if len(best_data) > 0:
-        _create_best_subplot(best_data, axes[plot_idx])
-        plot_idx += 1
+    for i, criterion in enumerate(criteria):
+        if criterion == 'Best Overall':
+            criteria_colors.append('#FFD700')  # Bright gold
+            legend_labels.append('Best Overall')
+        else:
+            regular_criteria = [c for c in criteria if c != 'Best Overall']
+            idx = list(regular_criteria).index(criterion)
+            criteria_colors.append(plt.cm.Set2(idx / max(1, len(regular_criteria) - 1)))
+            legend_labels.append(criterion)
     
-    # Hide unused subplots
-    for i in range(plot_idx, len(axes)):
-        axes[i].set_visible(False)
+    # Create legend elements
+    legend_elements = [plt.Rectangle((0,0),1,1, facecolor=color, alpha=0.7, edgecolor='gray', linewidth=1.5) 
+                      for color in criteria_colors]
     
-    plt.suptitle('Model Performance Comparison - All Criteria', fontsize=18, fontweight='bold', y=0.98)
+    # Position legend at top of plot, in single horizontal row
+    legend = ax.legend(legend_elements, legend_labels, 
+                      title='Criteria', 
+                      bbox_to_anchor=(0.5, 1.02),
+                      loc='lower center',
+                      ncol=len(criteria),
+                      fontsize=11,
+                      title_fontsize=12,
+                      frameon=True,
+                      fancybox=True,
+                      shadow=True)
+    
+    # Highlight Best Overall in legend
+    for i, label in enumerate(legend_labels):
+        if 'Best Overall' in label:
+            legend.get_texts()[i].set_weight('bold')
+            legend.get_texts()[i].set_color('#CC8800')
+    
+    # Create grouped boxplot
+    _create_grouped_boxplot(all_data, models, ax)
+    
+    ax.set_xlabel('Model', fontsize=14, fontweight='bold')
+    ax.set_ylabel('Score', fontsize=14, fontweight='bold')
+    ax.tick_params(axis='x', rotation=45, labelsize=12)
+    
+    ax.set_facecolor('#FAFAFA')
+    ax.grid(True, alpha=0.3, linestyle='--')
+    
     plt.tight_layout()
+    
     _save_plot(vis_dir, "boxplot_combined", drop_incomplete)
 
 def _create_boxplot(data, x, y, order=None):
@@ -423,6 +464,75 @@ def _create_boxplot(data, x, y, order=None):
     
     return box_plot
 
+def _create_grouped_boxplot(data, models, ax=None):
+    """Create grouped boxplot with all criteria on same plot."""
+    if ax is None:
+        ax = plt.gca()
+        
+    criteria = data['criterion'].unique()
+    n_criteria = len(criteria)
+    n_models = len(models)
+    
+    # Set up positions for grouped boxes
+    width = 0.8 / n_criteria
+    
+    # Create custom color palette with bright color for Best Overall
+    criteria_colors = []
+    for criterion in criteria:
+        if criterion == 'Best Overall':
+            criteria_colors.append('#FFD700')  # Bright gold
+        else:
+            regular_criteria = [c for c in criteria if c != 'Best Overall']
+            if regular_criteria:
+                idx = list(regular_criteria).index(criterion)
+                criteria_colors.append(plt.cm.Set2(idx / max(1, len(regular_criteria) - 1)))
+            else:
+                criteria_colors.append(plt.cm.Set2(0))
+    
+    # Plot each criterion
+    for i, criterion in enumerate(criteria):
+        crit_data = data[data['criterion'] == criterion]
+        
+        # Calculate positions for this criterion's boxes
+        base_positions = np.arange(n_models)
+        offset = (i - (n_criteria - 1) / 2) * width
+        crit_positions = base_positions + offset
+        
+        # Prepare data for each model
+        model_data = []
+        for model in models:
+            model_values = crit_data[crit_data['model_label'] == model]['value'].values
+            model_data.append(model_values)
+        
+        # Create boxplot with vibrant color for Best Overall
+        if criterion == 'Best Overall':
+            alpha = 0.9  # More vibrant
+            edge_color = '#CC8800'
+        else:
+            alpha = 0.7  # Regular
+            edge_color = 'gray'
+        
+        box_plot = ax.boxplot(model_data, positions=crit_positions, widths=width*0.8,
+                             patch_artist=True, 
+                             boxprops=dict(facecolor=criteria_colors[i], alpha=alpha, edgecolor=edge_color),
+                             medianprops=dict(color='darkred', linewidth=2.5),
+                             flierprops=dict(marker='o', markerfacecolor='lightcoral', 
+                                           markersize=4, alpha=0.7),
+                             whiskerprops=dict(linewidth=1.0),
+                             capprops=dict(linewidth=1.0))
+        
+        # Add means
+        for j, model in enumerate(models):
+            model_values = crit_data[crit_data['model_label'] == model]['value'].values
+            if len(model_values) > 0:
+                mean_val = np.mean(model_values)
+                ax.plot(crit_positions[j], mean_val, marker='D', color='darkred', 
+                       markersize=6, markeredgecolor='white', markeredgewidth=1.5, zorder=10)
+    
+    # Set x-axis labels
+    ax.set_xticks(range(n_models))
+    ax.set_xticklabels(models)
+
 def _style_plot(title, xlabel, ylabel, data, invert_y=False):
     """Apply plot styling."""
     plt.title(title, fontsize=16, fontweight='bold', pad=20)
@@ -430,7 +540,6 @@ def _style_plot(title, xlabel, ylabel, data, invert_y=False):
     plt.ylabel(ylabel, fontsize=14, fontweight='bold')
     plt.xticks(rotation=45, ha='right', fontsize=12)
     
-    _add_sample_sizes(data)
     _add_means(data)
     
     if invert_y:
@@ -441,14 +550,6 @@ def _style_plot(title, xlabel, ylabel, data, invert_y=False):
     plt.grid(True, alpha=0.3, linestyle='--')
     plt.tight_layout()
 
-def _add_sample_sizes(data):
-    """Add sample sizes to x-axis labels."""
-    ax = plt.gca()
-    labels = [label.get_text() for label in ax.get_xticklabels()]
-    # new_labels = [f'{label}\n(n={len(data[data["model_label"] == label])})' for label in labels]
-    new_labels = [f'{label}' for label in labels]
-    ax.set_xticklabels(new_labels)
-
 def _add_means(data):
     """Add mean markers."""
     means = data.groupby('model_label')['value'].mean()
@@ -457,48 +558,6 @@ def _add_means(data):
             plt.plot(i, means[model], marker='D', color='darkred', markersize=10,
                     markeredgecolor='white', markeredgewidth=2, 
                     label='Mean' if i == 0 else "", zorder=10)
-
-def _create_subplot(regular_data, criterion, ax):
-    """Create subplot for criterion."""
-    crit_data = regular_data[regular_data['criterion'] == criterion]
-    models = [MODEL_LABELS[m] for m in MODEL_TYPES if MODEL_LABELS[m] in crit_data['model_label'].unique()]
-    colors = [MODEL_COLORS.get(model, MODEL_COLORS['default']) for model in models]
-    
-    sns.boxplot(data=crit_data, x='model_label', y='value', hue='model_label',
-               ax=ax, order=models, palette=colors, 
-               linewidth=1.0, fliersize=3, legend=False)
-    
-    _style_subplot(ax, criterion, 'Score')
-    _add_subplot_means(crit_data, models, ax)
-
-def _create_best_subplot(best_data, ax):
-    """Create subplot for best-overall."""
-    models = best_data['model_label'].unique()
-    colors = [MODEL_COLORS.get(model, MODEL_COLORS['default']) for model in models]
-    
-    sns.boxplot(data=best_data, x='model_label', y='value', hue='model_label',
-               ax=ax, palette=colors, linewidth=1.0, fliersize=3, legend=False)
-    
-    _style_subplot(ax, 'Best Overall (Rank)', 'Rank (Lower = Better)')
-    ax.invert_yaxis()
-    _add_subplot_means(best_data, models, ax)
-
-def _style_subplot(ax, title, ylabel):
-    """Style subplot."""
-    ax.set_title(title, fontsize=13, fontweight='bold', pad=10)
-    ax.set_xlabel('Model', fontsize=11)
-    ax.set_ylabel(ylabel, fontsize=11) 
-    ax.tick_params(axis='x', rotation=45, labelsize=9)
-    ax.set_facecolor('#FAFAFA')
-    ax.grid(True, alpha=0.3, linestyle='--')
-
-def _add_subplot_means(data, models, ax):
-    """Add mean markers to subplot."""
-    means = data.groupby('model_label')['value'].mean()
-    for i, model in enumerate(models):
-        if model in means.index:
-            ax.plot(i, means[model], marker='D', color='darkred', markersize=7,
-                   markeredgecolor='white', markeredgewidth=1.5, zorder=10)
 
 # =============================================================================
 # UTILITIES
