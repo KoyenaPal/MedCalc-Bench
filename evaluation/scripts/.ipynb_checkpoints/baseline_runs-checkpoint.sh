@@ -3,9 +3,9 @@
 # Define arrays of models and prompt styles
 #models=("Qwen/QwQ-32B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "open-thoughts/OpenThinker-7B")
 #models=("open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "Qwen/QwQ-32B")
-models=("openai/gpt-oss-20b")
+models=("meta-llama/Llama-3.2-3B-Instruct" "/medcalc-llama-3-3b-inst-grpo")
 #models=("Qwen/QwQ-32B" "open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B")
-targetmodels=("open-thoughts/OpenThinker-7B")
+targetmodels=("nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "open-thoughts/OpenThinker-7B" "openai/gpt-oss-20b" "BytedTsinghua-SIA/DAPO-Qwen-32B" "Qwen/QwQ-32B")
 # reasoningeffort= ("low" "medium" "high")
 mkdir -p logs
 
@@ -18,7 +18,7 @@ for model in "${models[@]}"; do
     # Sanitize names for filenames
     safe_model="${model//\//_}"
     safe_targetmodel="${targetmodel//\//_}"
-    outputpath="outputs/${safe_model}_zero_shot_original_low.jsonl"
+    outputpath="without_answer/${safe_model}_zero_shot_original_without_answer.jsonl"
     timestamp=$(date +"%Y%m%d_%H%M%S")
     logfile="logs/${safe_model}_to_${safe_targetmodel}_$timestamp.log"
     echo "Running: python run_transfer_thoughts.py --model $model --target_model $targetmodel --prompt zero_shot --source_model_output_file $outputpath --reasoning_effort low"

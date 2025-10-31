@@ -56,6 +56,7 @@ class LLMInference:
                 self.type = torch.float16
             elif "llama-3" in llm_name.lower():
                 self.max_length = 8192
+                self.thinking_end_tag = "</think>"
             elif "meditron-70b" in llm_name.lower():
                 self.tokenizer.chat_template = open('../templates/meditron.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 4096
@@ -135,6 +136,7 @@ class LLMInference:
         prompt_token_len = len(self.tokenizer.encode(prompt, add_special_tokens=True))
         old_prompt_token_len = len(self.tokenizer.encode(old_prompt, add_special_tokens=True))
         if "llama-3" in self.llm_name.lower():
+            prompt = f"{prompt}<think>{thinking_message}</think>"
             response = self.model(
                 prompt,
                 do_sample=do_sample,
@@ -146,6 +148,7 @@ class LLMInference:
                 stopping_criteria=stopping_criteria,
                 temperature=temperature
             )
+            self.thinking_end_tag = "</think>"
         else:
             print("RESPONSE SECTION NOW", flush=True)
             response = self.model(
@@ -193,6 +196,8 @@ class LLMInference:
                         prompt += "<think>"
                 elif "openthinker" in self.llm_name.lower():
                     prompt += "<|begin_of_thought|>"
+                elif "llama-3" in self.llm_name.lower():
+                    prompt += "<think>"
             if "meditron" in self.llm_name.lower():
                 stopping_criteria = self.custom_stop(["###", "User:", "\n\n\n"], input_len=len(self.tokenizer.encode(prompt, add_special_tokens=True)))
             if "llama-3" in self.llm_name.lower():
@@ -201,11 +206,29 @@ class LLMInference:
                     do_sample=do_sample,
                     eos_token_id=[self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")],
                     pad_token_id=self.tokenizer.eos_token_id,
-                    max_length=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
+                    max_length=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(prompt, add_special_tokens=True)) + 4096),
                     truncation=True,
                     stopping_criteria=stopping_criteria,
                     temperature=temperature
                 )
+                part_ans = response[0]["generated_text"]
+                if self.thinking_end_tag not in part_ans:
+                    part_ans = part_ans + self.thinking_end_tag
+                if "openthinker" in self.llm_name.lower() and "<|begin_of_solution|>" not in part_ans:
+                    part_ans = part_ans + "<|begin_of_solution|>"
+                response = self.model(
+                    part_ans,
+                    do_sample=do_sample,
+                    eos_token_id=self.tokenizer.eos_token_id,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    max_length=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
+                    max_new_tokens=min(self.max_length, len(self.tokenizer.encode(part_ans, add_special_tokens=True)) + 100),
+                    truncation=True,
+                    stopping_criteria=stopping_criteria,
+                    temperature=temperature
+                )
+                
             else:
                 # SETUP SEED
                 print("RESPONSE SECTION NOW", flush=True)
