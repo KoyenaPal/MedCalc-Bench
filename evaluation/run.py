@@ -22,10 +22,7 @@ np.random.seed(42)
 
 def zero_shot_llama_instruct(note, question):
     system_msg = """You are a helpful assistant. You first think about the reasoning process in the mind and then provide the user with the answer.<|eot_id|>\n<|start_header_id|>user<|end_header_id|>"""
-    user_temp =  f"""Here is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease show your entire reasoning process in **a single** <think> </think> block (do not open or close the tag more than once). Your final response must be in JSON format within <answer> </answer> tags. For example,
-<think>
-[entire reasoning process here]
-</think>, "answer": str(short_and_direct_answer_of_the_question)}}:"""
+    user_temp =  f"""Here is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease show your entire reasoning process in **a single** <think> </think> block (do not open or close the tag more than once). Also, please directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:"""
     return system_msg, user_temp
 
 def zero_shot(note, question):
