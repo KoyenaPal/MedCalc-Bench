@@ -249,6 +249,8 @@ if __name__ == "__main__":
             system, user = zero_shot(patient_note, question)
             if "llama-3-3.2-3b-instruct" in model_name.lower():
                 system, user = zero_shot_llama_instruct(patient_note, question)
+            if "llama-3-3.2-1b-instruct" in model_name.lower():
+                system, user = zero_shot_llama_instruct(patient_note, question)
         elif prompt_style == "one_shot":
             example = one_shot_json[calculator_id]
             if "meditron" in model_name.lower():
