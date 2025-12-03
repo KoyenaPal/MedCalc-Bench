@@ -1,0 +1,206 @@
+OUTPUT PATH deepseek-ai_DeepSeek-R1-Distill-Qwen-1.5B_thoughts_to_BytedTsinghua-SIA_DAPO-Qwen-32B_zero_shot_full.jsonl
+Device set to use cuda:0
+/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py:798: UserWarning: Not enough free disk space to download the file. The expected file size is: 4965.14 MB. The target location /workspace/hf/models--BytedTsinghua-SIA--DAPO-Qwen-32B/blobs only has 2949.39 MB free disk space.
+  warnings.warn(
+/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py:798: UserWarning: Not enough free disk space to download the file. The expected file size is: 4965.14 MB. The target location /workspace/hf/models--BytedTsinghua-SIA--DAPO-Qwen-32B/blobs only has 2949.31 MB free disk space.
+  warnings.warn(
+/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py:798: UserWarning: Not enough free disk space to download the file. The expected file size is: 4965.14 MB. The target location /workspace/hf/models--BytedTsinghua-SIA--DAPO-Qwen-32B/blobs only has 2949.21 MB free disk space.
+  warnings.warn(
+/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py:798: UserWarning: Not enough free disk space to download the file. The expected file size is: 4965.14 MB. The target location /workspace/hf/models--BytedTsinghua-SIA--DAPO-Qwen-32B/blobs only has 2949.11 MB free disk space.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/MedCalc-Bench/evaluation/run_transfer_thoughts.py", line 233, in <module>
+    target_llm = LLMInference(llm_name=target_model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/MedCalc-Bench/evaluation/llm_inference.py", line 78, in __init__
+    self.model = transformers.pipeline(
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/__init__.py", line 1027, in pipeline
+    framework, model = infer_framework_load_model(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 333, in infer_framework_load_model
+    raise ValueError(
+ValueError: Could not load model BytedTsinghua-SIA/DAPO-Qwen-32B with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForCausalLM'>, <class 'transformers.models.qwen2.modeling_qwen2.Qwen2ForCausalLM'>). See the original errors:
+
+while loading with AutoModelForCausalLM, an error is thrown:
+Traceback (most recent call last):
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4900, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1200, in _get_resolved_checkpoint_files
+    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 1084, in get_checkpoint_shard_files
+    cached_filenames = cached_files(
+                       ^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 494, in cached_files
+    snapshot_download(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1168, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1720, in _download_to_tmp_and_move
+    xet_get(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 626, in xet_get
+    download_files(
+RuntimeError: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4900, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1200, in _get_resolved_checkpoint_files
+    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 1084, in get_checkpoint_shard_files
+    cached_filenames = cached_files(
+                       ^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 494, in cached_files
+    snapshot_download(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1168, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1720, in _download_to_tmp_and_move
+    xet_get(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 626, in xet_get
+    download_files(
+RuntimeError: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+
+while loading with Qwen2ForCausalLM, an error is thrown:
+Traceback (most recent call last):
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4900, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1200, in _get_resolved_checkpoint_files
+    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 1084, in get_checkpoint_shard_files
+    cached_filenames = cached_files(
+                       ^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 494, in cached_files
+    snapshot_download(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1168, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1720, in _download_to_tmp_and_move
+    xet_get(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 626, in xet_get
+    download_files(
+RuntimeError: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 311, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4900, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1200, in _get_resolved_checkpoint_files
+    checkpoint_files, sharded_metadata = get_checkpoint_shard_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 1084, in get_checkpoint_shard_files
+    cached_filenames = cached_files(
+                       ^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 494, in cached_files
+    snapshot_download(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1168, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1720, in _download_to_tmp_and_move
+    xet_get(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 626, in xet_get
+    download_files(
+RuntimeError: Data processing error: CAS service error : IO Error: No space left on device (os error 28)
+
+
+

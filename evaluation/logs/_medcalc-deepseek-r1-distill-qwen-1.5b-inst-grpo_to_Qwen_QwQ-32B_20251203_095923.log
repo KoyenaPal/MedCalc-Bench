@@ -1,0 +1,38 @@
+OUTPUT PATH _medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo_thoughts_to_Qwen_QwQ-32B_zero_shot_full.jsonl
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.20s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.40s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.52s/it]
+Device set to use cuda:0
+/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py:798: UserWarning: Not enough free disk space to download the file. The expected file size is: 1.67 MB. The target location /workspace/hf/models--Qwen--QwQ-32B/blobs only has 0.90 MB free disk space.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/MedCalc-Bench/evaluation/run_transfer_thoughts.py", line 233, in <module>
+    target_llm = LLMInference(llm_name=target_model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/MedCalc-Bench/evaluation/llm_inference.py", line 50, in __init__
+    self.tokenizer = AutoTokenizer.from_pretrained(self.llm_name, cache_dir=self.cache_dir, legacy=False)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 1156, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 2076, in from_pretrained
+    resolved_vocab_files[file_id] = cached_file(
+                                    ^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 322, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 567, in cached_files
+    raise e
+  File "/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 479, in cached_files
+    hf_hub_download(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1007, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1168, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1735, in _download_to_tmp_and_move
+    http_get(
+  File "/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 496, in http_get
+    temp_file.write(chunk)
+OSError: [Errno 28] No space left on device

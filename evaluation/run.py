@@ -20,7 +20,7 @@ torch.manual_seed(42)
 random.seed(42)
 np.random.seed(42)
 
-def zero_shot_llama_instruct(note, question):
+def zero_shot_nonr_instruct(note, question):
     system_msg = """You are a helpful assistant. You first think about the reasoning process in the mind and then provide the user with the answer.<|eot_id|>\n<|start_header_id|>user<|end_header_id|>"""
     user_temp =  f"""Here is the patient note:\n{note}\n\nHere is the task:\n{question}\n\nPlease show your entire reasoning process in **a single** <think> </think> block (do not open or close the tag more than once). Also, please directly output the JSON dict formatted as {{"step_by_step_thinking": str(your_step_by_step_thinking_procress_to_solve_the_question), "answer": str(short_and_direct_answer_of_the_question)}}:"""
     return system_msg, user_temp
@@ -248,9 +248,11 @@ if __name__ == "__main__":
         if prompt_style == "zero_shot":
             system, user = zero_shot(patient_note, question)
             if "llama-3-3.2-3b-instruct" in model_name.lower():
-                system, user = zero_shot_llama_instruct(patient_note, question)
+                system, user = zero_shot_nonr_instruct(patient_note, question)
             if "llama-3-3.2-1b-instruct" in model_name.lower():
-                system, user = zero_shot_llama_instruct(patient_note, question)
+                system, user = zero_shot_nonr_instruct(patient_note, question)
+            if "deepseek-r1-distill-qwen-1.5b" in model_name.lower() and "medcalc" not in model_name.lower():
+                system, user = zero_shot_nonr_instruct(patient_note, question)
         elif prompt_style == "one_shot":
             example = one_shot_json[calculator_id]
             if "meditron" in model_name.lower():
