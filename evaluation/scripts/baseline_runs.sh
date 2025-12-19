@@ -3,9 +3,14 @@
 # Define arrays of models and prompt styles
 #models=("Qwen/QwQ-32B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "open-thoughts/OpenThinker-7B")
 #models=("open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "Qwen/QwQ-32B")
-models=("deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "/medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo")
+#models=("deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "~/medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo")
+#models=("/disk/u/koyena/medcalc-llama-3-3b-inst-grpo")
 #models=("Qwen/QwQ-32B" "open-thoughts/OpenThinker-7B" "BytedTsinghua-SIA/DAPO-Qwen-32B" "nvidia/Nemotron-Research-Reasoning-Qwen-1.5B")
-targetmodels=("nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "open-thoughts/OpenThinker-7B" "openai/gpt-oss-20b" "BytedTsinghua-SIA/DAPO-Qwen-32B" "Qwen/QwQ-32B" "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "/medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo")
+models=("/disk/u/koyena/medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo" "/disk/u/koyena/medcalc-llama-3-3b-inst-grpo" "/disk/u/koyena/medcalc-qwen-2.5-1.5b-inst-grpo" "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "meta-llama/Llama-3.2-3B-Instruct" "Qwen/Qwen2.5-1.5B-Instruct")
+#models=("/disk/u/koyena/medcalc-qwen-2.5-1.5b-inst-grpo" "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "meta-llama/Llama-3.2-3B-Instruct" "Qwen/Qwen2.5-1.5B-Instruct")
+#targetmodels=("nvidia/Nemotron-Research-Reasoning-Qwen-1.5B" "open-thoughts/OpenThinker-7B" "openai/gpt-oss-20b" "BytedTsinghua-SIA/DAPO-Qwen-32B" "Qwen/QwQ-32B" "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" "/medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo")
+targetmodels=("openai/gpt-oss-20b")
+
 # reasoningeffort= ("low" "medium" "high")
 mkdir -p logs
 

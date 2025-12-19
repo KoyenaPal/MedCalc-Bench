@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/run_transfer_thoughts.py", line 8, in <module>
+    from llm_inference import LLMInference
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/llm_inference.py", line 10, in <module>
+    import torch
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/torch/__init__.py", line 2866, in <module>
+    _import_device_backends()
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/torch/__init__.py", line 2816, in _import_device_backends
+    backend_extensions = entry_points(group=group_name)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/__init__.py", line 1041, in entry_points
+    return SelectableGroups.load(eps).select(**params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/__init__.py", line 476, in load
+    ordered = sorted(eps, key=by_group)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/__init__.py", line 1038, in <genexpr>
+    eps = itertools.chain.from_iterable(
+                                       ^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/_itertools.py", line 16, in unique_everseen
+    k = key(element)
+        ^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/__init__.py", line 954, in _normalized_name
+    pass_none(Prepared.normalize)(self._name_from_stem(stem))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/importlib/metadata/_functools.py", line 99, in pass_none
+    @functools.wraps(func)
+     ^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/functools.py", line 56, in update_wrapper
+    setattr(wrapper, attr, value)
+KeyboardInterrupt

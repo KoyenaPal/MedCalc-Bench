@@ -1,0 +1,41 @@
+OUTPUT PATH ~_medcalc-qwen-2.5-1.5b-inst-grpo_thoughts_to_~_medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo_zero_shot_full.jsonl
+Traceback (most recent call last):
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 478, in cached_files
+    hf_hub_download(
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 106, in _inner_fn
+    validate_repo_id(arg_value)
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 160, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.errors.HFValidationError: Repo id must use alphanumeric chars or '-', '_', '.', '--' and '..' are forbidden, '-' and '.' cannot start or end the name, max length is 96: '~/medcalc-qwen-2.5-1.5b-inst-grpo'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/run_transfer_thoughts.py", line 232, in <module>
+    llm = LLMInference(llm_name=model_name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/llm_inference.py", line 50, in __init__
+    self.tokenizer = AutoTokenizer.from_pretrained(self.llm_name, cache_dir=self.cache_dir, legacy=False)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 1058, in from_pretrained
+    tokenizer_config = get_tokenizer_config(pretrained_model_name_or_path, **kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 890, in get_tokenizer_config
+    resolved_config_file = cached_file(
+                           ^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 321, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 530, in cached_files
+    resolved_files = [
+                     ^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 531, in <listcomp>
+    _get_cache_file_to_return(path_or_repo_id, filename, cache_dir, revision, repo_type)
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 144, in _get_cache_file_to_return
+    resolved_file = try_to_load_from_cache(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 106, in _inner_fn
+    validate_repo_id(arg_value)
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 160, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.errors.HFValidationError: Repo id must use alphanumeric chars or '-', '_', '.', '--' and '..' are forbidden, '-' and '.' cannot start or end the name, max length is 96: '~/medcalc-qwen-2.5-1.5b-inst-grpo'.

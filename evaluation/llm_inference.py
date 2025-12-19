@@ -33,7 +33,7 @@ np.random.seed(42)
 
 class LLMInference:
 
-    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/workspace/hf"):
+    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo", cache_dir="/disk/u/koyena/hf"):
         self.llm_name = llm_name
         self.cache_dir = cache_dir
         self.thinking_start_tag = ""
@@ -47,7 +47,10 @@ class LLMInference:
             self.tokenizer = tiktoken.get_encoding("cl100k_base")
         else:
             self.type = torch.bfloat16
-            self.tokenizer = AutoTokenizer.from_pretrained(self.llm_name, cache_dir=self.cache_dir, legacy=False)
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(self.llm_name, cache_dir=self.cache_dir, legacy=False)
+            except:
+                self.tokenizer = AutoTokenizer.from_pretrained(self.llm_name, cache_dir=self.cache_dir)
             if "mixtral" in llm_name.lower() or "mistral" in llm_name.lower():
                 self.tokenizer.chat_template = open('../templates/mistral-instruct.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 32768
