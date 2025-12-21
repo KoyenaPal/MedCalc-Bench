@@ -1,0 +1,47 @@
+OUTPUT PATH _disk_u_koyena_medcalc-deepseek-r1-distill-qwen-1.5b-inst-grpo_thoughts_to_openai_gpt-oss-20b_zero_shot_without_answer.jsonl
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.69s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.06s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.15s/it]
+Device set to use cuda:1
+MXFP4 quantization requires triton >= 3.4.0 and kernels installed, we will default to dequantizing the model to bf16
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/3 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/run_transfer_thoughts.py", line 233, in <module>
+    target_llm = LLMInference(llm_name=target_model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/MedCalc-Bench/evaluation/llm_inference.py", line 81, in __init__
+    self.model = transformers.pipeline(
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/pipelines/__init__.py", line 1028, in pipeline
+    framework, model = infer_framework_load_model(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/pipelines/base.py", line 293, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 288, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 5179, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 5642, in _load_pretrained_model
+    _error_msgs, disk_offload_index, cpu_offload_index = load_shard_file(args)
+                                                         ^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 946, in load_shard_file
+    disk_offload_index, cpu_offload_index = _load_state_dict_into_meta_model(
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 854, in _load_state_dict_into_meta_model
+    hf_quantizer.create_quantized_param(
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/quantizers/quantizer_mxfp4.py", line 249, in create_quantized_param
+    dequantize(module, param_name, param_value, target_device, dq_param_name, **shard_kwargs)
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/integrations/mxfp4.py", line 329, in dequantize
+    dequantized = convert_moe_packed_tensors(getattr(module, blocks_attr), getattr(module, scales_attr))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/disk/u/koyena/.venv/lib/python3.11/site-packages/transformers/integrations/mxfp4.py", line 92, in convert_moe_packed_tensors
+    blocks = blocks.cuda()
+             ^^^^^^^^^^^^^
+KeyboardInterrupt
