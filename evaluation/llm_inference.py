@@ -153,7 +153,7 @@ class LLMInference:
             )
             self.thinking_end_tag = "</think>"
         else:
-            print("RESPONSE SECTION NOW", flush=True)
+            print("RESPONSE SECTION THINKING NOW", flush=True)
             response = self.model(
                 prompt,
                 do_sample=do_sample,
