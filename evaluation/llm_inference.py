@@ -76,6 +76,8 @@ class LLMInference:
                 self.thinking_end_tag = "<|end_of_thought|>"
             elif "gpt-oss-20b" in llm_name.lower():
                 self.max_length = 32768
+                #12288 only for transfer from llama-3 to oss
+                #self.max_length = 12288
                 self.thinking_start_tag = "assistantanalysis"
                 self.thinking_end_tag = "assistantfinal"
             self.model = transformers.pipeline(
