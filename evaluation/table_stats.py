@@ -55,7 +55,7 @@ def combined_compute_overall_accuracy(output_path, prompt_style, additional_outp
     overall = (total_correct / total_count * 100) if total_count else 0.0
     print(f"Overall Accuracy: {overall:.2f}% ({total_correct}/{total_count})\n")
 
-def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False, additional_output_file_info="", output_dir="outputs", results_dir="results"): 
+def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_model=False, additional_output_file_info="", output_dir="outputs", results_dir="results", custom_path=""): 
     category_accuracy = {}
 
     with open(f"{output_dir}/{output_path}") as file:
@@ -112,13 +112,17 @@ def compute_overall_accuracy(output_path, model_name, prompt_style, is_target_mo
     if "/" in model_name:
         model_name = model_name.split('/')[1]
 
-    if not is_target_model:
-        with open(f"{results_dir}/results_{model_name}_{prompt_style}_{additional_output_file_info}.json", "w") as file:
+    if custom_path:
+        with open(custom_path, "w") as file:
             json.dump(category_stats, file, indent=4)
     else:
-        output_path = output_path.split('json')[0]
-        with open(f"{results_dir}/results_{output_path}.json", "w") as file:
-            json.dump(category_stats, file, indent=4)        
+        if not is_target_model:
+            with open(f"{results_dir}/results_{model_name}_{prompt_style}_{additional_output_file_info}.json", "w") as file:
+                json.dump(category_stats, file, indent=4)
+        else:
+            output_path = output_path.split('json')[0]
+            with open(f"{results_dir}/results_{output_path}.json", "w") as file:
+                json.dump(category_stats, file, indent=4)        
 
     return category_stats
 
